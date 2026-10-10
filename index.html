@@ -132,7 +132,7 @@ table.dt tr.bad td:first-child{box-shadow:inset 3px 0 var(--warn)}
     <section class="panel" id="p2d">
       <h2><span>Plan 2D, éditable</span><b>Glisse les éléments · flèches au cm · R pour tourner</b></h2>
       <div id="plan"></div>
-      <div class="views"><button class="btn tog mesBtn" aria-pressed="false">Espace</button><button class="btn tog dimBtn" aria-pressed="false">Éléments</button><span>Espace : distances libres, aux murs finis. Éléments : dimensions de chaque élément. Sélectionne un élément pour filtrer.</span></div>
+      <div class="views"><button class="btn tog mesBtn" aria-pressed="false">Espace</button><button class="btn tog dimBtn" aria-pressed="false">Éléments</button><span>Espace : distances libres aux murs finis et surface de circulation (vert : debout, ocre : sous le rampant). Éléments : dimensions de chaque élément.</span><div class="espTxt hint" hidden style="flex-basis:100%"></div></div>
     </section>
     <section class="panel" id="p3d">
       <h2><span>Maquette 3D</span><b>Glisser pour tourner · molette ou pincer pour zoomer</b></h2>
@@ -145,6 +145,7 @@ table.dt tr.bad td:first-child{box-shadow:inset 3px 0 var(--warn)}
         <button class="btn" data-v="rampant">Côté rampant</button>
         <button class="btn" data-v="douche">Vers le pignon</button>
         <button class="btn" data-v="niche">Niche de douche</button>
+        <div class="espTxt hint" hidden style="flex-basis:100%"></div>
       </div>
     </section>
   </div>
@@ -246,8 +247,8 @@ const REQ={laundry:["min",2.05],cabinet:["min",1.85],washer:["min",.90],towel:["
    Douche maçonnée 147×108 sur receveur, entrée 55, collée au socle. Double vasque 120×60 à 165 du mur nain, miroir 120×110.
    Niche du Velux 107 × 110, à 95 cm du mur du rangement. Porte battante PS 73.
    Les optimisations futures s'ajoutent ici comme nouvelles entrées : un bouton par version. */
-const APP_VERSION="1.5.0";
-const CHANGELOG=[["1.5.0","10/10/2026","Boutons Espace et Éléments sous les vues ; cotes plus lisibles ; tableau L × l × H × P ; carrelage partout pris en compte (murs et sol finis) ; niche de douche visible en 2D et 3D ; Sans balnéo repensée en douche spa avec buanderie"],["1.4.0","10/10/2026","Onglets 2D, 3D, Matériaux, Éléments, Réglages ; bouton Mesures ; matières photo ; Balnéo revue (vasque face à la baignoire, rangements) ; nouvelle version Sans balnéo ; recherche de mise à jour"],["1.3.0","10/10/2026","Balnéo : doublage pleine longueur pour la galandage, vasque simple, descriptifs et palettes"],["1.2.0","10/10/2026","Première version Balnéo"],["1.1.0","10/10/2026","Relevé de l'existant (Actuel)"],["1.0.0","10/10/2026","Plan 2D éditable et maquette 3D"]];
+const APP_VERSION="1.6.0";
+const CHANGELOG=[["1.6.0","10/10/2026","Sans balnéo en deux variantes : v1 avec douchette au-dessus de la banquette, v2 sans banquette avec douche raccourcie ; surface de circulation libre en m² dans Espace"],["1.5.0","10/10/2026","Boutons Espace et Éléments sous les vues ; cotes plus lisibles ; tableau L × l × H × P ; carrelage partout pris en compte (murs et sol finis) ; niche de douche visible en 2D et 3D ; Sans balnéo repensée en douche spa avec buanderie"],["1.4.0","10/10/2026","Onglets 2D, 3D, Matériaux, Éléments, Réglages ; bouton Mesures ; matières photo ; Balnéo revue (vasque face à la baignoire, rangements) ; nouvelle version Sans balnéo ; recherche de mise à jour"],["1.3.0","10/10/2026","Balnéo : doublage pleine longueur pour la galandage, vasque simple, descriptifs et palettes"],["1.2.0","10/10/2026","Première version Balnéo"],["1.1.0","10/10/2026","Relevé de l'existant (Actuel)"],["1.0.0","10/10/2026","Plan 2D éditable et maquette 3D"]];
 let UI={tab:innerWidth>=920?"both":"plan",mes:false};try{Object.assign(UI,JSON.parse(localStorage.getItem("sdb-ui"))||{})}catch(e){}
 const MAT_B=[["img/mat-sol-pierre.jpg","Sol","Grès cérame effet pierre beige mat 60 × 60, classé antidérapant dans la douche","stone"],
  ["img/mat-mur-pierre.jpg","Murs de douche et crédence","Même pierre beige en 30 × 60, pose à joints décalés","stone"],
@@ -285,17 +286,30 @@ const PRESETS={
   {t:"towel",x:1.50,y:2.89,r:2,w:0.45,d:0.10,ladder:1},
   {t:"low",lbl:"Banc coffre",x:0.35,y:2.50,r:2,w:0.80,d:0.38,hh:.45}
  ]},
- sansbalneo:{name:"Sans balnéo",style:"beige",door:"galandage",H0:93,L:72,P:245,
-  intro:"Version audacieuse : tout le pignon devient une douche spa de 3,47 m, avec une banquette maçonnée glissée sous le rampant pour s'asseoir sous l'eau. On retrouve la double vasque, la buanderie entre dans la salle de bains, et tout le bas du rampant sert de rangement.",
-  changes:["<b>Douche spa à l'italienne sur toute la largeur du pignon</b> : 3,49 m hors tout, environ 3,38 × 1,04 m utiles une fois carrelée. La partie haute (côté chambre 2) accueille la pomme de tête, la partie basse sous le rampant devient un coin assis. Entrée de 70 cm au milieu du muret, loin de la pomme.","<b>Banquette maçonnée chauffante</b> 75 × 45, h 45, dans la douche sous le rampant : assis, la tête reste à environ 45 cm du plafond. Un tapis chauffant sous le carrelage est en option.","<b>Muret de 1,10 m et verrière noire</b> sur tout le front de douche, la verrière s'arrête là où le rampant descend sous 2,05 m.","<b>Niche longue</b> 90 × 30 éclairée dans le faux mur de 10 cm contre la chambre 2, à côté du mitigeur encastré.","<b>Buanderie intégrée</b> : colonne chêne 70 × 65 × 200 pour lave-linge et sèche-linge superposés, contre la chambre 2, à côté de la douche. Les évacuations sont à 30 cm de celles de la douche.","<b>Double vasque</b> chêne 120 × 50 centrée sur le doublage du mur du rangement, deux miroirs ronds. <b>Sèche-serviettes échelle</b> à côté, avant la poche de la porte.","<b>Radiateur remplacé par un sèche-serviettes à eau horizontal</b> au même endroit sous le Velux : même raccordement, et il chauffe les serviettes près de la sortie de douche.","<b>Placard bas</b> 89 × 45 sous le rampant côté porte.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement.","<b>Circulation</b> : dégagement central d'environ 2,35 × 1,20 m, 74 cm devant la buanderie.","<b>Ce que ça coûte en plus</b> : environ 4 m² d'étanchéité sous carrelage et un caniveau long. En contrepartie, aucun moteur ni baignoire, et le chauffage reste sur son tuyau actuel."],
+ sansbalneo:{name:"Sans balnéo v1",style:"beige",door:"galandage",H0:93,L:72,P:245,
+  intro:"Version audacieuse : tout le pignon devient une douche spa de 3,47 m. Pomme de tête côté chambre 2 pour se doucher debout, et sous le rampant une banquette maçonnée avec sa propre douchette pour se laver assis. On retrouve la double vasque, la buanderie entre dans la salle de bains, et tout le bas du rampant sert de rangement.",
+  changes:["<b>Douche spa à l'italienne sur toute la largeur du pignon</b> : 3,49 m hors tout, environ 3,38 × 1,04 m utiles une fois carrelée. La partie haute (côté chambre 2) accueille la pomme de tête, la partie basse sous le rampant devient un coin assis. Entrée de 70 cm au milieu du muret, loin de la pomme.","<b>Banquette maçonnée</b> 75 × 45, h 45, dans la douche sous le rampant : assis, la tête reste à environ 45 cm du plafond. Un tapis chauffant sous le carrelage est en option.","<b>Douchette à main au-dessus de la banquette</b>, sur barre de 80 cm fixée au pignon avec son mitigeur thermostatique : c'est elle qui rend le coin assis utilisable, la pomme de tête étant à 2,50 m. Il faut une arrivée d'eau chaude et froide en plus le long du pignon, à isoler car c'est un mur extérieur.","<b>Muret de 1,10 m et verrière noire</b> sur tout le front de douche, la verrière s'arrête là où le rampant descend sous 2,05 m.","<b>Niche longue</b> 90 × 30 éclairée dans le faux mur de 10 cm contre la chambre 2, à côté du mitigeur encastré.","<b>Buanderie intégrée</b> : colonne chêne 70 × 65 × 200 pour lave-linge et sèche-linge superposés, contre la chambre 2, à côté de la douche. Les évacuations sont à 30 cm de celles de la douche.","<b>Double vasque</b> chêne 120 × 50 centrée sur le doublage du mur du rangement, deux miroirs ronds. <b>Sèche-serviettes échelle</b> à côté, avant la poche de la porte.","<b>Radiateur remplacé par un sèche-serviettes à eau horizontal</b> au même endroit sous le Velux : même raccordement, et il chauffe les serviettes près de la sortie de douche.","<b>Placard bas</b> 89 × 45 sous le rampant côté porte.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement.","<b>Circulation</b> : dégagement central d'environ 2,35 × 1,20 m, 74 cm devant la buanderie.","<b>Ce que ça coûte en plus</b> : environ 4 m² d'étanchéité sous carrelage et un caniveau long. En contrepartie, aucun moteur ni baignoire, et le chauffage reste sur son tuyau actuel."],
   mats:[...MAT_B.slice(0,9),["img/mat-chene.jpg","Buanderie et rangements","Colonne et placard en chêne naturel, façades sans poignée","oak"]],
   items:[
-  {t:"showerNiche",lbl:"Douche spa à l'italienne",x:0,y:1.85,r:2,w:3.49,d:1.15,open:[1.69,2.39],nw:.90,nh:.30},
+  {t:"showerNiche",lbl:"Douche spa à l'italienne",x:0,y:1.85,r:2,w:3.49,d:1.15,open:[1.69,2.39],nw:.90,nh:.30,hand:2.70},
   {t:"low",lbl:"Banquette de douche maçonnée",x:0.40,y:2.53,r:2,w:0.75,d:0.45,hh:.45,tiled:1,inside:1},
   {t:"low",lbl:"Placard bas sous rampant",x:0.01,y:0.11,r:3,w:0.89,d:0.45,hh:.80},
   {t:"radiator",lbl:"Sèche-serviettes à eau horizontal",x:0.01,y:1.05,r:3,w:0.70,d:0.15},
   {t:"vanity2",x:0.89,y:0.11,r:0,w:1.20,d:0.50,col:0xc49a6b,vessel:1,round:1,splash:1},
   {t:"towel",x:2.10,y:0.11,r:0,w:0.40,d:0.10,ladder:1},
+  {t:"laundry",x:2.83,y:1.13,r:1,w:0.70,d:0.65}
+ ]},
+ sansbalneo2:{name:"Sans balnéo v2",style:"beige",door:"galandage",H0:93,L:72,P:245,
+  intro:"Variante plus simple de la douche spa : la douche ne garde que la partie où l'on tient debout, la zone basse sous le rampant redevient sèche, avec un banc coffre pour s'asseoir et s'essuyer à la sortie de la douche.",
+  changes:["<b>Douche à l'italienne de 190 cm</b> hors tout, environ 179 × 104 utiles une fois carrelée, entièrement sous 2,43 m de plafond fini. Pomme de tête et niche côté chambre 2, entrée de 104 cm par le côté, à l'opposé de la pomme.","<b>Muret de 1,10 m et verrière noire</b> sur tout le front de douche.","<b>Niche longue</b> 90 × 30 éclairée dans le faux mur de 10 cm contre la chambre 2, à côté du mitigeur encastré.","<b>Zone sèche sous le rampant</b> devant l'entrée de douche : banc coffre chêne 99 × 45 contre le mur nain pour s'asseoir et ranger le linge, sèche-serviettes échelle sur le pignon à la sortie de douche.","<b>Moins d'étanchéité</b> : environ 2 m² de douche au lieu de 4, caniveau de 1,60 m, pas de deuxième arrivée d'eau.","<b>Buanderie intégrée</b> : colonne chêne 70 × 65 × 200 pour lave-linge et sèche-linge superposés, contre la chambre 2.","<b>Double vasque</b> chêne 120 × 50 centrée sur le doublage du mur du rangement, deux miroirs ronds.","<b>Radiateur remplacé par un sèche-serviettes à eau horizontal</b> au même endroit sous le Velux, même raccordement.","<b>Placard bas</b> 89 × 45 sous le rampant côté porte. <b>Porte à galandage</b> dans un doublage de 10 cm sur tout le mur du rangement."],
+  mats:[...MAT_B.slice(0,9),["img/mat-chene.jpg","Buanderie et rangements","Colonne, placard et banc coffre en chêne naturel","oak"]],
+  items:[
+  {t:"showerNiche",lbl:"Douche à l'italienne",x:1.59,y:1.85,r:2,w:1.90,d:1.15,nw:.90,nh:.30},
+  {t:"low",lbl:"Placard bas sous rampant",x:0.01,y:0.11,r:3,w:0.89,d:0.45,hh:.80},
+  {t:"radiator",lbl:"Sèche-serviettes à eau horizontal",x:0.01,y:1.05,r:3,w:0.70,d:0.15},
+  {t:"low",lbl:"Banc coffre",x:0.01,y:2.00,r:3,w:0.99,d:0.45,hh:.45},
+  {t:"towel",x:1.12,y:2.89,r:2,w:0.40,d:0.10,ladder:1},
+  {t:"vanity2",x:0.89,y:0.11,r:0,w:1.20,d:0.50,col:0xc49a6b,vessel:1,round:1,splash:1},
   {t:"laundry",x:2.83,y:1.13,r:1,w:0.70,d:0.65}
  ]}
 };
@@ -303,7 +317,7 @@ const VEL={y1:0.95,y2:2.02,len:1.10};
 const DOOR={o1:3.27,o2:4.00,pk1:2.52};
 const DBL=()=>S.door==="galandage";
 let S, sel=null, uid=1;
-const KEY="sdb-morieux-v7";
+const KEY="sdb-morieux-v8";
 function clone(o){return JSON.parse(JSON.stringify(o))}
 function load(p){S=clone(p);S.items.forEach(it=>{it.id=uid++;const c=CAT[it.t];if(it.w==null)it.w=c.w;if(it.d==null)it.d=c.d});sel=null}
 try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.items){S=s;S.items.forEach(it=>it.id=uid++)}}catch(e){}
@@ -397,6 +411,7 @@ plan.innerHTML=`<svg viewBox="-100 -100 590 500" xmlns="http://www.w3.org/2000/s
 .door{fill:none;stroke:var(--ink);stroke-width:1} .leaf{stroke:var(--ink);stroke-width:2.5}
 .cote line{stroke:var(--cote);stroke-width:.9} .cote .ext{stroke-width:.6} .cote .tick{stroke-width:1.6}
 .cote text{fill:var(--cote);font:500 11px var(--f-mono)}
+.circ rect{shape-rendering:crispEdges} .circ .cU{fill:#3f9b5a;opacity:.16} .circ .cL{fill:#d9a640;opacity:.18}
 .mes line{stroke:var(--mes);stroke-width:1.2} .mes .eb{stroke-width:1.6} .mes .ah{fill:var(--mes)} .mes rect{fill:var(--sheet);stroke:var(--mes);stroke-width:1} .mes text{fill:var(--mes);font:700 10px var(--f-mono)}
 .live line{stroke:var(--sel);stroke-width:1;stroke-dasharray:3 2} .live text{fill:var(--sel);font:600 10.5px var(--f-mono);paint-order:stroke;stroke:var(--sheet);stroke-width:3px}
 .lbl{fill:var(--ink-soft);font:500 10px var(--f-display);letter-spacing:.1em;text-transform:uppercase}
@@ -452,6 +467,7 @@ function sym(it){
   case "showerNiche":{const fm=10,mu=10,k=SC2,nw=(it.nw||.60)*k;o+=`<rect class="wet" x="${fm}" width="${w-fm}" height="${d-mu}"/><line class="drain" x1="${fm+10}" y1="9" x2="${w-10}" y2="9"/>`;for(let i=fm+15;i<w;i+=15)o+=`<line class="wetl" x1="${i}" y1="0" x2="${i}" y2="${d-mu}"/>`;
    o+=`<rect class="wall" width="${fm}" height="${d}"/><rect class="niche2" x="2" y="${d/2-nw/2}" width="${fm-2}" height="${nw}"/>`;
    showerFront(it).forEach(sg=>{o+=`<rect class="wall" x="${sg.a*k}" y="${d-mu}" width="${(sg.b-sg.a)*k}" height="${mu}"/>`;if(sg.g)o+=`<line x1="${sg.g[0]*k}" y1="${d-mu/2}" x2="${sg.g[1]*k}" y2="${d-mu/2}" style="stroke:#222;stroke-width:1.8"/>`});
+   if(it.hand!=null)o+=`<circle cx="${it.hand*k}" cy="7" r="4" style="fill:#1b1b1b"/><text x="${it.hand*k}" y="20" text-anchor="middle" style="font:600 7px var(--f-mono);fill:var(--ink)">DOUCHETTE</text>`;
    if(it.open)o+=`<line class="door" x1="${it.open[0]*k}" y1="${d-mu/2}" x2="${it.open[1]*k}" y2="${d-mu/2}" style="stroke-dasharray:2 3"/>`;break}
   case "wallPiece":o+=`<rect class="wall" width="${w}" height="${d}"/>`;break;
   case "laundry":o+=`<rect class="fx wood" width="${w}" height="${d}"/><circle class="fx-in" cx="${w/2}" cy="${d/2}" r="${Math.min(w,d)*.3}"/><circle class="fx-in" cx="${w/2}" cy="${d/2}" r="${Math.min(w,d)*.18}"/>`;break;
@@ -496,7 +512,9 @@ function drawItems(bad){
    if(W<=14||Hh<=14)g+=`<text x="${(x1+x2)/2+(W<=14?10:0)}" y="${(y1+y2)/2+(Hh<=14?-8:0)}" text-anchor="${W<=14?"start":"middle"}">${cm(fw(it))}×${cm(fd(it))}</text>`;
    const dt=details(it);if(dt&&W>60&&Hh>40)g+=`<text class="dt" x="${(x1+x2)/2}" y="${(y1+y2)/2+14}" text-anchor="middle">${dt.split(" · ")[0]}</text>`;
    return `<g class="dims">${g}</g>`}).join("");
- gL.innerHTML=`<g class="live">${UI.mes||UI.dims?"":o}</g>${dm}${mo}`;
+ let cz="";if(UI.mes){const C=circulation();cz=C.svg;CIRC=C}
+ gL.innerHTML=`${cz}<g class="live">${UI.mes||UI.dims?"":o}</g>${dm}${mo}`;
+ const et=document.querySelectorAll(".espTxt");et.forEach(e=>{e.hidden=!UI.mes;if(UI.mes&&CIRC)e.innerHTML=`Circulation libre : <b>${f2(CIRC.all)} m²</b> au sol, dont <b>${f2(CIRC.up)} m²</b> où l'on tient debout (≥ 1,90 m). Douche et baignoire non comptées.`});
 }
 
 /* drag */
@@ -680,6 +698,7 @@ function buildFix(bad){
     const mM=new THREE.MeshStandardMaterial({map:bTex,roughness:.5});
     showerFront(it).forEach(sg=>{box(L,sg.b-sg.a,1.10,mu,mM,sg.a,0,d-mu);if(sg.g){const[a,b]=sg.g,gw=b-a;const g=new THREE.Mesh(new THREE.BoxGeometry(gw,.90,.01),M.glass);g.position.set(a+gw/2,1.55,d-mu/2);L.add(g);
      box(L,gw,.025,.03,M.black,a,1.10,d-mu/2-.015);box(L,gw,.025,.03,M.black,a,1.98,d-mu/2-.015);box(L,gw,.02,.03,M.black,a,1.54,d-mu/2-.015);const nn=Math.max(1,Math.round(gw/.35));for(let i=0;i<=nn;i++)box(L,.025,.90,.03,M.black,a+i*(gw-.025)/nn,1.10,d-mu/2-.015)}});
+    if(it.hand!=null){const hx=it.hand;box(L,.025,.80,.025,M.black,hx,.75,.025);box(L,.16,.07,.05,M.black,hx-.07,.62,.02);box(L,.035,.16,.035,M.black,hx-.005,1.30,.06);box(L,.012,.55,.012,M.black,hx+.005,.75,.07)}
     if(wall&&!WM)hide(wallTile(L,w,Math.min(HH,ch),0,it,bTex));break}
    case "walkin":box(L,w,.006,d,M.dark,0,0,0);box(L,w-.16,.012,.06,M.chrome,.08,0,.06);
     {const gl=Math.min(.9,w-.5),m=new THREE.Mesh(new THREE.BoxGeometry(gl,2,.01),M.glass);m.position.set(gl/2,1,d);L.add(edges(m))}
@@ -768,6 +787,21 @@ function refresh(light,shell){
  drawItems(res.bad);
  if(!light){drawInsp(res.bad);drawWarn(res);drawDesc();drawEl(res.bad)}
  if(R){if(shell||!SHELL)buildShell();buildFix(res.bad);draw()}
+}
+/* ---------- surface de circulation : grille de 5 cm, hors éléments, douche et baignoire ---------- */
+let CIRC=null;
+function circulation(){
+ const g=.05,T=TW(),R=S.items.map(rect);let all=0,up=0,svg="";const k=SC2;
+ for(let y=g/2;y<3;y+=g){let run=null,runUp=null;const flush=(r,cls)=>{if(r)svg+=`<rect class="${cls}" x="${(r[0]-g/2)*k}" y="${(y-g/2)*k}" width="${(r[1]-r[0]+g)*k}" height="${g*k}"/>`};
+  for(let x=g/2;x<4.09;x+=g){
+   const top=(DBL()&&x<DOOR.o1?.10:0)+T;let ok=y>=top&&x>=T&&(x<=3.49-T?y<=3-T:(x<=4.09-T&&y<=.97-T));
+   if(ok&&R.some(q=>x>q.x1&&x<q.x2&&y>q.y1&&y<q.y2))ok=false;
+   const st=ok&&ceilAt(x)>=1.90;
+   if(ok){all+=g*g;if(st)up+=g*g}
+   if(ok&&st){runUp=runUp?[runUp[0],x]:[x,x]}else{flush(runUp,"cU");runUp=null}
+   if(ok&&!st){run=run?[run[0],x]:[x,x]}else{flush(run,"cL");run=null}
+  }flush(runUp,"cU");flush(run,"cL")}
+ return {all,up,svg:`<g class="circ">${svg}</g>`};
 }
 /* ---------- mesures ---------- */
 function measures(){
