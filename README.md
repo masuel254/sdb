@@ -1,56 +1,69 @@
 # Salle de bains de l'étage, maison Morieux
 
-Atelier d'aménagement en ligne : plan 2D coté à l'échelle 1/50, éditable à la souris ou au doigt, et maquette 3D qui suit chaque modification. Chaque piste d'optimisation est enregistrée comme une version que l'on peut rappeler d'un clic, comparer et partager.
+Atelier d'aménagement en ligne : plan 2D coté au 1/50 éditable à la souris ou au doigt, et maquette 3D qui suit chaque modification. Chaque piste d'optimisation est une version que l'on rappelle d'un clic, compare et partage.
+
+Page publiée : https://masuel254.github.io/sdb/
 
 ## Versions
 
 | Version | Idée | Points clés |
 |---|---|---|
 | **Actuel** | État relevé le 10/10/2026 | Baignoire 170 × 75 dans son socle au pignon, douche maçonnée 147 × 108, double vasque 120 × 60, radiateur sous le Velux, porte battante |
-| **Balnéo** | Ambiance pierre claire, chêne, noir mat | Baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne à verrière et niche, vasque simple, porte à galandage dans un doublage pleine longueur |
+| **Balnéo** | Pierre claire, chêne, noir mat | Baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne 134 × 105 à verrière et niche, vasque chêne face à la baignoire, rangement bas sur mesure, porte à galandage dans un doublage pleine longueur |
+| **Sans balnéo** | Grande douche et rangements | Douche à l'italienne 174 × 105 en pleine hauteur, double vasque, radiateur conservé à sa place, placard et banc coffre sous le rampant, colonne de rangement, porte à galandage |
 
-Le détail de chaque version (ce qui change et pourquoi, palette de matériaux) s'affiche sur la page sous le plan.
+Le descriptif complet et la palette de matériaux de chaque version sont dans l'onglet **Matériaux**.
+
+## Navigation
+
+- **2D** : plan éditable, inspecteur de l'élément sélectionné et contrôles.
+- **3D** : maquette orientable, vues prédéfinies.
+- **2D + 3D** : les deux côte à côte (sur grand écran).
+- **Matériaux** : ce qui change dans la version et pourquoi, palette en photo.
+- **Éléments** : liste des éléments avec leurs cotes, catalogue pour en ajouter, export de la configuration.
+- **Réglages** : hauteurs sous rampant, version de l'application, recherche de mise à jour, historique.
+
+Le bouton **Mesures**, sous le plan et sous la 3D, affiche les distances entre éléments et aux murs. Avec un élément sélectionné, seules ses propres distances apparaissent.
 
 ## La pièce
 
-- Surface utile 11,01 m² (8,58 m² sous 1,80 m de hauteur et plus), d'après le permis TECCI d'avril 2005.
+- Surface utile 11,01 m² (8,58 m² à 1,80 m de hauteur et plus), permis TECCI d'avril 2005.
 - 3,49 × 3,00 m, plus une niche de 0,60 × 0,97 m côté porte.
 - Mur nain 93 cm, 1,80 m atteint à 72 cm du mur nain, plafond 2,45 m.
 - Velux dans une niche de 107 × 110, à 95 cm du mur du rangement.
 
 ### Repère des cotes
 
-- **X** se mesure depuis le mur nain (0) vers la chambre 2 (3,49).
-- **Y** se mesure depuis le mur du rangement (0) vers le pignon (3,00).
+- **X** depuis le mur nain (0) vers la chambre 2 (3,49).
+- **Y** depuis le mur du rangement (0) vers le pignon (3,00).
 - La rotation d'un élément indique le mur contre lequel se trouve son dos.
 
 ## Utiliser la page
 
 - Cliquer un élément pour le sélectionner, le glisser pour le déplacer (pas de 5 cm).
-- Ajustement fin au clavier : flèches = 1 cm, Maj + flèches = 10 cm, R = tourner, Suppr = supprimer.
-- Les dimensions exactes se saisissent dans le panneau « Élément sélectionné ».
-- Le panneau « Contrôles » signale les chevauchements, les passages trop étroits (moins de 60 cm), les hauteurs insuffisantes sous le rampant et les contraintes de porte.
-- « Copier ma configuration » produit un texte à coller dans la conversation avec Claude pour une analyse ou une nouvelle variante.
+- Clavier : flèches = 1 cm, Maj + flèches = 10 cm, R = tourner, Suppr = supprimer.
+- Le panneau **Contrôles** signale les chevauchements, les passages trop étroits (moins de 60 cm, et moins de 70 cm pour une personne de 1,85 m et 100 kg), les hauteurs insuffisantes sous le rampant et les contraintes de porte.
+- **Copier ma configuration** (onglet Éléments) produit un texte à coller dans la conversation avec Claude.
 
-Les modifications sont gardées dans le navigateur de chaque visiteur. Elles ne modifient pas le site : pour figer une proposition, il faut l'ajouter comme nouvelle version.
+Les modifications restent dans le navigateur de chaque visiteur et ne changent pas le site. Pour figer une proposition, elle est ajoutée comme nouvelle version.
 
-## Photos des matériaux
+## Mises à jour
 
-Chaque matériau de la palette cherche une photo dans `img/` au nom affiché sous sa pastille, par exemple `img/balneo-sol.jpg`. Si la photo n'existe pas, un aperçu peint de la matière s'affiche à la place. La liste des noms attendus est dans `img/LISEZMOI.md`.
+- La version de l'application est dans `index.html` (`APP_VERSION`) et dans `version.json`. Les deux doivent être augmentées ensemble à chaque publication.
+- Au chargement, la page lit `version.json`. Si une version plus récente est publiée, elle se recharge automatiquement une fois en contournant le cache de GitHub Pages.
+- Le bouton **Rechercher une mise à jour** (onglet Réglages) fait la même vérification à la demande.
 
-Le dépôt étant public, utilisez vos propres photos ou des images libres de droits plutôt que des visuels de fabricants.
+## Matériaux et textures
 
-## Publier avec GitHub Pages
+- `img/mat-*.jpg` : palette des versions Balnéo et Sans balnéo, découpée dans la photo d'ambiance de référence.
+- `img/act-*.jpg` : palette de la version Actuel, découpée dans les photos de la salle de bains.
+- `img/tex-*.jpg` : textures de la maquette 3D (pierre beige, sol, chêne, grès gris, faïence, sol taupe).
 
-1. Déposer `index.html`, `README.md` et le dossier `img/` à la racine du dépôt.
-2. Dans le dépôt : Settings, puis Pages, source « Deploy from a branch », branche `main`, dossier `/ (root)`.
-3. La page est servie à l'adresse `https://<utilisateur>.github.io/<dépôt>/` après une à deux minutes.
-
-La page charge three.js et les polices Google en ligne : une connexion internet est nécessaire.
+Pour remplacer une matière, déposer une nouvelle image sous le même nom.
 
 ## Points à valider avant travaux
 
-- Largeur totale de la pièce à hauteur du socle actuel : la somme socle + douche donne 3,51 m contre 3,49 m au permis.
-- Possibilité de décaisser le plancher pour une douche de plain-pied à l'étage, sinon receveur extra-plat.
-- Trappe d'accès au moteur de la balnéo et circuit électrique dédié avec différentiel 30 mA.
+- Largeur totale de la pièce à hauteur du socle actuel : socle + douche donnent 3,51 m contre 3,49 m au permis.
+- Décaissé possible du plancher pour une douche de plain-pied à l'étage, sinon receveur extra-plat.
+- Balnéo : trappe d'accès au moteur, circuit électrique dédié avec différentiel 30 mA.
 - Prises et interrupteurs à plus de 60 cm des bords de baignoire et de douche (NF C 15-100).
