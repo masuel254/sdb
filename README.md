@@ -10,7 +10,7 @@ Page publiée : https://masuel254.github.io/sdb/
 |---|---|---|
 | **Actuel** | État relevé le 10/10/2026 | Baignoire 170 × 75 dans son socle au pignon, douche maçonnée 147 × 108, double vasque 120 × 60, radiateur sous le Velux, porte battante |
 | **Balnéo** | Pierre claire, chêne, noir mat | Baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne 134 × 105 à verrière et niche, vasque chêne face à la baignoire, rangement bas sur mesure, porte à galandage dans un doublage pleine longueur |
-| **Sans balnéo** | Grande douche et rangements | Douche à l'italienne 174 × 105 en pleine hauteur, double vasque, radiateur conservé à sa place, placard et banc coffre sous le rampant, colonne de rangement, porte à galandage |
+| **Sans balnéo** | Douche spa et buanderie | Douche à l'italienne sur toute la largeur du pignon (environ 338 × 104 utiles) avec banquette maçonnée sous le rampant, niche longue, colonne lave-linge + sèche-linge, double vasque, sèche-serviettes à eau à la place du radiateur, placard sous rampant, porte à galandage |
 
 Le descriptif complet et la palette de matériaux de chaque version sont dans l'onglet **Matériaux**.
 
@@ -20,10 +20,15 @@ Le descriptif complet et la palette de matériaux de chaque version sont dans l'
 - **3D** : maquette orientable, vues prédéfinies.
 - **2D + 3D** : les deux côte à côte (sur grand écran).
 - **Matériaux** : ce qui change dans la version et pourquoi, palette en photo.
-- **Éléments** : liste des éléments avec leurs cotes, catalogue pour en ajouter, export de la configuration.
-- **Réglages** : hauteurs sous rampant, version de l'application, recherche de mise à jour, historique.
+- **Éléments** : tableau des dimensions L × l × H × P de chaque élément, catalogue pour en ajouter, export de la configuration.
+- **Réglages** : hauteurs sous rampant, carrelage (épaisseurs murs et sol), version de l'application, recherche de mise à jour, historique.
 
-Le bouton **Mesures**, sous le plan et sous la 3D, affiche les distances entre éléments et aux murs. Avec un élément sélectionné, seules ses propres distances apparaissent.
+Sous le plan et sous la 3D :
+
+- **Espace** affiche les distances libres entre éléments et aux murs finis, avec flèches et barres de départ et d'arrivée.
+- **Éléments** affiche les dimensions de chaque élément sur le plan et au-dessus des objets en 3D.
+
+Avec un élément sélectionné, seules ses cotes apparaissent. Le bouton **Niche de douche** de la 3D cadre directement la niche.
 
 ## La pièce
 
@@ -46,6 +51,14 @@ Le bouton **Mesures**, sous le plan et sous la 3D, affiche les distances entre �
 - **Copier ma configuration** (onglet Éléments) produit un texte à coller dans la conversation avec Claude.
 
 Les modifications restent dans le navigateur de chaque visiteur et ne changent pas le site. Pour figer une proposition, elle est ajoutée comme nouvelle version.
+
+## Carrelage et faux murs
+
+- Par défaut, tous les murs et le sol des optimisations sont carrelés : 10 mm sur les murs et 15 mm au sol, colle comprise (réglable). La pièce finie passe à 3,47 m de large.
+- Les contrôles signalent tout meuble qui ne tiendrait plus une fois les murs carrelés, et les hauteurs sous rampant se mesurent depuis le sol fini.
+- Doublage de 10 cm sur tout le mur du rangement pour la porte à galandage.
+- Faux mur de 10 cm dans chaque douche pour la niche à shampoings et le mitigeur encastré. Une fois carrelée, la niche garde environ 7 cm de fond.
+- La version Actuel est relevée sur des murs déjà carrelés : le carrelage n'y est pas ajouté.
 
 ## Mises à jour
 

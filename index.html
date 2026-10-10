@@ -36,6 +36,7 @@ h1{font-family:var(--f-display);font-weight:600;font-size:clamp(28px,4.6vw,42px)
 .tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:4px;overflow-x:auto;background:var(--paper);padding-block:6px;border-bottom:1.5px solid var(--ink);scrollbar-width:none}
 .tabs button{flex:0 0 auto;font:600 14px var(--f-display);letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border:1px solid transparent;border-radius:3px 3px 0 0;background:transparent;color:var(--ink-soft);cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--ink);color:var(--sheet)}
+select{font:500 14px var(--f-body);padding:5px 6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:2px}
 input[type=number]{width:74px;font:500 14px var(--f-mono);padding:5px 6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:2px}
 button.btn{font:500 14px var(--f-body);border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:6px 11px;border-radius:2px;cursor:pointer}
 button.btn.pri{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
@@ -90,6 +91,11 @@ textarea{width:100%;min-height:90px;font:12px var(--f-mono);background:var(--pap
 .mat .sw{aspect-ratio:4/3;width:100%;border:1px solid var(--line);border-radius:2px;object-fit:cover;display:block;background:var(--paper)}
 .mat b{font:600 13px var(--f-display);letter-spacing:.06em;text-transform:uppercase}
 .mat span{font-size:12.5px;color:var(--ink-soft);line-height:1.35}
+table.dt{border-collapse:collapse;width:100%;font-size:13.5px}
+table.dt th{font:600 12.5px var(--f-display);letter-spacing:.06em;text-transform:none;color:var(--ink-soft);text-align:left;padding:6px 8px;border-bottom:1.5px solid var(--ink)}
+table.dt td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+table.dt td:nth-child(n+2):nth-child(-n+5){font-family:var(--f-mono);white-space:nowrap}
+table.dt tr.bad td:first-child{box-shadow:inset 3px 0 var(--warn)}
 .set{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,max-content));gap:14px 22px;align-items:end}
 .ver{font:500 13px var(--f-mono)}
 .log{margin:0;padding-left:18px;font-size:14px;display:grid;gap:5px}
@@ -126,17 +132,19 @@ textarea{width:100%;min-height:90px;font:12px var(--f-mono);background:var(--pap
     <section class="panel" id="p2d">
       <h2><span>Plan 2D, éditable</span><b>Glisse les éléments · flèches au cm · R pour tourner</b></h2>
       <div id="plan"></div>
-      <div class="views"><button class="btn tog mesBtn" aria-pressed="false">Mesures</button><span>Distances en cm. Sélectionne un élément pour ne voir que les siennes.</span></div>
+      <div class="views"><button class="btn tog mesBtn" aria-pressed="false">Espace</button><button class="btn tog dimBtn" aria-pressed="false">Éléments</button><span>Espace : distances libres, aux murs finis. Éléments : dimensions de chaque élément. Sélectionne un élément pour filtrer.</span></div>
     </section>
     <section class="panel" id="p3d">
       <h2><span>Maquette 3D</span><b>Glisser pour tourner · molette ou pincer pour zoomer</b></h2>
       <div id="v3d" aria-label="Vue 3D de la salle de bains"></div>
       <div class="views">
-        <button class="btn tog mesBtn" aria-pressed="false">Mesures</button>
+        <button class="btn tog mesBtn" aria-pressed="false">Espace</button>
+        <button class="btn tog dimBtn" aria-pressed="false">Éléments</button>
         <button class="btn" data-v="porte">Depuis la porte</button>
         <button class="btn" data-v="dessus">Dessus</button>
         <button class="btn" data-v="rampant">Côté rampant</button>
         <button class="btn" data-v="douche">Vers le pignon</button>
+        <button class="btn" data-v="niche">Niche de douche</button>
       </div>
     </section>
   </div>
@@ -161,8 +169,8 @@ textarea{width:100%;min-height:90px;font:12px var(--f-mono);background:var(--pap
   </section>
 
   <div class="grid3" id="pEl">
-    <section class="panel">
-      <h2><span>Éléments du plan</span></h2>
+    <section class="panel" style="grid-column:1/-1">
+      <h2><span>Dimensions des éléments</span><b>L × l × H × P</b></h2>
       <div class="pad" id="elList"></div>
     </section>
     <section class="panel">
@@ -189,6 +197,13 @@ textarea{width:100%;min-height:90px;font:12px var(--f-mono);background:var(--pap
           <label class="fld"><span>Plafond (cm)</span><input type="number" id="pP" min="200" max="300" step="5"></label>
         </div>
         <span class="hint">Relevé du 10/10/2026 : 93, 72 et 245. Tout le reste en dépend.</span>
+        <div class="lab" style="margin-top:6px">Carrelage</div>
+        <div class="set">
+          <label class="fld"><span>Murs et sol carrelés</span><select id="pTile"><option value="1">Oui, partout</option><option value="0">Non</option></select></label>
+          <label class="fld"><span>Épaisseur murs (mm)</span><input type="number" id="pTW" min="0" max="30" step="1"></label>
+          <label class="fld"><span>Épaisseur sol (mm)</span><input type="number" id="pTF" min="0" max="40" step="1"></label>
+        </div>
+        <span class="hint">Colle comprise. Les distances « Espace » et les contrôles se calculent sur les murs finis, les hauteurs depuis le sol fini.</span>
         <div class="row"><button class="btn dng" id="resetBtn">Remettre la version affichée à zéro</button></div>
       </div>
     </section>
@@ -222,16 +237,17 @@ const CAT={
  cabinet:{n:"Colonne de rangement",w:0.40,d:0.35,h:1.85},
  washer:{n:"Lave-linge",w:0.60,d:0.60,h:.85},
  low:{n:"Banc / meuble bas",w:0.80,d:0.40,h:.85},
- wallPiece:{n:"Doublage 10 cm",w:0.80,d:0.10,h:2.45}
+ wallPiece:{n:"Faux mur 10 cm",w:0.80,d:0.10,h:2.45},
+ laundry:{n:"Colonne lave-linge + sèche-linge",w:0.70,d:0.65,h:2.00}
 };
-const REQ={cabinet:["min",1.85],washer:["min",.90],towel:["min",1.70],radiator:["min",.75],walkin:["center",2.00],shower:["center",2.00],showerDur:["center",2.00],showerNiche:["center",2.00],vanity2:["center",1.90],vanity1:["center",1.90],low:["min",.85]};
+const REQ={laundry:["min",2.05],cabinet:["min",1.85],washer:["min",.90],towel:["min",1.70],radiator:["min",.75],walkin:["center",2.00],shower:["center",2.00],showerDur:["center",2.00],showerNiche:["center",2.00],vanity2:["center",1.90],vanity1:["center",1.90],low:["min",.85]};
 /* Relevé du 10/10/2026 : mur nain 93, H 1,80 à 72 cm, plafond 245.
    Baignoire 170×75 dans un socle : 23 côté mur nain, 11 côté douche, 10 côté pignon, 10 côté pièce, soit 204×95.
    Douche maçonnée 147×108 sur receveur, entrée 55, collée au socle. Double vasque 120×60 à 165 du mur nain, miroir 120×110.
    Niche du Velux 107 × 110, à 95 cm du mur du rangement. Porte battante PS 73.
    Les optimisations futures s'ajoutent ici comme nouvelles entrées : un bouton par version. */
-const APP_VERSION="1.4.0";
-const CHANGELOG=[["1.4.0","10/10/2026","Onglets 2D, 3D, Matériaux, Éléments, Réglages ; bouton Mesures ; matières photo ; Balnéo revue (vasque face à la baignoire, rangements) ; nouvelle version Sans balnéo ; recherche de mise à jour"],["1.3.0","10/10/2026","Balnéo : doublage pleine longueur pour la galandage, vasque simple, descriptifs et palettes"],["1.2.0","10/10/2026","Première version Balnéo"],["1.1.0","10/10/2026","Relevé de l'existant (Actuel)"],["1.0.0","10/10/2026","Plan 2D éditable et maquette 3D"]];
+const APP_VERSION="1.5.0";
+const CHANGELOG=[["1.5.0","10/10/2026","Boutons Espace et Éléments sous les vues ; cotes plus lisibles ; tableau L × l × H × P ; carrelage partout pris en compte (murs et sol finis) ; niche de douche visible en 2D et 3D ; Sans balnéo repensée en douche spa avec buanderie"],["1.4.0","10/10/2026","Onglets 2D, 3D, Matériaux, Éléments, Réglages ; bouton Mesures ; matières photo ; Balnéo revue (vasque face à la baignoire, rangements) ; nouvelle version Sans balnéo ; recherche de mise à jour"],["1.3.0","10/10/2026","Balnéo : doublage pleine longueur pour la galandage, vasque simple, descriptifs et palettes"],["1.2.0","10/10/2026","Première version Balnéo"],["1.1.0","10/10/2026","Relevé de l'existant (Actuel)"],["1.0.0","10/10/2026","Plan 2D éditable et maquette 3D"]];
 let UI={tab:innerWidth>=920?"both":"plan",mes:false};try{Object.assign(UI,JSON.parse(localStorage.getItem("sdb-ui"))||{})}catch(e){}
 const MAT_B=[["img/mat-sol-pierre.jpg","Sol","Grès cérame effet pierre beige mat 60 × 60, classé antidérapant dans la douche","stone"],
  ["img/mat-mur-pierre.jpg","Murs de douche et crédence","Même pierre beige en 30 × 60, pose à joints décalés","stone"],
@@ -240,11 +256,12 @@ const MAT_B=[["img/mat-sol-pierre.jpg","Sol","Grès cérame effet pierre beige m
  ["img/mat-vasque.jpg","Vasque","Céramique blanc mat, ovale à poser, robinetterie noire","white"],
  ["img/mat-verriere.jpg","Verrière et robinetterie","Acier noir mat 4 carreaux, mitigeur thermostatique encastré, pomme Ø 30","black"],
  ["img/mat-miroir.jpg","Miroir","Rond, LED blanc chaud 3000 K en rétroéclairage","mirror"],
- ["img/mat-peinture.jpg","Murs hors douche","Peinture pièces humides blanc chaud, satinée","paint"],
+ ["img/mat-mur-pierre.jpg","Tous les murs","Grès pierre beige 30 × 60 du sol au plafond sur tous les murs, joints fins ton pierre","stone"],
+ ["img/mat-peinture.jpg","Rampant et plafond","Peinture pièces humides blanc chaud, satinée","paint"],
  ["img/mat-etagere.jpg","Rangements","Chêne massif, niches ouvertes et paniers tressés","oak"]];
 const PRESETS={
- actuel:{name:"Actuel",door:"battante",H0:93,L:72,P:245,
-  intro:"État relevé le 10 octobre 2026, cotes prises sur place. Sert de référence pour comparer les optimisations.",
+ actuel:{name:"Actuel",door:"battante",tile:false,H0:93,L:72,P:245,
+  intro:"État relevé le 10 octobre 2026, cotes prises sur place sur les murs déjà carrelés. Sert de référence pour comparer les optimisations.",
   changes:["Baignoire 170 × 75 dans un socle carrelé (23 cm côté mur nain, 11 côté douche, 10 au pignon, 10 côté pièce), le long du pignon.","Douche maçonnée 147 × 108 sur receveur, entrée de 55 cm, collée au socle de la baignoire.","Double vasque 120 × 60 à 165 cm du mur nain, miroir 120 × 110.","Radiateur à eau 70 × 60 sous le Velux, sèche-serviettes électrique 45 × 90 sur le mur du rangement.","Porte battante de 73 cm qui s'ouvre dans la niche."],
   mats:[["img/act-sol.jpg","Sol","Grès émaillé taupe 30 × 30","brownTile"],["img/act-faience.jpg","Murs","Faïence blanche 20 × 25 avec frise","whiteTile"],["img/act-douche.jpg","Douche","Grès gris anthracite 30 × 60 en pose décalée","greyTile"],["img/act-meuble.jpg","Meuble vasque","Façades laquées bleu nuit, plan vasque résine crème","navy"],["img/act-baignoire.jpg","Baignoire","Acrylique blanc, socle carrelé","white"]],
   items:[
@@ -259,34 +276,34 @@ const PRESETS={
   changes:["<b>Baignoire balnéo duo 185 × 90</b> en longueur contre le mur nain, sous le Velux, calée contre le doublage côté porte. Tablier de 20 cm côté pièce pour s'asseoir et pivoter, 20 cm côté mur nain pour remonter la cuve dans le rampant et loger la tuyauterie et le moteur, 10 cm aux deux bouts. Bloc de 205 × 130.","<b>Hauteur pour 1,85 m</b> : assis, aucun souci. Debout, la tête ne passe que sur une bande d'environ 20 cm côté pièce. On entre et on sort assis sur le tablier : c'est le scénario prévu.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement : un seul plan de mur, sans décroché. Rien n'est fixé sur les 75 cm de la poche.","<b>Vasque déplacée face à la baignoire</b>, contre la chambre 2 et collée au muret de douche comme sur la photo de référence : meuble chêne 80 × 50 sur pieds, vasque à poser, miroir rond Ø 70, crédence pierre. Un doublage de 10 cm amène l'eau depuis la douche voisine.","<b>Rangement bas sur mesure</b> 120 × 35 sur le doublage, entre la baignoire et la poche de la porte : linge et produits, plateau pour poser les serviettes.","<b>Douche à l'italienne</b> 134 × 105 utiles dans l'angle pignon / chambre 2, là où arrivent les évacuations. Muret de 1,10 m et verrière noire, entrée par le côté à l'opposé de la pomme. Niche à shampoings éclairée et mitigeur encastré dans un faux mur de 10 cm.","<b>Radiateur</b> reculé au bout du mur nain côté pignon, sur le même mur. <b>Sèche-serviettes échelle</b> sur le pignon entre la baignoire et l'entrée de douche. <b>Banc coffre</b> chêne dans le coin bas, sous 1,40 m.","<b>Circulation pour 1,85 m et 100 kg</b> : 75 cm entre la baignoire et la douche, 80 cm devant la vasque, un dégagement central d'environ 1,60 × 1,40 m, aucun battant de porte. Activer « Mesures » pour voir toutes les distances."],
   mats:[...MAT_B,["","Baignoire","Balnéo duo acrylique blanc 185 × 90 × 62 avec trappe moteur dans le tablier","white"]],
   items:[
-  {t:"bath",x:0,y:0.10,r:3,w:2.05,d:1.30,sk:[0.10,0.10,0.20,0.20],balneo:1},
-  {t:"low",lbl:"Rangement bas sur mesure",x:1.30,y:0.10,r:0,w:1.20,d:0.35,hh:.90},
-  {t:"showerNiche",x:2.05,y:1.85,r:2,w:1.44,d:1.15},
+  {t:"bath",x:0,y:0.10,r:3,w:2.05,d:1.30,h:.62,sk:[0.10,0.10,0.20,0.20],balneo:1},
+  {t:"low",lbl:"Rangement bas sur mesure",x:1.30,y:0.11,r:0,w:1.20,d:0.35,hh:.90},
+  {t:"showerNiche",x:2.05,y:1.85,r:2,w:1.44,d:1.15,nw:.60,nh:.30},
   {t:"wallPiece",x:3.39,y:1.05,r:1,w:0.80,d:0.10},
-  {t:"vanity1",x:2.89,y:1.05,r:1,w:0.80,d:0.50,col:0xc49a6b,vessel:1,round:1,splash:1},
-  {t:"radiator",x:0,y:2.20,r:3,w:0.70,d:0.15},
-  {t:"towel",x:1.50,y:2.90,r:2,w:0.45,d:0.10,ladder:1},
+  {t:"vanity1",x:2.88,y:1.05,r:1,w:0.80,d:0.50,h:.97,col:0xc49a6b,vessel:1,round:1,splash:1},
+  {t:"radiator",x:0.01,y:2.20,r:3,w:0.70,d:0.15},
+  {t:"towel",x:1.50,y:2.89,r:2,w:0.45,d:0.10,ladder:1},
   {t:"low",lbl:"Banc coffre",x:0.35,y:2.50,r:2,w:0.80,d:0.38,hh:.45}
  ]},
  sansbalneo:{name:"Sans balnéo",style:"beige",door:"galandage",H0:93,L:72,P:245,
-  intro:"On renonce à la baignoire pour une grande douche à l'italienne en pleine hauteur, on retrouve la double vasque et on transforme toute la zone basse sous le rampant en rangements. C'est aussi la version la plus simple à réaliser.",
-  changes:["<b>Douche à l'italienne XXL</b> 174 × 105 utiles le long du pignon, entièrement sous 2,45 m de plafond : on s'y tient debout partout. Muret de 1,10 m et verrière noire, entrée de 105 cm par le côté, niche éclairée et mitigeur encastré dans un faux mur de 10 cm contre la chambre 2.","<b>Double vasque</b> chêne 120 × 50 centrée sur le mur du rangement (doublée pour la galandage), deux vasques à poser et deux miroirs ronds. Les évacuations restent sur le même mur qu'aujourd'hui.","<b>Le radiateur ne bouge pas</b> : il reste sous le Velux, donc aucun travail de chauffage.","<b>Rangements sous rampant</b> de part et d'autre du radiateur : placard bas 100 × 45 côté porte, banc coffre 100 × 45 côté pignon pour s'asseoir en sortant de la douche.","<b>Colonne de rangement</b> 40 × 35 contre la chambre 2, à côté du muret de douche.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement.","<b>Sèche-serviettes échelle</b> sur le pignon, juste à la sortie de la douche.","<b>Circulation</b> : un dégagement central d'environ 2,70 × 1,25 m, le plus généreux des trois versions.","<b>Budget</b> : pas de moteur balnéo, pas de déplacement de radiateur, une seule évacuation de douche au même endroit qu'aujourd'hui."],
-  mats:MAT_B,
+  intro:"Version audacieuse : tout le pignon devient une douche spa de 3,47 m, avec une banquette maçonnée glissée sous le rampant pour s'asseoir sous l'eau. On retrouve la double vasque, la buanderie entre dans la salle de bains, et tout le bas du rampant sert de rangement.",
+  changes:["<b>Douche spa à l'italienne sur toute la largeur du pignon</b> : 3,49 m hors tout, environ 3,38 × 1,04 m utiles une fois carrelée. La partie haute (côté chambre 2) accueille la pomme de tête, la partie basse sous le rampant devient un coin assis. Entrée de 70 cm au milieu du muret, loin de la pomme.","<b>Banquette maçonnée chauffante</b> 75 × 45, h 45, dans la douche sous le rampant : assis, la tête reste à environ 45 cm du plafond. Un tapis chauffant sous le carrelage est en option.","<b>Muret de 1,10 m et verrière noire</b> sur tout le front de douche, la verrière s'arrête là où le rampant descend sous 2,05 m.","<b>Niche longue</b> 90 × 30 éclairée dans le faux mur de 10 cm contre la chambre 2, à côté du mitigeur encastré.","<b>Buanderie intégrée</b> : colonne chêne 70 × 65 × 200 pour lave-linge et sèche-linge superposés, contre la chambre 2, à côté de la douche. Les évacuations sont à 30 cm de celles de la douche.","<b>Double vasque</b> chêne 120 × 50 centrée sur le doublage du mur du rangement, deux miroirs ronds. <b>Sèche-serviettes échelle</b> à côté, avant la poche de la porte.","<b>Radiateur remplacé par un sèche-serviettes à eau horizontal</b> au même endroit sous le Velux : même raccordement, et il chauffe les serviettes près de la sortie de douche.","<b>Placard bas</b> 89 × 45 sous le rampant côté porte.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement.","<b>Circulation</b> : dégagement central d'environ 2,35 × 1,20 m, 74 cm devant la buanderie.","<b>Ce que ça coûte en plus</b> : environ 4 m² d'étanchéité sous carrelage et un caniveau long. En contrepartie, aucun moteur ni baignoire, et le chauffage reste sur son tuyau actuel."],
+  mats:[...MAT_B.slice(0,9),["img/mat-chene.jpg","Buanderie et rangements","Colonne et placard en chêne naturel, façades sans poignée","oak"]],
   items:[
-  {t:"low",lbl:"Placard bas sous rampant",x:0,y:0.10,r:3,w:1.00,d:0.45,hh:.80},
-  {t:"radiator",x:0,y:1.20,r:3,w:0.70,d:0.15},
-  {t:"low",lbl:"Banc coffre",x:0,y:2.00,r:3,w:1.00,d:0.45,hh:.45},
-  {t:"showerNiche",x:1.65,y:1.85,r:2,w:1.84,d:1.15},
-  {t:"vanity2",x:0.89,y:0.10,r:0,w:1.20,d:0.50,col:0xc49a6b,vessel:1,round:1,splash:1},
-  {t:"cabinet",x:3.14,y:1.45,r:1,w:0.40,d:0.35,col:0xc49a6b},
-  {t:"towel",x:1.05,y:2.90,r:2,w:0.45,d:0.10,ladder:1}
+  {t:"showerNiche",lbl:"Douche spa à l'italienne",x:0,y:1.85,r:2,w:3.49,d:1.15,open:[1.69,2.39],nw:.90,nh:.30},
+  {t:"low",lbl:"Banquette de douche maçonnée",x:0.40,y:2.53,r:2,w:0.75,d:0.45,hh:.45,tiled:1,inside:1},
+  {t:"low",lbl:"Placard bas sous rampant",x:0.01,y:0.11,r:3,w:0.89,d:0.45,hh:.80},
+  {t:"radiator",lbl:"Sèche-serviettes à eau horizontal",x:0.01,y:1.05,r:3,w:0.70,d:0.15},
+  {t:"vanity2",x:0.89,y:0.11,r:0,w:1.20,d:0.50,col:0xc49a6b,vessel:1,round:1,splash:1},
+  {t:"towel",x:2.10,y:0.11,r:0,w:0.40,d:0.10,ladder:1},
+  {t:"laundry",x:2.83,y:1.13,r:1,w:0.70,d:0.65}
  ]}
 };
 const VEL={y1:0.95,y2:2.02,len:1.10};
 const DOOR={o1:3.27,o2:4.00,pk1:2.52};
 const DBL=()=>S.door==="galandage";
 let S, sel=null, uid=1;
-const KEY="sdb-morieux-v6";
+const KEY="sdb-morieux-v7";
 function clone(o){return JSON.parse(JSON.stringify(o))}
 function load(p){S=clone(p);S.items.forEach(it=>{it.id=uid++;const c=CAT[it.t];if(it.w==null)it.w=c.w;if(it.d==null)it.d=c.d});sel=null}
 try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.items){S=s;S.items.forEach(it=>it.id=uid++)}}catch(e){}
@@ -296,10 +313,26 @@ function persist(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function save(){S.edited=true;persist();if(typeof drawDesc==="function")drawDesc()}
 
 const NM=it=>it.lbl||CAT[it.t].n;
+const BUILT=it=>["showerDur","showerNiche","walkin","shower","wallPiece"].includes(it.t)||(it.t==="bath"&&it.sk)||it.tiled;
+/* découpe du front de douche : segments de muret, ouverture, verrière là où le plafond le permet */
+function showerFront(it){const fm=.10,w=it.w,op=it.open||null;let segs=op?[[fm,op[0]],[op[1],w]]:[[fm,w]];segs=segs.filter(q=>q[1]-q[0]>.02);
+ const xc=(2.05+TF()-S.H0/100)/slope();const toPlan=lx=>it.r===2?it.x+fw(it)-lx:it.x+lx;
+ return segs.map(([a,b])=>{let g=null;const pa=toPlan(a),pb=toPlan(b);const ok=lx=>toPlan(lx)>=xc;if(ok(a)&&ok(b))g=[a,b];else if(ok(a)){let t=b;while(t>a&&!ok(t))t-=.01;if(t-a>.3)g=[a,t]}else if(ok(b)){let t=a;while(t<b&&!ok(t))t+=.01;if(b-t>.3)g=[t,b]}return {a,b,g}})}
+function details(it){const cm=v=>Math.round(v*100),T=TW();
+ if(it.t==="bath"&&it.sk){const[l,r,b,f]=it.sk;return `Cuve ${cm(it.w-l-r)} × ${cm(it.d-b-f)} · tablier ${cm(f)} côté pièce, ${cm(b)} au dos, ${cm(l)} et ${cm(r)} aux bouts`}
+ if(it.t==="showerNiche")return `Utile ${cm(it.w-.10-T-(it.open?0:0))} × ${cm(it.d-.10-T)} une fois carrelée · faux mur 10 cm · muret 10 cm × h 110 · niche ${cm(it.nw||.60)} × ${cm(it.nh||.30)}, ${cm(.10-.02-T)} cm de fond`;
+ if(it.t==="showerDur")return `Murs maçonnés 7 cm · entrée ${cm(it.op||.55)}`;
+ if(it.t==="wallPiece")return "Faux mur 10 cm (rail + plaque hydrofuge)";
+ if(it.t==="vanity1"||it.t==="vanity2")return (it.vessel?"Vasque à poser":"Plan vasque")+(it.round?` · miroir rond Ø ${it.t==="vanity1"?70:50}`:it.mh?` · miroir ${cm(it.w)} × ${cm(it.mh)}`:"");
+ if(it.t==="radiator")return "Emprise avec supports et tuyaux";
+ if(it.t==="towel")return it.ladder?"Échelle":"Panneau";
+ return "";}
+const PDEPTH={bath:.45,vanity1:.13,vanity2:.13,showerNiche:.08};
 const fw=it=>it.r%2?it.d:it.w, fd=it=>it.r%2?it.w:it.d;
 const r2=v=>Math.round(v*100)/100;
 function slope(){return (1.80-S.H0/100)/(S.L/100)}
-function ceilAt(x){return Math.min(S.P/100,S.H0/100+slope()*x)}
+const TW=()=>S.tile===false?0:(S.tw??10)/1000, TF=()=>S.tile===false?0:(S.tf??15)/1000;
+function ceilAt(x){return Math.min(S.P/100,S.H0/100+slope()*x)-TF()}
 function xp(){return (S.P/100-S.H0/100)/slope()}
 function veluxX(){const X=xp(),H=S.P/100-S.H0/100,SL=Math.hypot(X,H);const s0=Math.max(.05,Math.min(.45,SL-VEL.len-.05));const s1=Math.min(SL,s0+VEL.len);return [s0*X/SL,s1*X/SL,s0,s1,SL]}
 
@@ -311,7 +344,10 @@ function checks(){
  S.items.forEach((a,i)=>{
   const ra=rect(a),n=NM(a);
   if(inter(ra,{x1:3.49,y1:.97,x2:4.2,y2:3.1}))W.push([a.id,`<b>${n}</b> sort de la pièce (mord sur la chambre 2).`]);
-  S.items.forEach((b,j)=>{if(j>i&&inter(ra,rect(b)))W.push([a.id,`<b>${n}</b> chevauche <b>${NM(b)}</b>.`,b.id])});
+  S.items.forEach((b,j)=>{if(j>i&&!a.inside&&!b.inside&&inter(ra,rect(b)))W.push([a.id,`<b>${n}</b> chevauche <b>${NM(b)}</b>.`,b.id])});
+  if(!BUILT(a)&&TW()>0){const T=TW(),walls=[{x1:-1,y1:-1,x2:0,y2:4},{x1:-1,y1:-1,x2:DBL()?DOOR.o1:4.2,y2:DBL()?.10:0},{x1:3.49,y1:.97,x2:5,y2:4},{x1:4.09,y1:-1,x2:5,y2:.97},{x1:-1,y1:3,x2:3.49,y2:4},...S.items.filter(q=>q.t==="wallPiece").map(rect)];
+   const gap=walls.reduce((m,q)=>{const dx=Math.max(0,Math.max(ra.x1,q.x1)-Math.min(ra.x2,q.x2)),dy=Math.max(0,Math.max(ra.y1,q.y1)-Math.min(ra.y2,q.y2));return Math.min(m,Math.hypot(dx,dy))},9);
+   if(gap<T-.0005)W.push([a.id,`<b>${n}</b> ne passe plus une fois carrelé : il manque ${Math.round((T-gap)*1000)} mm contre le mur.`])}
   const q=REQ[a.t];if(q){const x=q[0]==="min"?ra.x1:(ra.x1+ra.x2)/2;const h=ceilAt(x);if(h<q[1]-.005)W.push([a.id,`<b>${n}</b> : ${q[0]==="min"?"hauteur sous rampant":"hauteur debout"} ${h.toFixed(2).replace(".",",")} m, il faut ${q[1].toFixed(2).replace(".",",")} m.`])}
   if(S.door==="battante"&&inter(ra,{x1:DOOR.o1,y1:0,x2:DOOR.o2,y2:DOOR.o2-DOOR.o1}))W.push([a.id,`<b>${n}</b> est dans le débattement de la porte.`]);
   if(S.door!=="battante"&&ra.y1<.12&&inter(ra,{x1:DOOR.pk1,y1:0,x2:DOOR.o1,y2:.12}))W.push([a.id,S.door==="galandage"?`<b>${n}</b> est contre la poche de la galandage : rien ne peut être fixé ni encastré dans ce mur.`:`<b>${n}</b> bloque le coulissement de la porte en applique.`]);
@@ -319,7 +355,7 @@ function checks(){
   if(ra.y1<.12&&inter(ra,{x1:DOOR.o1,y1:0,x2:DOOR.o2,y2:.12}))W.push([a.id,`<b>${n}</b> bouche l'entrée.`]);
  });
  const CAU=[];const BIG=new Set(["bath","showerDur","showerNiche","walkin","shower","vanity1","vanity2","cabinet","washer","wc"]);
- S.items.forEach((a,i)=>S.items.forEach((b,j)=>{if(j<=i||!BIG.has(a.t)||!BIG.has(b.t))return;const A=rect(a),B=rect(b);const dx=Math.max(0,Math.max(A.x1,B.x1)-Math.min(A.x2,B.x2)),dy=Math.max(0,Math.max(A.y1,B.y1)-Math.min(A.y2,B.y2)),dd=Math.hypot(dx,dy);if(dd>.02&&dd<.60)W.push([a.id,`Passage de ${Math.round(dd*100)} cm seulement entre <b>${NM(a)}</b> et <b>${NM(b)}</b> : trop étroit (60 cm minimum, 70 pour 1,85 m et 100 kg).`,b.id]);else if(dd>=.60&&dd<.70)CAU.push(`Passage de ${Math.round(dd*100)} cm entre <b>${NM(a)}</b> et <b>${NM(b)}</b> : praticable, mais 70 cm sont plus confortables pour 1,85 m et 100 kg.`)}));
+ S.items.forEach((a,i)=>S.items.forEach((b,j)=>{if(j<=i||!BIG.has(a.t)||!BIG.has(b.t))return;const A=rect(a),B=rect(b);const dx=Math.max(0,Math.max(A.x1,B.x1)-Math.min(A.x2,B.x2)),dy=Math.max(0,Math.max(A.y1,B.y1)-Math.min(A.y2,B.y2)),dd=Math.hypot(dx,dy);if(a.inside||b.inside)return;if(dd>.02&&dd<.60)W.push([a.id,`Passage de ${Math.round(dd*100)} cm seulement entre <b>${NM(a)}</b> et <b>${NM(b)}</b> : trop étroit (60 cm minimum, 70 pour 1,85 m et 100 kg).`,b.id]);else if(dd>=.60&&dd<.70)CAU.push(`Passage de ${Math.round(dd*100)} cm entre <b>${NM(a)}</b> et <b>${NM(b)}</b> : praticable, mais 70 cm sont plus confortables pour 1,85 m et 100 kg.`)}));
  W.forEach(w=>{bad.add(w[0]);if(w[2])bad.add(w[2])});
  const info=[];
  if(S.door==="galandage")info.push("Galandage : doublage de 10 cm sur toute la longueur du mur du rangement, la poche occupe les 75 cm avant la porte. Rien ne se fixe sur la poche.");
@@ -328,6 +364,7 @@ function checks(){
  if(S.items.some(i=>i.balneo))info.push("Balnéo : moteur à rendre accessible par une trappe dans le tablier, circuit électrique dédié avec différentiel 30 mA.");
  if(S.items.some(i=>i.t==="showerNiche"))info.push("Douche + niche : faux mur de 10 cm contre la cloison de la chambre 2 pour la niche et le mitigeur encastré. Plain-pied à l'étage : décaissé ou receveur extra-plat selon le plancher.");
  if(S.items.some(i=>i.t==="walkin"))info.push("Douche à l'italienne à l'étage : décaissé du plancher ou receveur extra-plat, à valider selon la structure.");
+ if(TW()>0)info.push(`Carrelage partout : ${Math.round(TW()*1000)} mm sur les murs (colle comprise), ${Math.round(TF()*1000)} mm au sol. Pièce finie : ${f2(3.49-2*TW())} × ${f2(3.00-(DBL()?.10:0)-2*TW())} m. Les hauteurs sous rampant sont calculées depuis le sol fini.`);
  info.push("Électricité : prises et interrupteurs à plus de 60 cm des bords de baignoire et douche. Radiateur et sèche-serviettes en classe II.");
  return {W,bad,info,CAU};
 }
@@ -345,6 +382,9 @@ plan.innerHTML=`<svg viewBox="-100 -100 590 500" xmlns="http://www.w3.org/2000/s
 .floor{fill:url(#tile)} .tl{fill:none;stroke:var(--line);stroke-width:.6}
 .hbg{fill:var(--sheet)} .hl{stroke:var(--hatch);stroke-width:1.2} .il{fill:none;stroke:var(--hatch);stroke-width:.8}
 .wall{fill:url(#hatch);stroke:var(--ink);stroke-width:1.4} .gable{fill:var(--ink)} .insul{fill:url(#insul);stroke:var(--ink);stroke-width:.8}
+.niche2{fill:#f3d9a8;stroke:#b07a2a;stroke-width:1}
+.dims line{stroke:var(--ink-soft);stroke-width:.8} .dims text{fill:var(--ink);font:500 8.5px var(--f-mono);paint-order:stroke;stroke:var(--sheet);stroke-width:3px} .dims .dt{fill:var(--ink-soft);font-size:7.5px}
+.tileL{fill:none;stroke:#b8a58a;stroke-width:1.6;stroke-dasharray:1 1.5}
 .pocket{fill:var(--water-soft);stroke:var(--water);stroke-width:1;stroke-dasharray:4 3}
 .fx{fill:var(--sheet);stroke:var(--ink);stroke-width:1.3} .fx-in{fill:none;stroke:var(--ink);stroke-width:.9}
 .wood{fill:color-mix(in srgb,var(--wood) 28%,var(--sheet))}
@@ -357,7 +397,7 @@ plan.innerHTML=`<svg viewBox="-100 -100 590 500" xmlns="http://www.w3.org/2000/s
 .door{fill:none;stroke:var(--ink);stroke-width:1} .leaf{stroke:var(--ink);stroke-width:2.5}
 .cote line{stroke:var(--cote);stroke-width:.9} .cote .ext{stroke-width:.6} .cote .tick{stroke-width:1.6}
 .cote text{fill:var(--cote);font:500 11px var(--f-mono)}
-.mes line{stroke:var(--mes);stroke-width:1} .mes.pair line{stroke-width:1.6} .mes rect{fill:var(--sheet);stroke:var(--mes);stroke-width:.8} .mes text{fill:var(--mes);font:600 9.5px var(--f-mono)}
+.mes line{stroke:var(--mes);stroke-width:1.2} .mes .eb{stroke-width:1.6} .mes .ah{fill:var(--mes)} .mes rect{fill:var(--sheet);stroke:var(--mes);stroke-width:1} .mes text{fill:var(--mes);font:700 10px var(--f-mono)}
 .live line{stroke:var(--sel);stroke-width:1;stroke-dasharray:3 2} .live text{fill:var(--sel);font:600 10.5px var(--f-mono);paint-order:stroke;stroke:var(--sheet);stroke-width:3px}
 .lbl{fill:var(--ink-soft);font:500 10px var(--f-display);letter-spacing:.1em;text-transform:uppercase}
 .lbl2{fill:var(--ink-soft);font:400 9px var(--f-mono)}
@@ -396,7 +436,10 @@ function drawStatic(){
  if(S.door==="galandage")o.push(`<line class="leaf" x1="252" y1="5" x2="329" y2="5" style="stroke-dasharray:6 3"/><text class="lbl2" x="286" y="22" text-anchor="middle">GALANDAGE</text>`);
  if(S.door==="applique")o.push(`<line class="leaf" x1="254" y1="5" x2="327" y2="5"/><line class="door" x1="252" y1="9" x2="402" y2="9" style="stroke-dasharray:2 2"/>`);
  o.push(`<text class="lbl2" x="364" y="-14" text-anchor="middle">PS 73</text>`);
- o.push(cH(0,349,365,"3,49",338,338),cV(0,300,-55,"3,00",-20,-20),cV(0,97,457,"0,97",416,416),cV(97,300,457,"2,03",416,356),cH(349,409,86,"0,60",86,86));
+ {const T=TW()*k,t0=(DBL()?10:0)+T;if(T>0)o.push(`<polygon class="tileL" points="${T},${t0} ${DBL()?327:T},${t0} ${DBL()?327:T},${T} ${409-T},${T} ${409-T},${97-T} ${349-T},${97-T} ${349-T},${300-T} ${T},${300-T}"/>`)}
+ const fin=TW()>0?` (fini ${f2(3.49-2*TW())})`:"",finV=TW()>0?` (fini ${f2(3-(DBL()?.10:0)-2*TW())})`:"";
+ if(DBL())o.push(`<text class="lbl2" x="150" y="7.5" text-anchor="middle" style="font-size:7px">DOUBLAGE 10 CM</text>`);
+ o.push(cH(0,349,365,"3,49"+fin,338,338),cV(0,300,-55,"3,00"+finV,-20,-20),cV(0,97,457,"0,97",416,416),cV(97,300,457,"2,03",416,356),cH(349,409,86,"0,60",86,86));
  gS.innerHTML=o.join("");
 }
 
@@ -406,8 +449,12 @@ function sym(it){
   case "bath":if(it.sk){const [l,r,b,f]=it.sk.map(v=>v*k);o+=`<rect class="fx socle" width="${w}" height="${d}"/><rect class="fx" x="${l}" y="${b}" width="${w-l-r}" height="${d-b-f}" rx="3"/><rect class="fx-in" x="${l+7}" y="${b+7}" width="${w-l-r-14}" height="${d-b-f-14}" rx="18"/><circle class="fx-in" cx="${l+(w-l-r)/2}" cy="${b+9}" r="3"/>`}
    else o+=`<rect class="fx" width="${w}" height="${d}" rx="3"/><rect class="fx-in" x="7" y="7" width="${w-14}" height="${d-14}" rx="18"/><circle class="fx-in" cx="${w-22}" cy="${d/2}" r="3"/>`;break;
   case "showerDur":{const t=7,op=(it.op||.55)*k;o+=`<rect class="wet" width="${w}" height="${d}"/><circle class="fx" cx="${(w-t)/2}" cy="${d/2}" r="4"/><rect class="wall" x="${w-t}" y="0" width="${t}" height="${d}"/><rect class="wall" x="0" y="${d-t}" width="${Math.max(0,w-t-op)}" height="${t}"/><line class="glass" x1="${w-t-op}" y1="${d-2}" x2="${w-t}" y2="${d-2}" style="stroke-dasharray:3 4;stroke-width:1.5"/>`;break}
-  case "showerNiche":{const fm=10,mu=10;o+=`<rect class="wet" x="${fm}" width="${w-fm}" height="${d-mu}"/><line class="drain" x1="${fm+10}" y1="9" x2="${w-10}" y2="9"/>`;for(let i=fm+15;i<w;i+=15)o+=`<line class="wetl" x1="${i}" y1="0" x2="${i}" y2="${d-mu}"/>`;o+=`<rect class="wall" width="${fm}" height="${d}"/><rect class="pocket" x="2" y="${d/2-22}" width="8" height="30"/><rect class="wall" x="${fm}" y="${d-mu}" width="${w-fm}" height="${mu}"/><line class="glass" x1="${fm}" y1="${d-mu/2}" x2="${w}" y2="${d-mu/2}" style="stroke:#222;stroke-width:1.6"/>`;break}
+  case "showerNiche":{const fm=10,mu=10,k=SC2,nw=(it.nw||.60)*k;o+=`<rect class="wet" x="${fm}" width="${w-fm}" height="${d-mu}"/><line class="drain" x1="${fm+10}" y1="9" x2="${w-10}" y2="9"/>`;for(let i=fm+15;i<w;i+=15)o+=`<line class="wetl" x1="${i}" y1="0" x2="${i}" y2="${d-mu}"/>`;
+   o+=`<rect class="wall" width="${fm}" height="${d}"/><rect class="niche2" x="2" y="${d/2-nw/2}" width="${fm-2}" height="${nw}"/>`;
+   showerFront(it).forEach(sg=>{o+=`<rect class="wall" x="${sg.a*k}" y="${d-mu}" width="${(sg.b-sg.a)*k}" height="${mu}"/>`;if(sg.g)o+=`<line x1="${sg.g[0]*k}" y1="${d-mu/2}" x2="${sg.g[1]*k}" y2="${d-mu/2}" style="stroke:#222;stroke-width:1.8"/>`});
+   if(it.open)o+=`<line class="door" x1="${it.open[0]*k}" y1="${d-mu/2}" x2="${it.open[1]*k}" y2="${d-mu/2}" style="stroke-dasharray:2 3"/>`;break}
   case "wallPiece":o+=`<rect class="wall" width="${w}" height="${d}"/>`;break;
+  case "laundry":o+=`<rect class="fx wood" width="${w}" height="${d}"/><circle class="fx-in" cx="${w/2}" cy="${d/2}" r="${Math.min(w,d)*.3}"/><circle class="fx-in" cx="${w/2}" cy="${d/2}" r="${Math.min(w,d)*.18}"/>`;break;
   case "low":o+=`<rect class="fx wood" width="${w}" height="${d}"/><line class="fx-in" x1="0" y1="0" x2="${w}" y2="${d}"/><line class="fx-in" x1="${w}" y1="0" x2="0" y2="${d}"/>`;break;
   case "walkin":o+=`<rect class="wet" width="${w}" height="${d}"/><line class="drain" x1="8" y1="9" x2="${w-8}" y2="9"/>`;for(let i=15;i<w;i+=15)o+=`<line class="wetl" x1="${i}" y1="0" x2="${i}" y2="${d}"/>`;o+=`<line class="glass" x1="0" y1="${d}" x2="${Math.min(90,w-50)}" y2="${d}"/>`;break;
   case "shower":o+=`<rect class="fx" width="${w}" height="${d}"/><line class="fx-in" x1="0" y1="0" x2="${w}" y2="${d}"/><line class="fx-in" x1="${w}" y1="0" x2="0" y2="${d}"/><circle class="fx" cx="${w/2}" cy="${d/2}" r="4"/><line class="glass" x1="0" y1="${d}" x2="${w}" y2="${d}"/>`;break;
@@ -438,8 +485,18 @@ function drawItems(bad){
   {const T0=DBL()&&mx<3.27?.10:0;if(y1-T0>.01)o+=seg(mx,T0,mx,y1,f2(y1-T0),mx-.04,(T0+y1)/2,1)}
   if(B-y2>.01)o+=seg(mx,y2,mx,B,f2(B-y2),mx-.04,(y2+B)/2,1);
  }
- let mo="";if(UI.mes)mo=measures().map(m=>{const k=SC2,x1=m.x1*k,y1=m.y1*k,x2=m.x2*k,y2=m.y2*k,h=Math.abs(y1-y2)<1,mx=(x1+x2)/2,my=(y1+y2)/2,t=Math.round(m.v*100);const tk=h?`<line x1="${x1}" y1="${y1-4}" x2="${x1}" y2="${y1+4}"/><line x1="${x2}" y1="${y2-4}" x2="${x2}" y2="${y2+4}"/>`:`<line x1="${x1-4}" y1="${y1}" x2="${x1+4}" y2="${y1}"/><line x1="${x2-4}" y1="${y2}" x2="${x2+4}" y2="${y2}"/>`;return `<g class="mes${m.k==="p"?" pair":""}"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>${tk}<rect x="${mx-12}" y="${my-7}" width="24" height="13" rx="2"/><text x="${mx}" y="${my+3.5}" text-anchor="middle">${t}</text></g>`}).join("");
- gL.innerHTML=`<g class="live">${UI.mes?"":o}</g>${mo}`;
+ let mo="";if(UI.mes)mo=measures().map(m=>{const K=SC2,X1=m.x1*K,Y1=m.y1*K,X2=m.x2*K,Y2=m.y2*K,H=Math.abs(Y1-Y2)<1,L=Math.hypot(X2-X1,Y2-Y1),ux=(X2-X1)/L,uy=(Y2-Y1)/L,px=-uy,py=ux,a=Math.min(5,L/4),MX=(X1+X2)/2,MY=(Y1+Y2)/2,t=Math.round(m.v*100);
+  const bar=(x,y)=>`<line class="eb" x1="${x+px*7}" y1="${y+py*7}" x2="${x-px*7}" y2="${y-py*7}"/>`,arr=(x,y,d)=>`<path class="ah" d="M${x} ${y} L${x+d*ux*a+px*a*.55} ${y+d*uy*a+py*a*.55} L${x+d*ux*a-px*a*.55} ${y+d*uy*a-py*a*.55}Z"/>`;
+  const lw=t>=100?27:22;return `<g class="mes${m.k==="p"?" pair":""}"><line x1="${X1}" y1="${Y1}" x2="${X2}" y2="${Y2}"/>${bar(X1,Y1)}${bar(X2,Y2)}${arr(X1,Y1,1)}${arr(X2,Y2,-1)}<rect x="${MX-lw/2}" y="${MY-7}" width="${lw}" height="14" rx="3"/><text x="${MX}" y="${MY+3.5}" text-anchor="middle">${t}</text></g>`}).join("");
+ if(false)mo=measures().map(m=>{const k=SC2,x1=m.x1*k,y1=m.y1*k,x2=m.x2*k,y2=m.y2*k,h=Math.abs(y1-y2)<1,mx=(x1+x2)/2,my=(y1+y2)/2,t=Math.round(m.v*100);const tk=h?`<line x1="${x1}" y1="${y1-4}" x2="${x1}" y2="${y1+4}"/><line x1="${x2}" y1="${y2-4}" x2="${x2}" y2="${y2+4}"/>`:`<line x1="${x1-4}" y1="${y1}" x2="${x1+4}" y2="${y1}"/><line x1="${x2-4}" y1="${y2}" x2="${x2+4}" y2="${y2}"/>`;return `<g class="mes${m.k==="p"?" pair":""}"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>${tk}<rect x="${mx-12}" y="${my-7}" width="24" height="13" rx="2"/><text x="${mx}" y="${my+3.5}" text-anchor="middle">${t}</text></g>`}).join("");
+ let dm="";if(UI.dims)dm=S.items.filter(it=>sel==null||!S.items.some(i=>i.id===sel)||it.id===sel).map(it=>{const K=SC2,r=rect(it),x1=r.x1*K,y1=r.y1*K,x2=r.x2*K,y2=r.y2*K,W=x2-x1,Hh=y2-y1,cm=v=>Math.round(v*100);let g="";
+   const iy=y1+Math.min(9,Hh/3),ix=x1+Math.min(9,W/3);
+   if(W>14)g+=`<line x1="${x1+2}" y1="${iy}" x2="${x2-2}" y2="${iy}"/><line x1="${x1+2}" y1="${iy-3}" x2="${x1+2}" y2="${iy+3}"/><line x1="${x2-2}" y1="${iy-3}" x2="${x2-2}" y2="${iy+3}"/><text x="${(x1+x2)/2}" y="${iy-2}" text-anchor="middle">${cm(fw(it))}</text>`;
+   if(Hh>14)g+=`<line x1="${ix}" y1="${y1+2}" x2="${ix}" y2="${y2-2}"/><line x1="${ix-3}" y1="${y1+2}" x2="${ix+3}" y2="${y1+2}"/><line x1="${ix-3}" y1="${y2-2}" x2="${ix+3}" y2="${y2-2}"/><text x="${ix+2}" y="${(y1+y2)/2}" transform="rotate(-90 ${ix+2} ${(y1+y2)/2})" text-anchor="middle" dy="-1">${cm(fd(it))}</text>`;
+   if(W<=14||Hh<=14)g+=`<text x="${(x1+x2)/2+(W<=14?10:0)}" y="${(y1+y2)/2+(Hh<=14?-8:0)}" text-anchor="${W<=14?"start":"middle"}">${cm(fw(it))}×${cm(fd(it))}</text>`;
+   const dt=details(it);if(dt&&W>60&&Hh>40)g+=`<text class="dt" x="${(x1+x2)/2}" y="${(y1+y2)/2+14}" text-anchor="middle">${dt.split(" · ")[0]}</text>`;
+   return `<g class="dims">${g}</g>`}).join("");
+ gL.innerHTML=`<g class="live">${UI.mes||UI.dims?"":o}</g>${dm}${mo}`;
 }
 
 /* drag */
@@ -510,7 +567,9 @@ const presetsEl=document.getElementById("presets");
 presetsEl.innerHTML=Object.entries(PRESETS).map(([k,p])=>`<button data-p="${k}">${p.name}</button>`).join("");
 presetsEl.addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;load(PRESETS[b.dataset.p]);S.preset=b.dataset.p;S.edited=false;refresh(false,true);persist()});
 [["pH0","H0",40,170],["pL","L",20,200],["pP","P",200,300]].forEach(([id,k,a,b])=>{const el=document.getElementById(id);el.addEventListener("change",()=>{let v=parseFloat(el.value);if(isNaN(v))return;v=Math.min(b,Math.max(a,v));if(k==="H0")v=Math.min(v,175);S[k]=v;refresh(false,true);save()})});
-function syncBar(){presetsEl.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===S.preset));document.getElementById("pH0").value=S.H0;document.getElementById("pL").value=S.L;document.getElementById("pP").value=S.P}
+[["pTW","tw",0,30],["pTF","tf",0,40]].forEach(([id,k,a,b])=>{const el=document.getElementById(id);el.addEventListener("change",()=>{let v=parseFloat(el.value);if(isNaN(v))return;S[k]=Math.min(b,Math.max(a,v));refresh(false,true);save()})});
+document.getElementById("pTile").addEventListener("change",e=>{S.tile=e.target.value==="1";refresh(false,true);save()});
+function syncBar(){document.getElementById("pTW").value=S.tw??10;document.getElementById("pTF").value=S.tf??15;document.getElementById("pTile").value=S.tile===false?"0":"1";presetsEl.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===S.preset));document.getElementById("pH0").value=S.H0;document.getElementById("pL").value=S.L;document.getElementById("pP").value=S.P}
 document.getElementById("copy").onclick=()=>{
  const out=JSON.stringify({porte:S.door,mur_nain_cm:S.H0,h180_a_cm:S.L,plafond_cm:S.P,elements:S.items.map(i=>({type:NM(i),x_cm:Math.round(i.x*100),y_cm:Math.round(i.y*100),longueur_cm:Math.round(i.w*100),profondeur_cm:Math.round(i.d*100),rotation:i.r*90,...(i.sk?{socle_cm:i.sk.map(v=>Math.round(v*100))}:{}),...(i.op?{entree_cm:Math.round(i.op*100)}:{})}))});
  const ta=document.getElementById("json"),msg=document.getElementById("copyMsg");ta.value=out;
@@ -556,11 +615,13 @@ const M={
 function edges(m){m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry,30),M.line));return m}
 function box(p,w,h,d,mat,x,y,z){const m=edges(new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat));m.position.set(x+w/2,y+h/2,z+d/2);p.add(m);return m}
 function shape(pts){const s=new THREE.Shape();pts.forEach((p,i)=>i?s.lineTo(p[0],p[1]):s.moveTo(p[0],p[1]));return new THREE.ShapeGeometry(s)}
-function addWall(pts,ax,v,c,n){const m=edges(new THREE.Mesh(shape(pts),M.wall));if(ax==="x"){m.rotation.y=-Math.PI/2;m.position.x=v}else m.position.z=v;m.userData={c:new THREE.Vector3(...c),n:new THREE.Vector3(...n).normalize()};SHELL.add(m);HIDE.push(m);OCC.push(m)}
+let WM=null;
+function addWall(pts,ax,v,c,n){const m=edges(new THREE.Mesh(shape(pts),WM||M.wall));if(ax==="x"){m.rotation.y=-Math.PI/2;m.position.x=v}else m.position.z=v;m.userData={c:new THREE.Vector3(...c),n:new THREE.Vector3(...n).normalize()};SHELL.add(m);HIDE.push(m);OCC.push(m)}
 function dispose(g){g.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material&&o.material.map&&o.material.map!==zTex&&o.material.map!==floorTex&&o.material.map!==floorTexB&&o.material.map!==bTex)o.material.dispose()})}
 
 function buildShell(){
  M.wall.color.setHex(S.style==="beige"?0xf4efe7:0xeeebe6);
+ WM=null;if(S.tile!==false){const src=S.style==="beige"?bTex:(M.tileW.map||null);if(src&&src.image&&src.image.width){const t=src.clone();t.wrapS=t.wrapT=THREE.RepeatWrapping;if(S.style==="beige")t.repeat.set(1/1.2,1/1.2);else t.repeat.set(1/.8,1/.62);t.needsUpdate=true;WM=new THREE.MeshStandardMaterial({map:t,roughness:.45,side:THREE.DoubleSide})}}
  if(SHELL){SC.remove(SHELL);dispose(SHELL)}SHELL=new THREE.Group();SC.add(SHELL);
  HIDE=HIDE.filter(h=>h.userData.fix);OCC=[];
  const H0=S.H0/100,P=S.P/100,X=Math.min(xp(),3.2);
@@ -577,7 +638,7 @@ function buildShell(){
  vg.setAttribute("position",new THREE.Float32BufferAttribute([a,ya-o,VEL.y1, b,yb-o,VEL.y1, b,yb-o,VEL.y2, a,ya-o,VEL.y1, b,yb-o,VEL.y2, a,ya-o,VEL.y2],3));vg.computeVertexNormals();sl.add(new THREE.Mesh(vg,M.velux));
  if(S.door==="battante")box(SHELL,.04,2.04,.73,M.door,DOOR.o2-.04,0,.02);
  if(S.door==="applique"){box(SHELL,.73,2.04,.04,M.door,DOOR.pk1+.02,0,.03);box(SHELL,1.50,.05,.03,M.chrome,DOOR.pk1,2.08,.02)}
- if(S.door==="galandage"){const sh=new THREE.Shape();[[0,0],[DOOR.o1,0],[DOOR.o1,P],[X,P],[0,H0]].forEach((q,i)=>i?sh.lineTo(q[0],q[1]):sh.moveTo(q[0],q[1]));const fmw=edges(new THREE.Mesh(new THREE.ExtrudeGeometry(sh,{depth:.10,bevelEnabled:false}),M.wall));SHELL.add(fmw);fmw.userData={c:new THREE.Vector3(DOOR.o1/2,1.2,.05),n:new THREE.Vector3(0,0,-1)};HIDE.push(fmw);OCC.push(fmw)}
+ if(S.door==="galandage"){const sh=new THREE.Shape();[[0,0],[DOOR.o1,0],[DOOR.o1,P],[X,P],[0,H0]].forEach((q,i)=>i?sh.lineTo(q[0],q[1]):sh.moveTo(q[0],q[1]));const fmw=edges(new THREE.Mesh(new THREE.ExtrudeGeometry(sh,{depth:.10,bevelEnabled:false}),WM||M.wall));SHELL.add(fmw);fmw.userData={c:new THREE.Vector3(DOOR.o1/2,1.2,.05),n:new THREE.Vector3(0,0,-1)};HIDE.push(fmw);OCC.push(fmw)}
 }
 function onWall(it){
  const x1=it.x,y1=it.y,x2=x1+fw(it),y2=y1+fd(it),t=.12;const mx=(x1+x2)/2,my=(y1+y2)/2;
@@ -604,19 +665,22 @@ function buildFix(bad){
     if(wall){hide(wallTile(L,w-t,Math.min(H+.1,ch),0,it,gTex));box(L,.04,.25,.04,M.chrome,(w-t)/2,1.85,.02)}
     {const sm=new THREE.Mesh(new THREE.PlaneGeometry(d,Math.min(H+.1,ceilAt(it.x+fw(it))),),new THREE.MeshStandardMaterial({map:gTex,roughness:.5,side:THREE.DoubleSide}));sm.rotation.y=Math.PI/2;sm.position.set(.008,Math.min(H+.1,2.4)/2,d/2);L.add(sm);const th=-it.r*Math.PI/2;sm.userData={fix:1,c:new THREE.Vector3(cx,1,cz),n:new THREE.Vector3(-Math.cos(th),0,Math.sin(th))};HIDE.push(sm)}
     break}
-   case "wallPiece":{const m=box(L,w,S.P/100-.01,d,M.wall,0,0,0);hide(m);break}
-   case "low":{const hh=it.hh||.85;box(L,w,hh,d,S.style==="beige"?M.wood2:M.wood,0,0,0);for(let i=1;i<Math.round(w/.4);i++)box(L,.006,hh-.06,.004,M.dark,i*w/Math.round(w/.4),.03,d);if(it.hh)for(let i=1;i<8;i++)box(L,.012,.005,d-.04,M.dark,i*w/8,hh,.02);break}
-   case "showerNiche":{const fm=.10,mu=.10,HH=Math.min(2.40,S.P/100-.02);
-    box(L,w-fm,.012,d-mu,M.trayB,fm,0,0);box(L,w-fm-.2,.014,.05,M.black,fm+.1,0,.05);
-    const fmM=new THREE.MeshStandardMaterial({map:bTex,roughness:.5});const fmB=box(L,fm,HH,d,fmM,0,0,0);
-    const th=-it.r*Math.PI/2;fmB.userData={fix:1,c:new THREE.Vector3(cx,1,cz),n:new THREE.Vector3(-Math.cos(th),0,Math.sin(th))};HIDE.push(fmB);
-    {const nm=new THREE.Mesh(new THREE.PlaneGeometry(.32,.42),M.niche);nm.rotation.y=Math.PI/2;nm.position.set(fm+.003,1.40,d/2-.05);fmB.add(nm);nm.position.set(fm/2+.003,1.40-HH/2,d/2-.05-d/2)}
-    box(L,.06,.14,.06,M.black,fm,1.0,d*.45);box(L,.35,.02,.02,M.black,fm,2.10,d*.45);{const hd=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.015,32),M.black);hd.position.set(fm+.35,2.08,d*.45+.01);L.add(hd)}
-    box(L,w-fm,1.10,mu,new THREE.MeshStandardMaterial({map:bTex,roughness:.5}),fm,0,d-mu);
-    {const g=new THREE.Mesh(new THREE.BoxGeometry(w-fm,.90,.01),M.glass);g.position.set(fm+(w-fm)/2,1.55,d-mu/2);L.add(g);
-     box(L,w-fm,.025,.03,M.black,fm,1.10,d-mu/2-.015);box(L,w-fm,.025,.03,M.black,fm,1.98,d-mu/2-.015);box(L,w-fm,.02,.03,M.black,fm,1.54,d-mu/2-.015);
-     for(let i=0;i<=3;i++)box(L,.025,.90,.03,M.black,fm+i*(w-fm-.025)/3,1.10,d-mu/2-.015)}
-    if(wall)hide(wallTile(L,w,Math.min(HH,ch),0,it,bTex));break}
+   case "laundry":{box(L,w,2.0,d-.02,S.style==="beige"?M.wood2:M.wood,0,0,0);box(L,.006,1.94,.004,M.dark,w/2,.03,d-.02);box(L,w-.04,.006,.004,M.dark,.02,.95,d-.02);break}
+   case "wallPiece":{const m=box(L,w,S.P/100-.01,d,WM?M.socleB:M.wall,0,0,0);hide(m);break}
+   case "low":{const hh=it.hh||.85;box(L,w,hh,d,it.tiled?M.socleB:S.style==="beige"?M.wood2:M.wood,0,0,0);if(it.tiled)break;for(let i=1;i<Math.round(w/.4);i++)box(L,.006,hh-.06,.004,M.dark,i*w/Math.round(w/.4),.03,d);if(it.hh)for(let i=1;i<8;i++)box(L,.012,.005,d-.04,M.dark,i*w/8,hh,.02);break}
+   case "showerNiche":{const fm=.10,mu=.10,HH=Math.min(2.40,S.P/100-.02),T=TW();const th=-it.r*Math.PI/2;
+    box(L,w-fm,.012,d-mu,M.trayB,fm,0,0);box(L,Math.max(.2,(it.open?it.open[0]:w)-fm-.2),.014,.05,M.black,fm+.1,0,.05);
+    const fmM=new THREE.MeshStandardMaterial({map:bTex,roughness:.5});
+    const nw=it.nw||.60,nh=it.nh||.30,nz=d*.5-nw/2,ny=1.05,nd=.10-.02-T;
+    const parts=[box(L,fm,ny,d,fmM,0,0,0),box(L,fm,HH-ny-nh,d,fmM,0,ny+nh,0),box(L,fm,nh,nz,fmM,0,ny,0),box(L,fm,nh,d-nz-nw,fmM,0,ny,nz+nw),box(L,fm-nd,nh,nw,M.niche,0,ny,nz)];
+    parts.forEach(p=>{p.userData={fix:1,c:new THREE.Vector3(cx,1,cz),n:new THREE.Vector3(-Math.cos(th),0,Math.sin(th))};HIDE.push(p)});
+    {const lt=new THREE.Mesh(new THREE.BoxGeometry(fm-nd,.006,nw-.02),new THREE.MeshStandardMaterial({color:0xfff1d0,emissive:0xffcf80,emissiveIntensity:1}));lt.position.set((fm-nd)/2,ny+nh-.004,nz+nw/2);L.add(lt)}
+    box(L,.05,.04,.03,M.black,fm-nd+.01,ny,nz+.12);box(L,.05,.06,.05,M.black,fm-nd+.01,ny,nz+.22);
+    box(L,.06,.14,.06,M.black,fm,1.0,d*.82-.03);box(L,.35,.02,.02,M.black,fm,2.10,d*.45);{const hd=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.015,32),M.black);hd.position.set(fm+.35,2.08,d*.45+.01);L.add(hd)}
+    const mM=new THREE.MeshStandardMaterial({map:bTex,roughness:.5});
+    showerFront(it).forEach(sg=>{box(L,sg.b-sg.a,1.10,mu,mM,sg.a,0,d-mu);if(sg.g){const[a,b]=sg.g,gw=b-a;const g=new THREE.Mesh(new THREE.BoxGeometry(gw,.90,.01),M.glass);g.position.set(a+gw/2,1.55,d-mu/2);L.add(g);
+     box(L,gw,.025,.03,M.black,a,1.10,d-mu/2-.015);box(L,gw,.025,.03,M.black,a,1.98,d-mu/2-.015);box(L,gw,.02,.03,M.black,a,1.54,d-mu/2-.015);const nn=Math.max(1,Math.round(gw/.35));for(let i=0;i<=nn;i++)box(L,.025,.90,.03,M.black,a+i*(gw-.025)/nn,1.10,d-mu/2-.015)}});
+    if(wall&&!WM)hide(wallTile(L,w,Math.min(HH,ch),0,it,bTex));break}
    case "walkin":box(L,w,.006,d,M.dark,0,0,0);box(L,w-.16,.012,.06,M.chrome,.08,0,.06);
     {const gl=Math.min(.9,w-.5),m=new THREE.Mesh(new THREE.BoxGeometry(gl,2,.01),M.glass);m.position.set(gl/2,1,d);L.add(edges(m))}
     if(wall){hide(wallTile(L,w,Math.min(2.3,ch),0,it));box(L,.22,.012,.22,M.chrome,w*.6,Math.min(2.12,ch-.1),.2)}break;
@@ -627,7 +691,7 @@ function buildFix(bad){
      if(it.vessel){const v=new THREE.Mesh(new THREE.CylinderGeometry(.19,.15,.13,32),M.white);v.scale.set(1.25,1,.85);v.position.set(w*p,.905,d/2+.03);L.add(edges(v));box(L,.025,.30,.025,M.black,w*p-.012,.84,.06);box(L,.025,.025,.14,M.black,w*p-.012,1.12,.06)}
      else{box(L,bw,.012,d-.18,M.basin,w*p-bw/2,.835,.1);box(L,.03,.24,.03,M.chrome,w*p-.015,.84,.04);box(L,.03,.03,.12,M.chrome,w*p-.015,1.05,.04)}
      if(it.round&&wall){const r0=Math.min(it.t==="vanity1"?.35:.25,w*p*.9,(ceilAt(it.x+fw(it)/2)-1.30)/2);const m=new THREE.Mesh(new THREE.CircleGeometry(r0,48),M.mirror);m.position.set(w*p,1.30+r0+.05,.008);L.add(m);hide(m);const ring=new THREE.Mesh(new THREE.RingGeometry(r0,r0+.015,48),new THREE.MeshStandardMaterial({color:0xfff1d6,emissive:0xffd9a0,emissiveIntensity:.8}));ring.position.set(w*p,1.30+r0+.05,.009);L.add(ring);hide(ring)}});
-    if(it.splash&&wall)hide(wallTile(L,w,1.25,0,it,bTex));
+    if(it.splash&&wall&&!WM)hide(wallTile(L,w,1.25,0,it,bTex));
     if(wall&&!it.round){const mb=it.mh?.95:1.05,mt=Math.min(it.mh?mb+it.mh:1.85,ceilAt(it.x+fw(it)/2)-.05);if(mt>mb+.15){const m=new THREE.Mesh(new THREE.PlaneGeometry(it.mh?w:w-.1,mt-mb),M.mirror);m.position.set(w/2,(mb+mt)/2,.006);L.add(m);hide(m)}}break}
    case "wc":box(L,w,1.1,.12,M.white,0,0,0);box(L,.36,.2,d-.14,M.white,w/2-.18,.22,.12);box(L,.38,.03,d-.14,M.white,w/2-.19,.42,.12);break;
    case "radiator":{const dz=Math.max(0,d-.10);box(L,w,.6,Math.min(.10,d),M.white,0,.15,dz);for(let i=.04;i<w;i+=.05)box(L,.012,.56,.006,M.rib,i,.17,d);box(L,.03,.03,dz,M.white,.05,.2,0);box(L,.03,.03,dz,M.white,w-.08,.2,0);break}
@@ -637,7 +701,10 @@ function buildFix(bad){
   }
   if(it.id===sel||bad.has(it.id)){const h=Math.max(CAT[it.t].h,.1)+.02;const e=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(fw(it)+.02,h,fd(it)+.02)),it.id===sel?M.sel:M.bad);e.position.set(cx,h/2,cz);FIX.add(e)}
  });
+ const label=(txt,x,y,z,sc,col)=>{const c=document.createElement("canvas");c.width=320;c.height=64;const q=c.getContext("2d");q.font="600 30px sans-serif";const tw=Math.min(312,q.measureText(txt).width+28);q.fillStyle="#ffffff";q.strokeStyle=col;q.lineWidth=4;q.beginPath();const x0=(320-tw)/2;q.roundRect?q.roundRect(x0,6,tw,52,10):q.rect(x0,6,tw,52);q.fill();q.stroke();q.fillStyle=col;q.textAlign="center";q.textBaseline="middle";q.fillText(txt,160,33);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(sc,sc/5,1);sp.position.set(x,y,z);sp.renderOrder=11;FIX.add(sp)};
+ if(UI.dims)S.items.filter(it=>sel==null||!S.items.some(i=>i.id===sel)||it.id===sel).forEach(it=>{const r=rect(it),cm=v=>Math.round(v*100),H=it.t==="showerNiche"?2.0:(it.hh||it.h||CAT[it.t].h);label(`${cm(it.w)} × ${cm(it.d)} × h ${cm(H)}`,(r.x1+r.x2)/2,Math.min(H,2.2)+.18,(r.y1+r.y2)/2,.62,"#2b3136")});
  if(UI.mes)measures().forEach(m=>{const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(m.x1,.03,m.y1),new THREE.Vector3(m.x2,.03,m.y2)]);const l=new THREE.Line(g,M.mesL);l.renderOrder=10;FIX.add(l);
+  [[m.x1,m.y1],[m.x2,m.y2]].forEach(([px,pz])=>{const pg=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(px,0,pz),new THREE.Vector3(px,.35,pz)]);const pl=new THREE.Line(pg,M.mesL);pl.renderOrder=10;FIX.add(pl);const bl=new THREE.Mesh(new THREE.SphereGeometry(.018,10,8),new THREE.MeshBasicMaterial({color:0x1f6fb2,depthTest:false}));bl.position.set(px,.03,pz);bl.renderOrder=10;FIX.add(bl)});
   const c=document.createElement("canvas");c.width=160;c.height=64;const x=c.getContext("2d");x.fillStyle="#ffffff";x.strokeStyle="#1f6fb2";x.lineWidth=4;x.beginPath();x.roundRect?x.roundRect(4,4,152,56,10):x.rect(4,4,152,56);x.fill();x.stroke();x.fillStyle="#1f6fb2";x.font="600 34px sans-serif";x.textAlign="center";x.textBaseline="middle";x.fillText(Math.round(m.v*100)+" cm",80,34);
   const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(.32,.13,1);sp.position.set((m.x1+m.x2)/2,.22,(m.y1+m.y2)/2);sp.renderOrder=11;FIX.add(sp)});
 }
@@ -665,7 +732,7 @@ function init3D(){
  const mq=matchMedia("(prefers-color-scheme: dark)");mq.addEventListener&&mq.addEventListener("change",()=>{bg();draw()});
  new MutationObserver(()=>{bg();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 }
-const VIEWS={porte:{th:2.45,ph:.95,r:6.8},dessus:{th:Math.PI,ph:.13,r:7.5},rampant:{th:-1.15,ph:1.0,r:6.4},douche:{th:3.6,ph:1.05,r:6.2}};
+const VIEWS={porte:{th:2.45,ph:.95,r:6.8},dessus:{th:Math.PI,ph:.13,r:7.5},rampant:{th:-1.15,ph:1.0,r:6.4},douche:{th:3.6,ph:1.05,r:6.2},niche:{th:-1.85,ph:1.2,r:4.6}};
 document.querySelectorAll("[data-v]").forEach(b=>b.addEventListener("click",()=>{Object.assign(cam,VIEWS[b.dataset.v]);draw()}));
 
 /* pastilles matière : photo réelle img/<version>-<clé>.jpg si présente, sinon aperçu peint */
@@ -705,7 +772,7 @@ function refresh(light,shell){
 /* ---------- mesures ---------- */
 function measures(){
  const RS=S.items.map(it=>({it,...rect(it)}));const segs=[];
- const topW=x=>DBL()&&x<DOOR.o1?.10:0,rightW=y=>y<.97?4.09:3.49,botW=x=>x>3.49?.97:3.00;
+ const T=TW(),topW=x=>(DBL()&&x<DOOR.o1?.10:0)+T,rightW=y=>(y<.97?4.09:3.49)-T,botW=x=>(x>3.49?.97:3.00)-T;
  const solid=A=>A.it.t!=="wallPiece";
  RS.forEach(A=>{if(!solid(A))return;
   RS.forEach(B=>{if(A===B)return;
@@ -714,7 +781,7 @@ function measures(){
   });
   const cy=(A.y1+A.y2)/2,cx=(A.x1+A.x2)/2;
   const free=(f)=>!RS.some(C=>C!==A&&f(C));
-  if(A.x1>.02&&free(C=>C.y1<=cy+.001&&C.y2>=cy-.001&&C.x2<=A.x1+.001))segs.push({x1:0,y1:cy,x2:A.x1,y2:cy,v:A.x1,k:"w",a:A.it.id});
+  if(A.x1-T>.02&&free(C=>C.y1<=cy+.001&&C.y2>=cy-.001&&C.x2<=A.x1+.001))segs.push({x1:T,y1:cy,x2:A.x1,y2:cy,v:A.x1-T,k:"w",a:A.it.id});
   {const W=rightW(cy);if(W-A.x2>.02&&free(C=>C.y1<=cy+.001&&C.y2>=cy-.001&&C.x1>=A.x2-.001&&C.x1<W))segs.push({x1:A.x2,y1:cy,x2:W,y2:cy,v:W-A.x2,k:"w",a:A.it.id})}
   {const W=topW(cx);if(A.y1-W>.02&&free(C=>C.x1<=cx+.001&&C.x2>=cx-.001&&C.y2<=A.y1+.001))segs.push({x1:cx,y1:W,x2:cx,y2:A.y1,v:A.y1-W,k:"w",a:A.it.id})}
   {const W=botW(cx);if(W-A.y2>.02&&free(C=>C.x1<=cx+.001&&C.x2>=cx-.001&&C.y1>=A.y2-.001&&C.y1<W))segs.push({x1:cx,y1:A.y2,x2:cx,y2:W,v:W-A.y2,k:"w",a:A.it.id})}
@@ -724,9 +791,10 @@ function measures(){
 }
 
 /* ---------- liste des éléments ---------- */
+function HT(it){if(it.t==="showerNiche")return "110 / 200";if(it.t==="wallPiece")return "toute h.";return Math.round((it.hh||it.h||CAT[it.t].h)*100)}
 function drawEl(bad){
  const cm=v=>Math.round(v*100);
- document.getElementById("elList").innerHTML=S.items.length?`<ul class="warn">${S.items.map(i=>`<li class="${bad.has(i.id)?"":"info"}"><b>${NM(i)}</b><br><span class="hint">${cm(i.w)} × ${cm(i.d)} cm · à ${cm(i.x)} cm du mur nain, ${cm(i.y)} cm du mur du rangement</span><br><button class="btn" data-goto="${i.id}" style="margin-top:4px">Voir sur le plan</button></li>`).join("")}</ul>`:`<div class="empty">Aucun élément.</div>`;
+ document.getElementById("elList").innerHTML=S.items.length?`<p class="hint" style="margin:0">L longueur le long du mur d'appui · l largeur (avancée depuis le mur) · H hauteur · P profondeur intérieure (cuve, vasque, niche). Cotes en cm.</p><div style="overflow-x:auto"><table class="dt"><thead><tr><th>Élément</th><th title="Longueur">L</th><th title="largeur">l</th><th title="Hauteur">H</th><th title="Profondeur">P</th><th>Position</th></tr></thead><tbody>${S.items.map(i=>`<tr class="${bad.has(i.id)?"bad":""}"><td><b>${NM(i)}</b>${details(i)?`<br><span class="hint">${details(i)}</span>`:""}<br><button class="btn" data-goto="${i.id}" style="margin-top:4px;padding:2px 8px;font-size:12px">Voir sur le plan</button></td><td>${cm(i.w)}</td><td>${cm(i.d)}</td><td>${HT(i)}</td><td>${PDEPTH[i.t]?cm(PDEPTH[i.t]):"–"}</td><td class="hint">${cm(i.x)} du mur nain<br>${cm(i.y)} du mur du rangement</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">Aucun élément.</div>`;
 }
 document.getElementById("elList").addEventListener("click",e=>{const b=e.target.closest("[data-goto]");if(!b)return;sel=+b.dataset.goto;setTab(innerWidth>=920?"both":"plan");refresh();scrollTo({top:0,behavior:"smooth"})});
 
@@ -740,7 +808,8 @@ function setTab(t){
  if(s3)requestAnimationFrame(resize);
 }
 document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab)});
-function syncMes(){document.querySelectorAll(".mesBtn").forEach(b=>b.setAttribute("aria-pressed",UI.mes))}
+function syncMes(){document.querySelectorAll(".mesBtn").forEach(b=>b.setAttribute("aria-pressed",UI.mes));document.querySelectorAll(".dimBtn").forEach(b=>b.setAttribute("aria-pressed",!!UI.dims))}
+document.querySelectorAll(".dimBtn").forEach(b=>b.addEventListener("click",()=>{UI.dims=!UI.dims;saveUI();syncMes();refresh(true)}));
 document.querySelectorAll(".mesBtn").forEach(b=>b.addEventListener("click",()=>{UI.mes=!UI.mes;saveUI();syncMes();refresh(true)}));
 document.getElementById("resetBtn").onclick=()=>{const k=S.preset&&PRESETS[S.preset]?S.preset:"actuel";load(PRESETS[k]);S.preset=k;S.edited=false;refresh(false,true);persist()};
 
