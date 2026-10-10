@@ -26,7 +26,7 @@ Le descriptif complet et la palette de matériaux de chaque version sont dans l'
 
 Sous le plan et sous la 3D :
 
-- **Espace** affiche les distances libres entre éléments et aux murs finis, avec flèches et barres de départ et d'arrivée, et la surface de circulation libre en m² (en vert là où l'on tient debout à 1,90 m, en ocre sous le rampant). Douche et baignoire ne sont pas comptées.
+- **Espace** affiche les distances libres entre éléments et aux murs finis, avec flèches et barres de départ et d'arrivée, y compris en diagonale d'un angle à l'autre entre deux éléments voisins, et la surface de circulation libre en m² (en vert là où l'on tient debout à 1,90 m, en ocre sous le rampant). Douche et baignoire ne sont pas comptées.
 - **Éléments** affiche les dimensions de chaque élément sur le plan et au-dessus des objets en 3D.
 
 Avec un élément sélectionné, seules ses cotes apparaissent. Le bouton **Niche de douche** de la 3D cadre directement la niche.
