@@ -14,6 +14,7 @@ Page publiée : https://masuel254.github.io/sdb/
 | **Sans balnéo v2** | Douche debout et zone sèche | Douche à l'italienne de 190 cm (environ 179 × 104 utiles) en pleine hauteur, banc coffre sec sous le rampant, sèche-serviettes à la sortie de douche, banc de rangement bas, double vasque |
 | **Sans balnéo v3** | Douche sous rampant, entrée de face | Douche à l'italienne 185 × 195 côté Velux, entrée libre de 80 cm sans porte vers le pignon, muret vitré sur le côté tenu par un poteau carrelé côté entrée, arrêté en haut de la vitre (2,00 m), muret carrelé de 60 cm le long du mur nain jusqu'au fond, banc carrelé de 30 cm au fond entre ce muret et le muret vitré, sous la grosse pomme, caniveau à son pied, pente carrelée, système encastré au pignon, cloison à niches, sèche-serviettes à eau à la sortie de douche avec un petit banc à lattes de chêne à côté, radiateur existant replacé au pignon côté douche, double vasque à tiroirs libres sous un grand miroir ovale et meuble haut à tiroirs (h 1,40) contre la chambre 2 |
 | **Sans balnéo v4** | La v3 avec la porte actuelle | Identique à la v3 (avec le poteau carrelé qui tient la verrière, arrêté en haut de la vitre), mais porte battante actuelle conservée et petit banc décalé vers la porte : ni galandage ni doublage, 10 cm de profondeur rendus le long du mur du rangement, environ 1 600 € de moins au budget estimé |
+| **Sans balnéo v5** | La v4 avec tes carrelages | Même plan que la v4. Sol grès effet béton gris foncé 80 × 80, murs, pente et maçonneries en grès effet marbre blanc veiné 60 × 90 (carrelages déjà achetés, comptés à 0 € au budget), meubles en chêne fumé, métal noir mat, vasques blanc mat |
 
 Le descriptif complet et la palette de matériaux de chaque version sont dans l'onglet **Matériaux**.
 
@@ -83,7 +84,8 @@ Les modifications restent dans le navigateur de chaque visiteur et ne changent p
 
 - `img/mat-*.jpg` : palette des versions Balnéo et Sans balnéo, découpée dans la photo d'ambiance de référence.
 - `img/act-*.jpg` : palette de la version Actuel, découpée dans les photos de la salle de bains.
-- `img/tex-*.jpg` : textures de la maquette 3D (pierre beige, sol, chêne, grès gris, faïence, sol taupe).
+- `img/tex-*.jpg` : textures de la maquette 3D (pierre beige, sol, chêne, grès gris, faïence, sol taupe ; pour la v5 marbre blanc veiné 60 × 90, béton gris foncé 80 × 80 et chêne fumé, générées).
+- `img/mat-marbre.jpg` : découpé dans ta photo du carrelage marbre ; `img/mat-beton.jpg` et `img/mat-chene-fume.jpg` : rendus générés.
 
 Pour remplacer une matière, déposer une nouvelle image sous le même nom.
 
