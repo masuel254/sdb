@@ -13,6 +13,7 @@ Page publiée : https://masuel254.github.io/sdb/
 | **Sans balnéo v1** | Douche spa avec coin assis | Douche à l'italienne sur toute la largeur du pignon, banquette maçonnée sous le rampant avec sa propre douchette, niche longue, banc de rangement bas, double vasque, sèche-serviettes à eau à la place du radiateur |
 | **Sans balnéo v2** | Douche debout et zone sèche | Douche à l'italienne de 190 cm (environ 179 × 104 utiles) en pleine hauteur, banc coffre sec sous le rampant, sèche-serviettes à la sortie de douche, banc de rangement bas, double vasque |
 | **Sans balnéo v3** | Douche sous rampant, entrée de face | Douche à l'italienne 185 × 195 côté Velux, entrée libre de 80 cm sans porte vers le pignon, muret vitré sur le côté, muret carrelé de 60 cm le long du mur nain jusqu'au fond, banc carrelé de 30 cm au fond entre ce muret et le muret vitré, sous la grosse pomme, caniveau à son pied, pente carrelée, système encastré au pignon, cloison à niches, sèche-serviettes à eau à la sortie de douche avec un petit banc à lattes de chêne à côté, radiateur existant replacé au pignon côté douche, double vasque à tiroirs libres sous un grand miroir ovale et meuble haut à tiroirs (h 1,40) contre la chambre 2 |
+| **Sans balnéo v4** | La v3 avec la porte actuelle | Identique à la v3, mais porte battante actuelle conservée : ni galandage ni doublage, 10 cm de profondeur rendus le long du mur du rangement, environ 1 600 € de moins au budget estimé |
 
 Le descriptif complet et la palette de matériaux de chaque version sont dans l'onglet **Matériaux**.
 
