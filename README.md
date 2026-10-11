@@ -12,6 +12,7 @@ Page publiée : https://masuel254.github.io/sdb/
 | **Balnéo** | Pierre claire, chêne, noir mat | Baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne 134 × 105 à verrière et niche, vasque chêne face à la baignoire, rangement bas sur mesure, porte à galandage dans un doublage pleine longueur |
 | **Sans balnéo v1** | Douche spa avec coin assis | Douche à l'italienne sur toute la largeur du pignon, banquette maçonnée sous le rampant avec sa propre douchette, niche longue, banc de rangement bas, double vasque, sèche-serviettes à eau à la place du radiateur |
 | **Sans balnéo v2** | Douche debout et zone sèche | Douche à l'italienne de 190 cm (environ 179 × 104 utiles) en pleine hauteur, banc coffre sec sous le rampant, sèche-serviettes à la sortie de douche, banc de rangement bas, double vasque |
+| **Sans balnéo v3** | Douche sous rampant | Douche 175 × 195 côté Velux avec banc maçonné reculé (1,13 m entre l'assise et la pente), tablette carrelée, pente carrelée, paroi vitrée et porte de 75 cm, système encastré sur faux mur au pignon, cloison à niches de rangement ouvertes sur la pièce, sèche-serviettes à eau, double vasque contre la chambre 2 |
 
 Le descriptif complet et la palette de matériaux de chaque version sont dans l'onglet **Matériaux**.
 
@@ -30,6 +31,7 @@ Sous le plan et sous la 3D :
 - **Éléments** affiche les dimensions de chaque élément sur le plan et au-dessus des objets en 3D.
 
 - **Mesurer** pose deux points et donne la distance. Sur le plan, les points s'aimantent aux angles des éléments et des murs finis, avec l'écart en largeur et en profondeur. Sur la maquette, on clique n'importe quelle surface (sol, mur, meuble) et on obtient la distance réelle, l'écart au sol et l'écart en hauteur.
+- En mode **Espace**, la niche du Velux est cotée en violet : distance au mur du rangement fini, longueur de 107 cm et distance au pignon fini. Dans la v3, la hauteur entre l'assise du banc et la pente, et entre le sol et la pente au bord de la zone debout, sont aussi cotées en 3D.
 - En mode **Espace**, des repères de hauteur à 1,80 m (orange) et 2,00 m (vert) depuis le sol fini sont tracés sur le plan et sur les murs de la maquette.
 
 Avec un élément sélectionné, seules ses cotes apparaissent. Le bouton **Niche de douche** de la 3D cadre directement la niche.
