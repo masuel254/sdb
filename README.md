@@ -33,6 +33,7 @@ Sous le plan et sous la 3D :
 - **Espace** affiche les distances libres entre éléments et aux murs finis, avec flèches et barres de départ et d'arrivée, y compris en diagonale d'un angle à l'autre entre deux éléments voisins, et la surface de circulation libre en m² (en vert là où l'on tient debout à 1,90 m, en ocre sous le rampant). Douche et baignoire ne sont pas comptées.
 - **Éléments** affiche les dimensions de chaque élément sur le plan et au-dessus des objets en 3D, ainsi que la zone d'ouverture des tiroirs (45 cm). Les contrôles signalent tout élément qui empêche un tiroir de s'ouvrir en grand.
 
+- En mode **Espace**, toucher une mesure (sur le plan ou sur la maquette) la passe en orange et estompe les autres ; la retoucher ou toucher ailleurs la libère.
 - **Mesurer** pose deux points et donne la distance. Sur le plan, les points s'aimantent aux angles des éléments et des murs finis, avec l'écart en largeur et en profondeur. Sur la maquette, on clique n'importe quelle surface (sol, mur, meuble) et on obtient la distance réelle, l'écart au sol et l'écart en hauteur.
 - En mode **Espace**, la niche du Velux est cotée en violet : distance au mur du rangement fini, longueur de 107 cm et distance au pignon fini. Dans la v3, la hauteur entre l'assise du banc et la pente, et entre le sol et la pente au bord de la zone debout, sont aussi cotées en 3D.
 - En mode **Espace**, des repères de hauteur à 1,80 m (orange) et 2,00 m (vert) depuis le sol fini sont tracés sur le plan et sur les murs de la maquette.
