@@ -19,7 +19,7 @@ Le descriptif complet et la palette de matériaux de chaque version sont dans l'
 
 ## Navigation
 
-- **2D** : plan éditable, inspecteur de l'élément sélectionné et contrôles.
+- **2D** : plan coté avec inspecteur de l'élément sélectionné et contrôles. On zoome en pinçant (ou molette, ou boutons + / − / Tout voir) et on déplace la vue en glissant, sans rien modifier. Le bouton **Modifier** active le déplacement des éléments.
 - **3D** : maquette orientable, vues prédéfinies.
 - **2D + 3D** : les deux côte à côte (sur grand écran).
 - **Matériaux** : ce qui change dans la version et pourquoi, palette en photo.
@@ -30,6 +30,8 @@ Le descriptif complet et la palette de matériaux de chaque version sont dans l'
 - **Réglages** : hauteurs sous rampant, carrelage (épaisseurs murs et sol), version de l'application, recherche de mise à jour, historique.
 
 Sous le plan et sous la 3D :
+
+- **Implantation** (plan) cote chaque ouvrage à construire depuis le mur nain, le mur du rangement et le pignon (cotes brutes), avec sa longueur.
 
 - **Espace** affiche les distances libres entre éléments et aux murs finis, avec flèches et barres de départ et d'arrivée, y compris en diagonale d'un angle à l'autre entre deux éléments voisins, et la surface de circulation libre en m² (en vert là où l'on tient debout à 1,90 m, en ocre sous le rampant). Douche et baignoire ne sont pas comptées.
 - **Éléments** affiche les dimensions de chaque élément sur le plan et au-dessus des objets en 3D, ainsi que la zone d'ouverture des tiroirs (45 cm). Les contrôles signalent tout élément qui empêche un tiroir de s'ouvrir en grand.
@@ -56,7 +58,7 @@ Avec un élément sélectionné, seules ses cotes apparaissent. Le bouton **Nich
 
 ## Utiliser la page
 
-- Cliquer un élément pour le sélectionner, le glisser pour le déplacer (pas de 5 cm).
+- Toucher un élément le sélectionne. Pour le déplacer, activer **Modifier** puis le glisser (pas de 5 cm).
 - Clavier : flèches = 1 cm, Maj + flèches = 10 cm, R = tourner, Suppr = supprimer.
 - Le panneau **Contrôles** signale les chevauchements, les passages trop étroits (moins de 60 cm, et moins de 70 cm pour une personne de 1,85 m et 100 kg), les hauteurs insuffisantes sous le rampant et les contraintes de porte.
 - **Copier ma configuration** (onglet Éléments) produit un texte à coller dans la conversation avec Claude.
