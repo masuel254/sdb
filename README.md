@@ -12,7 +12,7 @@ Page publiée : https://masuel254.github.io/sdb/
 | **Balnéo** | Pierre claire, chêne, noir mat | Baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne 134 × 105 à verrière et niche, vasque chêne face à la baignoire, rangement bas sur mesure, porte à galandage dans un doublage pleine longueur |
 | **Sans balnéo v1** | Douche spa avec coin assis | Douche à l'italienne sur toute la largeur du pignon, banquette maçonnée sous le rampant avec sa propre douchette, niche longue, banc de rangement bas, double vasque, sèche-serviettes à eau à la place du radiateur |
 | **Sans balnéo v2** | Douche debout et zone sèche | Douche à l'italienne de 190 cm (environ 179 × 104 utiles) en pleine hauteur, banc coffre sec sous le rampant, sèche-serviettes à la sortie de douche, banc de rangement bas, double vasque |
-| **Sans balnéo v3** | Douche sous rampant | Douche 175 × 195 côté Velux avec banc maçonné reculé (1,13 m entre l'assise et la pente), tablette carrelée, pente carrelée, paroi vitrée et porte de 75 cm, système encastré sur faux mur au pignon, cloison à niches de rangement ouvertes sur la pièce, sèche-serviettes à eau, double vasque contre la chambre 2 |
+| **Sans balnéo v3** | Douche sous rampant, entrée de face | Douche à l'italienne 185 × 195 côté Velux, entrée libre de 80 cm sans porte vers le pignon, muret vitré sur le côté, petit banc de 35 cm au fond sous la pente (1,19 m entre l'assise et la pente), tablette carrelée, pente carrelée, système encastré au pignon, cloison à niches, sèche-serviettes à eau, double vasque et banc de rangement contre la chambre 2 |
 
 Le descriptif complet et la palette de matériaux de chaque version sont dans l'onglet **Matériaux**.
 
