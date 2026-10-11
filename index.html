@@ -127,6 +127,7 @@ table.dt tr.bad td:first-child{box-shadow:inset 3px 0 var(--warn)}
     <button role="tab" data-tab="both">2D + 3D</button>
     <button role="tab" data-tab="mat">Matériaux</button>
     <button role="tab" data-tab="el">Éléments</button>
+    <button role="tab" data-tab="buy">Achats</button>
     <button role="tab" data-tab="set">Réglages</button>
   </nav>
 
@@ -193,6 +194,11 @@ table.dt tr.bad td:first-child{box-shadow:inset 3px 0 var(--warn)}
     </section>
   </div>
 
+  <section class="panel" id="pBuy">
+    <h2><span>Liste d'achats</span><b id="buyName"></b></h2>
+    <div class="pad" id="buyBody"></div>
+  </section>
+
   <div class="lower" id="pSet">
     <section class="panel">
       <h2><span>Hauteurs sous rampant</span></h2>
@@ -254,8 +260,8 @@ const REQ={laundry:["min",2.05],cabinet:["min",1.85],washer:["min",.90],towel:["
    Douche maçonnée 147×108 sur receveur, entrée 55, collée au socle. Double vasque 120×60 à 165 du mur nain, miroir 120×110.
    Niche du Velux 107 × 110, à 95 cm du mur du rangement. Porte battante PS 73.
    Les optimisations futures s'ajoutent ici comme nouvelles entrées : un bouton par version. */
-const APP_VERSION="1.8.5";
-const CHANGELOG=[["1.8.5","11/10/2026","Sans balnéo v3 : banc carrelé sur toute la longueur du mur du fond, caniveau avancé de 30 cm au pied du banc, tablette arrêtée au banc"],["1.8.4","11/10/2026","Sans balnéo v3 : banc au fond contre le pignon, sous la grosse pomme, comme sur la photo ; caniveau devant le banc"],["1.8.3","11/10/2026","Banc de douche de la v3 bien visible : assise à lattes de chêne, plus basse que la tablette ; vue 3D « Banc de douche »"],["1.8.2","11/10/2026","Sans balnéo v3 : banc de douche ramené à 30 cm de profondeur, zone debout élargie à 84 cm"],["1.8.1","11/10/2026","Sans balnéo v3 refaite : entrée de face sans porte, muret vitré sur le côté, petit banc de 35 cm au fond sous la pente, caniveau au fond"],["1.8.0","11/10/2026","Nouvelle version Sans balnéo v3 : douche sous rampant côté Velux, banc reculé, tablette, pente carrelée, paroi vitrée, cloison à niches ; cotes de la niche Velux ; mesures du banc et de la pente"],["1.7.0","11/10/2026","Système de douche encastré dessiné (mitigeur, pomme Ø 30, douchette) ; intérieur des douches dans Éléments ; bouton Mesurer en 2D et 3D ; repères 1,80 et 2,00 m ; cotes plus épaisses sans chevauchement ; onglets sans défilement horizontal"],["1.6.3","10/10/2026","Espace : distance entre le meuble le long du doublage et le début de la poche de la galandage ; Sans balnéo v2 : double vasque rapprochée de la porte"],["1.6.2","10/10/2026","Espace : cotes en diagonale entre les angles de deux éléments voisins (passage réel en biais)"],["1.6.1","10/10/2026","Sans balnéo v1 et v2 : la colonne buanderie est remplacée par un banc de rangement bas qui laisse la verrière dégagée"],["1.6.0","10/10/2026","Sans balnéo en deux variantes : v1 avec douchette au-dessus de la banquette, v2 sans banquette avec douche raccourcie ; surface de circulation libre en m² dans Espace"],["1.5.0","10/10/2026","Boutons Espace et Éléments sous les vues ; cotes plus lisibles ; tableau L × l × H × P ; carrelage partout pris en compte (murs et sol finis) ; niche de douche visible en 2D et 3D ; Sans balnéo repensée en douche spa avec buanderie"],["1.4.0","10/10/2026","Onglets 2D, 3D, Matériaux, Éléments, Réglages ; bouton Mesures ; matières photo ; Balnéo revue (vasque face à la baignoire, rangements) ; nouvelle version Sans balnéo ; recherche de mise à jour"],["1.3.0","10/10/2026","Balnéo : doublage pleine longueur pour la galandage, vasque simple, descriptifs et palettes"],["1.2.0","10/10/2026","Première version Balnéo"],["1.1.0","10/10/2026","Relevé de l'existant (Actuel)"],["1.0.0","10/10/2026","Plan 2D éditable et maquette 3D"]];
+const APP_VERSION="1.9.0";
+const CHANGELOG=[["1.9.0","11/10/2026","Pente carrelée sur toute la pièce dans les optimisations ; nouvel onglet Achats : m² de carrelage sol, murs et pente, fournitures de pose et liste des équipements avec dimensions"],["1.8.5","11/10/2026","Sans balnéo v3 : banc carrelé sur toute la longueur du mur du fond, caniveau avancé de 30 cm au pied du banc, tablette arrêtée au banc"],["1.8.4","11/10/2026","Sans balnéo v3 : banc au fond contre le pignon, sous la grosse pomme, comme sur la photo ; caniveau devant le banc"],["1.8.3","11/10/2026","Banc de douche de la v3 bien visible : assise à lattes de chêne, plus basse que la tablette ; vue 3D « Banc de douche »"],["1.8.2","11/10/2026","Sans balnéo v3 : banc de douche ramené à 30 cm de profondeur, zone debout élargie à 84 cm"],["1.8.1","11/10/2026","Sans balnéo v3 refaite : entrée de face sans porte, muret vitré sur le côté, petit banc de 35 cm au fond sous la pente, caniveau au fond"],["1.8.0","11/10/2026","Nouvelle version Sans balnéo v3 : douche sous rampant côté Velux, banc reculé, tablette, pente carrelée, paroi vitrée, cloison à niches ; cotes de la niche Velux ; mesures du banc et de la pente"],["1.7.0","11/10/2026","Système de douche encastré dessiné (mitigeur, pomme Ø 30, douchette) ; intérieur des douches dans Éléments ; bouton Mesurer en 2D et 3D ; repères 1,80 et 2,00 m ; cotes plus épaisses sans chevauchement ; onglets sans défilement horizontal"],["1.6.3","10/10/2026","Espace : distance entre le meuble le long du doublage et le début de la poche de la galandage ; Sans balnéo v2 : double vasque rapprochée de la porte"],["1.6.2","10/10/2026","Espace : cotes en diagonale entre les angles de deux éléments voisins (passage réel en biais)"],["1.6.1","10/10/2026","Sans balnéo v1 et v2 : la colonne buanderie est remplacée par un banc de rangement bas qui laisse la verrière dégagée"],["1.6.0","10/10/2026","Sans balnéo en deux variantes : v1 avec douchette au-dessus de la banquette, v2 sans banquette avec douche raccourcie ; surface de circulation libre en m² dans Espace"],["1.5.0","10/10/2026","Boutons Espace et Éléments sous les vues ; cotes plus lisibles ; tableau L × l × H × P ; carrelage partout pris en compte (murs et sol finis) ; niche de douche visible en 2D et 3D ; Sans balnéo repensée en douche spa avec buanderie"],["1.4.0","10/10/2026","Onglets 2D, 3D, Matériaux, Éléments, Réglages ; bouton Mesures ; matières photo ; Balnéo revue (vasque face à la baignoire, rangements) ; nouvelle version Sans balnéo ; recherche de mise à jour"],["1.3.0","10/10/2026","Balnéo : doublage pleine longueur pour la galandage, vasque simple, descriptifs et palettes"],["1.2.0","10/10/2026","Première version Balnéo"],["1.1.0","10/10/2026","Relevé de l'existant (Actuel)"],["1.0.0","10/10/2026","Plan 2D éditable et maquette 3D"]];
 let UI={tab:innerWidth>=920?"both":"plan",mes:false};try{Object.assign(UI,JSON.parse(localStorage.getItem("sdb-ui"))||{})}catch(e){}
 const MAT_B=[["img/mat-sol-pierre.jpg","Sol","Grès cérame effet pierre beige mat 60 × 60, classé antidérapant dans la douche","stone"],
  ["img/mat-mur-pierre.jpg","Murs de douche et crédence","Même pierre beige en 30 × 60, pose à joints décalés","stone"],
@@ -762,7 +768,7 @@ function buildFix(bad){
     else{const dk=it.door,gh=1.98,se=it.side;const g1=new THREE.Mesh(new THREE.BoxGeometry(.008,gh,zf-dk),M.glass);g1.position.set(w-.004,gh/2+.01,dk+(zf-dk)/2);L.add(g1);const g2=new THREE.Mesh(new THREE.BoxGeometry(.008,gh,dk-.01),M.glass);g2.position.set(w-.004,gh/2+.01,dk/2);L.add(g2);
      const g3=new THREE.Mesh(new THREE.BoxGeometry(w-se,gh,.008),M.glass);g3.position.set(se+(w-se)/2,gh/2+.01,.004);L.add(g3);
      box(L,.025,.025,zf,M.black,w-.0125,gh,0);box(L,w-se,.025,.025,M.black,se,gh,-.004);box(L,.025,gh,.025,M.black,w-.0125,0,zf-.025);box(L,.025,gh,.03,M.black,w-.0125,0,dk-.015);box(L,.025,gh,.025,M.black,se,0,-.004);box(L,.02,.42,.02,M.black,w+.012,.85,.07)}
-    {const vx=veluxX(),z0=it.y,z1=it.y+zf,x0=it.x,x1=Math.min(it.x+w,xfl),tex=bTex.clone();tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(1,1);tex.needsUpdate=true;const sm=new THREE.MeshStandardMaterial({map:tex,roughness:.5,side:THREE.DoubleSide});
+    if(!(S.tile!==false&&S.style==="beige")){const vx=veluxX(),z0=it.y,z1=it.y+zf,x0=it.x,x1=Math.min(it.x+w,xfl),tex=bTex.clone();tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(1,1);tex.needsUpdate=true;const sm=new THREE.MeshStandardMaterial({map:tex,roughness:.5,side:THREE.DoubleSide});
      const pcs=[];const vz1=Math.max(z0,VEL.y1),vz2=Math.min(z1,VEL.y2);if(vz2>vz1){pcs.push([x0,x1,z0,vz1],[x0,x1,vz2,z1],[x0,Math.max(x0,vx[0]),vz1,vz2],[Math.min(x1,vx[1]),x1,vz1,vz2])}else pcs.push([x0,x1,z0,z1]);
      pcs.forEach(([a,b,c,e])=>{if(b-a<.01||e-c<.01)return;const m=slopeQuad(a,b,c,e,sm);FIX.add(m);if(SLOPEM){m.userData.follow=SLOPEM;FOLLOW.push(m)}})}
     break}
@@ -806,6 +812,7 @@ function buildFix(bad){
   }
   if(it.id===sel||bad.has(it.id)){const h=Math.max(CAT[it.t].h,.1)+.02;const e=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(fw(it)+.02,h,fd(it)+.02)),it.id===sel?M.sel:M.bad);e.position.set(cx,h/2,cz);FIX.add(e)}
  });
+ if(S.tile!==false&&S.style==="beige"){const xfl=(S.P/100-S.H0/100)/slope(),vx=veluxX(),tex=bTex.clone();tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(1,1);tex.needsUpdate=true;const sm=new THREE.MeshStandardMaterial({map:tex,roughness:.5,side:THREE.DoubleSide});[[0,xfl,0,VEL.y1],[0,xfl,VEL.y2,3],[0,vx[0],VEL.y1,VEL.y2],[vx[1],xfl,VEL.y1,VEL.y2]].forEach(([a,b,c,e])=>{if(b-a<.01||e-c<.01)return;const m=slopeQuad(a,b,c,e,sm);FIX.add(m);if(SLOPEM){m.userData.follow=SLOPEM;FOLLOW.push(m)}})}
  const used=[];const stag=(x,y,z)=>{let yy=y;for(let i=0;i<8;i++){if(!used.some(u=>Math.hypot(u[0]-x,u[2]-z)<.4&&Math.abs(u[1]-yy)<.12))break;yy+=.13}used.push([x,yy,z]);return yy};
  const label=(txt,x,y,z,sc,col)=>{const sp=spriteLabel(txt,col,sc);sp.position.set(x,stag(x,y,z),z);FIX.add(sp)};
  const labelOld=(txt,x,y,z,sc,col)=>{const c=document.createElement("canvas");c.width=320;c.height=64;const q=c.getContext("2d");q.font="600 30px sans-serif";const tw=Math.min(312,q.measureText(txt).width+28);q.fillStyle="#ffffff";q.strokeStyle=col;q.lineWidth=4;q.beginPath();const x0=(320-tw)/2;q.roundRect?q.roundRect(x0,6,tw,52,10):q.rect(x0,6,tw,52);q.fill();q.stroke();q.fillStyle=col;q.textAlign="center";q.textBaseline="middle";q.fillText(txt,160,33);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(sc,sc/5,1);sp.position.set(x,y,z);sp.renderOrder=11;FIX.add(sp)};
@@ -904,7 +911,7 @@ function refresh(light,shell){
  const res=checks();
  if(shell||!light){drawStatic();syncBar()}
  drawItems(res.bad);
- if(!light){drawInsp(res.bad);drawWarn(res);drawDesc();drawEl(res.bad)}
+ if(!light){drawInsp(res.bad);drawWarn(res);drawDesc();drawEl(res.bad);if(UI.tab==="buy")drawBuy()}
  if(R){if(shell||!SHELL)buildShell();buildFix(res.bad);draw()}
 }
 /* ---------- surface de circulation : grille de 5 cm, hors éléments, douche et baignoire ---------- */
@@ -923,6 +930,88 @@ function circulation(){
   }flush(runUp,"cU");flush(run,"cL")}
  return {all,up,svg:`<g class="circ">${svg}</g>`};
 }
+/* ---------- achats ---------- */
+function shopping(){
+ const T=TW(),H0=S.H0/100,P0=S.P/100,sl=slope(),xfl=(P0-H0)/sl,SL=slopeLen(),cm=v=>Math.round(v*100),r1=v=>Math.round(v*10)/10;
+ const prof=x=>Math.min(P0,H0+sl*x),pa=(a,b)=>{let s=0;const n=200;for(let i=0;i<n;i++)s+=prof(a+(b-a)*(i+.5)/n);return s*(b-a)/n};
+ const walls=[["Mur nain (h "+f2(H0)+" m)",3.00*H0],["Pignon",pa(0,3.49)],["Mur du rangement"+(DBL()?" (face du doublage)":""),pa(0,3.49)+.60*P0-.73*2.04],["Mur de la chambre 2",2.03*P0],["Murs de la niche d'entrée",.60*P0+.97*P0]];
+ const extras=[],buy=[],add=(cat,name,dims,qty)=>buy.push([cat,name,dims,qty]);
+ let floorOff=DBL()?DOOR.o1*.10:0,shF=0,spec=0;
+ const tiled=S.tile!==false;
+ S.items.forEach(it=>{const n=NM(it),w=it.w,d=it.d,ir=["showerNiche","showerSlope"].includes(it.t)?interiorRect(it):null;
+  switch(it.t){
+   case "bath":{const cu=it.sk?[w-it.sk[0]-it.sk[1],d-it.sk[2]-it.sk[3]]:[w,d],H=it.h||.58;floorOff+=w*d;
+    if(it.sk){extras.push(["Tablier de baignoire (dessus et faces)",(w*d-cu[0]*cu[1])+(w+d)*H]);add("Bain",it.balneo?"Baignoire balnéo duo, acrylique":"Baignoire acrylique",`${cm(cu[0])} × ${cm(cu[1])} × h ${cm(H)}`,"1");add("Bain","Tablier : carreaux de plâtre hydrofuges + trappe de visite",`bloc ${cm(w)} × ${cm(d)} × h ${cm(H)}`,"1");if(it.balneo)add("Bain","Ligne électrique dédiée balnéo + différentiel 30 mA","","1");add("Bain","Robinetterie bain (mitigeur + vidage)","","1")}
+    else add("Bain","Baignoire",`${cm(w)} × ${cm(d)}`,"1");break}
+   case "showerNiche":case "showerSlope":{const fm=.10,sloped=it.t==="showerSlope";shF+=ir.L*ir.l;
+    if(sloped){floorOff+=w*fm+(it.walk?d*.10:0)+it.tab*(it.benchBack?it.bz1:d-fm)+(it.bx2-it.bx1)*(it.bz2-it.bz1);
+     extras.push(["Tablette de douche (dessus et face)",it.tab*(it.benchBack?it.bz1:d-fm)+.60*(it.benchBack?it.bz1:d-fm)]);extras.push(["Banc de douche (dessus et face)",(it.bx2-it.bx1)*(it.bz2-it.bz1)+(it.bx2-it.bx1)*.45]);
+     if(it.walk)extras.push(["Muret de douche (2 faces + dessus)",(d-fm)*1.10*2+(d-fm)*.10]);
+     add("Douche","Banc et tablette maçonnés (carreaux de plâtre hydrofuges ou béton cellulaire)",`banc ${cm(it.bx2-it.bx1)} × ${cm(it.bz2-it.bz1)} × h 45 · tablette ${cm(it.tab)} × ${cm(it.benchBack?it.bz1:d-fm)} × h 60`,"1 lot");
+     if(it.walk){add("Douche","Muret de douche 10 cm (carreaux de plâtre hydrofuges)",`${cm(d-fm)} × h 110`,"1");add("Douche","Verrière noire fixe, 4 carreaux en hauteur",`${cm(d-fm)} × h 90`,"1")}
+     else{add("Douche","Paroi fixe verre 8 mm, profilés noirs",`${cm(d-fm-it.door)} × h 200`,"1");add("Douche","Porte pivotante verre 8 mm",`${cm(it.door)} × h 200`,"1");add("Douche","Retour vitré",`${cm(w-it.side)} × h 200`,"1")}
+     add("Douche","Faux mur 10 cm au pignon (rails + plaques hydrofuges)",`${cm(w)} × h jusqu'à la pente`,r1(pa(it.x,it.x+w))+" m²")}
+    else{const fr=showerFront(it);const mur=fr.reduce((s,q)=>s+(q.b-q.a),0),glass=fr.reduce((s,q)=>s+(q.g?q.g[1]-q.g[0]:0),0);floorOff+=fm*d+mur*.10;
+     extras.push(["Muret de douche (2 faces + dessus)",mur*1.10*2+mur*.10]);extras.push(["Faux mur de douche (chant)",.10*2.0]);
+     add("Douche","Muret de douche 10 cm (carreaux de plâtre hydrofuges)",`${cm(mur)} × h 110`,"1");if(glass>0)add("Douche","Verrière noire fixe",`${cm(glass)} × h 90`,"1");
+     add("Douche","Faux mur 10 cm (rails + plaques hydrofuges)",`${cm(d)} × h 240`,r1(d*2.40)+" m²")}
+    const cl=[60,70,80,90,100,120].find(v=>v>=cm(ir.L)-25)||120;
+    add("Douche","Receveur à carreler extra-plat avec pente intégrée (ou forme de pente + natte d'étanchéité)",`${cm(ir.L)} × ${cm(ir.l)}`,"1");
+    add("Douche","Caniveau de douche inox noir",`${cl} cm`,"1");
+    add("Douche","Kit douche encastrée thermostatique : corps d'encastrement, mitigeur 2 commandes, bras mural 30 cm, pomme Ø 30, douchette + support + flexible","noir mat","1");
+    add("Douche","Niche à carreler prête à poser",`${cm(it.nw||.6)} × ${cm(it.nh||.3)} × 7`,"1");add("Douche","Bande LED 12 V IP67 pour la niche + transformateur",`${cm(it.nw||.6)} cm`,"1");
+    if(it.hand!=null)add("Douche","Deuxième douchette sur barre + mitigeur (coin banquette)","barre 80 cm","1");
+    spec+=ir.L*ir.l+2.0*(ir.L+ir.l);extras.push(["Niche de douche (fond et tableaux)",(it.nw||.6)*(it.nh||.3)+2*((it.nw||.6)+(it.nh||.3))*.07]);break}
+   case "showerDur":floorOff+=w*d;break;
+   case "wallNiche":{floorOff+=w*d;const A=pa(it.x,it.x+w);extras.push(["Cloison à niches (2 faces + chant)",A*2+.25*(prof(it.x+w))]);extras.push(["Intérieur des niches (côtés, dessous, dessus)",(2*(.60+.40)+2*(.60+.30))*.22]);
+    add("Gros œuvre","Cloison 25 cm à niches (béton cellulaire)",`${cm(w)} × ${cm(d)} × h jusqu'à la pente`,"1");add("Rangement","Fonds de niche chêne","60 × 40 et 60 × 30","2");break}
+   case "wallPiece":floorOff+=w*d;add("Gros œuvre","Faux mur 10 cm (rails + plaques hydrofuges)",`${cm(w)} × h 245`,r1(w*2.45)+" m²");break;
+   case "vanity1":case "vanity2":{const nb=it.t==="vanity2"?2:1;add("Meubles",`Meuble ${nb===2?"double ":""}vasque ${it.col===0x1f2638?"bleu nuit":"chêne"}${it.vessel?" sur pieds":""}`,`${cm(w)} × ${cm(d)} × h ${it.vessel?80:85}`,"1");
+    add("Sanitaires",it.vessel?"Vasque à poser ovale céramique blanc mat":"Plan vasque","≈ 50 × 35",String(nb));add("Sanitaires","Mitigeur lavabo bec haut noir mat (ou mural encastré)","",String(nb));
+    if(it.round)add("Meubles","Miroir rond rétroéclairé LED 3000 K",nb===2?"Ø 50":"Ø 70",String(nb));else if(it.mh)add("Meubles","Miroir",`${cm(w)} × ${cm(it.mh)}`,"1");break}
+   case "towel":add("Chauffage",n,`${cm(w)} × h ${it.ladder?120:90}`,"1");break;
+   case "radiator":add("Chauffage",n,`${cm(w)} × h 60`,"1");break;
+   case "low":if(it.tiled){floorOff+=w*d;extras.push([n+" (dessus et faces)",w*d+(w+d)*(it.hh||.45)]);add("Gros œuvre",n+" (béton cellulaire, carrelée)",`${cm(w)} × ${cm(d)} × h ${cm(it.hh||.45)}`,"1")}else add("Meubles",n+" en chêne",`${cm(w)} × ${cm(d)} × h ${cm(it.hh||.85)}`,"1");break;
+   case "cabinet":add("Meubles","Colonne de rangement chêne",`${cm(w)} × ${cm(d)} × h 170`,"1");break;
+  }});
+ if(DBL()){add("Gros œuvre","Châssis de porte à galandage pour cloison 10 cm + porte","passage 73 × 204","1");add("Gros œuvre","Doublage 10 cm du mur du rangement (rails + plaques hydrofuges)",`${cm(DOOR.o1)} × h jusqu'à la pente`,r1(pa(0,DOOR.o1))+" m²")}
+ if(S.items.some(i=>i.t==="showerSlope"))add("Divers","Velux pour pièce humide (finition polyuréthane blanc), même dimension","niche 107 × 110","1 (conseillé)");
+ const floor=3.49*3.00+.60*.97-floorOff,wallA=walls.reduce((s,q)=>s+q[1],0),slopeA=SL*3.00-1.07*1.10,reveal=2*(1.07+1.10)*.25,extraA=extras.reduce((s,q)=>s+q[1],0);
+ const murTot=wallA+slopeA+reveal+extraA,flat=(3.49-xfl)*3.00+.60*.97;
+ return {floor:floor+shF*0,shF,walls,wallA,slopeA,reveal,extras,extraA,murTot,flat,spec,buy,tiled};
+}
+function drawBuy(){
+ const el=document.getElementById("buyBody");if(!el)return;const p=PRESETS[S.preset];
+ if(S.preset==="actuel"){el.innerHTML=`<p class="hint">La version Actuel est l'état existant : il n'y a rien à acheter. Choisis une optimisation pour voir sa liste.</p>`;return}
+ const B=shopping(),m2=v=>v.toFixed(1).replace(".",","),up=v=>Math.ceil(v*1.10);
+ const row=(a,b,c)=>`<tr><td>${a}</td><td>${b}</td><td>${c}</td></tr>`;
+ let h=`<p class="hint" style="margin:0">Estimations faites sur le plan de la version <b>${p?p.name:""}</b>${S.edited?" (modifiée)":""}, à faire valider par ton artisan. Quantités à commander avec 10 % de chutes, arrondies au m² supérieur.</p>`;
+ h+=`<div class="lab" style="margin-top:6px">Carrelage</div><div style="overflow-x:auto"><table class="dt"><thead><tr><th>Poste</th><th>Surface nette</th><th>À commander</th></tr></thead><tbody>`;
+ h+=row(`<b>Sol</b> · grès effet pierre 60 × 60, toute la pièce y compris la douche`,`${m2(B.floor)} m²`,`<b>${up(B.floor)} m²</b>`);
+ h+=row(`dont sol de douche (classé antidérapant, coupes vers le caniveau)`,`${m2(B.shF)} m²`,"compris");
+ h+=row(`<b>Murs et pente</b> · grès effet pierre 30 × 60`,`${m2(B.murTot)} m²`,`<b>${up(B.murTot)} m²</b>`);
+ B.walls.forEach(q=>h+=row(`<span class="hint">${q[0]}</span>`,`<span class="hint">${m2(q[1])} m²</span>`,""));
+ h+=row(`<span class="hint">Pente (hors ouverture Velux)</span>`,`<span class="hint">${m2(B.slopeA)} m²</span>`,"");
+ h+=row(`<span class="hint">Tableaux du Velux (estimation)</span>`,`<span class="hint">${m2(B.reveal)} m²</span>`,"");
+ B.extras.forEach(q=>h+=row(`<span class="hint">${q[0]}</span>`,`<span class="hint">${m2(q[1])} m²</span>`,""));
+ h+=`</tbody></table></div>`;
+ const tot=B.floor+B.murTot;
+ h+=`<div class="lab" style="margin-top:6px">Fournitures de pose</div><div style="overflow-x:auto"><table class="dt"><thead><tr><th>Article</th><th>Base</th><th>Quantité</th></tr></thead><tbody>`;
+ h+=row("Colle carrelage C2S1 (grands formats)","≈ 5 kg/m²",`${Math.ceil(tot*5/25)} sacs de 25 kg`);
+ h+=row("Joint ciment fin ton pierre","≈ 0,4 kg/m²",`${Math.ceil(tot*.4/5)} sacs de 5 kg`);
+ h+=row("Primaire d'accrochage","≈ 0,15 L/m²",`${Math.ceil(tot*.15/5)} bidons de 5 L`);
+ if(B.spec)h+=row("Système d'étanchéité sous carrelage (SPEC) + bandes d'angle","sol de douche + murs jusqu'à 2 m",`≈ ${Math.ceil(B.spec)} m²`);
+ h+=row("Croisillons et système de nivellement","grands formats","1 lot");
+ h+=row("Profilés d'angle (finition des arêtes)","muret, niches, banc, tablette","≈ 10 à 15 m");
+ h+=row("Peinture pièces humides pour le plafond plat",`${m2(B.flat)} m²`,`${Math.ceil(B.flat*2/10)} pots de 2,5 L (2 couches)`);
+ h+=`</tbody></table></div>`;
+ const cats=[...new Set(B.buy.map(q=>q[0]))];
+ h+=`<div class="lab" style="margin-top:6px">Équipements</div><div style="overflow-x:auto"><table class="dt"><thead><tr><th>Article</th><th>Dimensions</th><th>Qté</th></tr></thead><tbody>`;
+ cats.forEach(c=>{h+=`<tr><td colspan="3" style="font:600 12px var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding-top:12px">${c}</td></tr>`;B.buy.filter(q=>q[0]===c).forEach(q=>h+=row(q[1],q[2],q[3]))});
+ h+=`</tbody></table></div><p class="hint">Non comptés : plomberie et électricité (tuyaux, évacuations, gaines, spots IP65), VMC, plinthes, consommables. Le plafond plat est peint, la pente est carrelée.</p>`;
+ el.innerHTML=h;
+}
+
 /* ---------- mesures ---------- */
 function measures(){
  const RS=S.items.map(it=>({it,...rect(it)}));const segs=[];
@@ -963,7 +1052,7 @@ function saveUI(){try{localStorage.setItem("sdb-ui",JSON.stringify(UI))}catch(e)
 function setTab(t){
  UI.tab=t;saveUI();const s2=t==="plan"||t==="both",s3=t==="v3"||t==="both",$=id=>document.getElementById(id);
  $("p2d").hidden=!s2;$("p3d").hidden=!s3;$("board").hidden=!(s2||s3);$("board").classList.toggle("two",t==="both");$("board").classList.toggle("solo",t!=="both");
- $("lower").hidden=!s2;$("pMat").hidden=t!=="mat";$("pEl").hidden=t!=="el";$("pSet").hidden=t!=="set";
+ $("lower").hidden=!s2;$("pMat").hidden=t!=="mat";$("pEl").hidden=t!=="el";$("pSet").hidden=t!=="set";$("pBuy").hidden=t!=="buy";if(t==="buy")drawBuy();
  document.querySelectorAll("#tabs [data-tab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
  if(s3)requestAnimationFrame(resize);
 }

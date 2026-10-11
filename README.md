@@ -23,6 +23,7 @@ Le descriptif complet et la palette de matériaux de chaque version sont dans l'
 - **2D + 3D** : les deux côte à côte (sur grand écran).
 - **Matériaux** : ce qui change dans la version et pourquoi, palette en photo.
 - **Éléments** : tableau des dimensions L × l × H × P de chaque élément, catalogue pour en ajouter, export de la configuration.
+- **Achats** : surfaces de carrelage du sol, des murs et de la pente (avec 10 % de chutes), fournitures de pose et liste des équipements à acheter avec leurs dimensions, calculées sur la version affichée.
 - **Réglages** : hauteurs sous rampant, carrelage (épaisseurs murs et sol), version de l'application, recherche de mise à jour, historique.
 
 Sous le plan et sous la 3D :
