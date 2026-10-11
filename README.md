@@ -22,7 +22,7 @@ Le descriptif complet et la palette de matériaux de chaque version sont dans l'
 - **3D** : maquette orientable, vues prédéfinies.
 - **2D + 3D** : les deux côte à côte (sur grand écran).
 - **Matériaux** : ce qui change dans la version et pourquoi, palette en photo.
-- **Éléments** : tableau des dimensions L × l × H × P de chaque élément, catalogue pour en ajouter, export de la configuration.
+- **Éléments** : tableau des dimensions L × l × H × P de chaque élément (avec, sous chaque douche, le bac à douche à commander), catalogue pour en ajouter, export de la configuration.
 - **Achats** : surfaces de carrelage du sol, des murs et de la pente (avec 10 % de chutes), fournitures de pose et liste des équipements à acheter avec leurs dimensions, calculées sur la version affichée.
 - **Budget** : un prix par article (au m² pour le carrelage et les surfaces, à l'unité sinon). On touche un prix pour l'ouvrir dans une fenêtre de saisie (grand champ, Valider, Effacer ce montant, Mettre l'estimation). Un prix saisi est toujours gardé ; **Estimation** complète les prix vides avec des prix moyens 2026 ; **Tout effacer** remet tout à zéro (deux touches). Main d'œuvre : temps, coût horaire ou forfait (le forfait prime) ; sans saisie, le temps est estimé poste par poste, dépose de l'existant comprise. Total matériaux, main d'œuvre et général toujours visible en haut.
 - **Réglages** : hauteurs sous rampant, carrelage (épaisseurs murs et sol), version de l'application, recherche de mise à jour, historique.
