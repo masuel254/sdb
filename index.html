@@ -36,6 +36,8 @@ h1{font-family:var(--f-display);font-weight:600;font-size:clamp(28px,4.6vw,42px)
 .tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:4px;overflow-x:auto;background:var(--paper);padding-block:6px;border-bottom:1.5px solid var(--ink);scrollbar-width:none}
 .tabs button{flex:0 0 auto;font:600 14px var(--f-display);letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border:1px solid transparent;border-radius:3px 3px 0 0;background:transparent;color:var(--ink-soft);cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--ink);color:var(--sheet)}
+@media (max-width:700px){.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;gap:4px}.tabs button{padding:8px 2px;border-radius:3px;font-size:13px;letter-spacing:.03em;min-width:0}}
+.wrap{overflow-x:clip}
 select{font:500 14px var(--f-body);padding:5px 6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:2px}
 input[type=number]{width:74px;font:500 14px var(--f-mono);padding:5px 6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:2px}
 button.btn{font:500 14px var(--f-body);border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:6px 11px;border-radius:2px;cursor:pointer}
@@ -132,7 +134,7 @@ table.dt tr.bad td:first-child{box-shadow:inset 3px 0 var(--warn)}
     <section class="panel" id="p2d">
       <h2><span>Plan 2D, éditable</span><b>Glisse les éléments · flèches au cm · R pour tourner</b></h2>
       <div id="plan"></div>
-      <div class="views"><button class="btn tog mesBtn" aria-pressed="false">Espace</button><button class="btn tog dimBtn" aria-pressed="false">Éléments</button><span>Espace : distances libres aux murs finis et surface de circulation (vert : debout, ocre : sous le rampant). Éléments : dimensions de chaque élément.</span><div class="espTxt hint" hidden style="flex-basis:100%"></div></div>
+      <div class="views"><button class="btn tog mesBtn" aria-pressed="false">Espace</button><button class="btn tog dimBtn" aria-pressed="false">Éléments</button><button class="btn tog m2Btn" aria-pressed="false">Mesurer</button><div class="m2Txt hint" hidden style="flex-basis:100%"></div><span>Espace : distances libres aux murs finis et surface de circulation (vert : debout, ocre : sous le rampant). Éléments : dimensions de chaque élément.</span><div class="espTxt hint" hidden style="flex-basis:100%"></div></div>
     </section>
     <section class="panel" id="p3d">
       <h2><span>Maquette 3D</span><b>Glisser pour tourner · molette ou pincer pour zoomer</b></h2>
@@ -140,6 +142,8 @@ table.dt tr.bad td:first-child{box-shadow:inset 3px 0 var(--warn)}
       <div class="views">
         <button class="btn tog mesBtn" aria-pressed="false">Espace</button>
         <button class="btn tog dimBtn" aria-pressed="false">Éléments</button>
+        <button class="btn tog m3Btn" aria-pressed="false">Mesurer</button>
+        <div class="m3Txt hint" hidden style="flex-basis:100%"></div>
         <button class="btn" data-v="porte">Depuis la porte</button>
         <button class="btn" data-v="dessus">Dessus</button>
         <button class="btn" data-v="rampant">Côté rampant</button>
@@ -247,15 +251,15 @@ const REQ={laundry:["min",2.05],cabinet:["min",1.85],washer:["min",.90],towel:["
    Douche maçonnée 147×108 sur receveur, entrée 55, collée au socle. Double vasque 120×60 à 165 du mur nain, miroir 120×110.
    Niche du Velux 107 × 110, à 95 cm du mur du rangement. Porte battante PS 73.
    Les optimisations futures s'ajoutent ici comme nouvelles entrées : un bouton par version. */
-const APP_VERSION="1.6.3";
-const CHANGELOG=[["1.6.3","10/10/2026","Espace : distance entre le meuble le long du doublage et le début de la poche de la galandage ; Sans balnéo v2 : double vasque rapprochée de la porte"],["1.6.2","10/10/2026","Espace : cotes en diagonale entre les angles de deux éléments voisins (passage réel en biais)"],["1.6.1","10/10/2026","Sans balnéo v1 et v2 : la colonne buanderie est remplacée par un banc de rangement bas qui laisse la verrière dégagée"],["1.6.0","10/10/2026","Sans balnéo en deux variantes : v1 avec douchette au-dessus de la banquette, v2 sans banquette avec douche raccourcie ; surface de circulation libre en m² dans Espace"],["1.5.0","10/10/2026","Boutons Espace et Éléments sous les vues ; cotes plus lisibles ; tableau L × l × H × P ; carrelage partout pris en compte (murs et sol finis) ; niche de douche visible en 2D et 3D ; Sans balnéo repensée en douche spa avec buanderie"],["1.4.0","10/10/2026","Onglets 2D, 3D, Matériaux, Éléments, Réglages ; bouton Mesures ; matières photo ; Balnéo revue (vasque face à la baignoire, rangements) ; nouvelle version Sans balnéo ; recherche de mise à jour"],["1.3.0","10/10/2026","Balnéo : doublage pleine longueur pour la galandage, vasque simple, descriptifs et palettes"],["1.2.0","10/10/2026","Première version Balnéo"],["1.1.0","10/10/2026","Relevé de l'existant (Actuel)"],["1.0.0","10/10/2026","Plan 2D éditable et maquette 3D"]];
+const APP_VERSION="1.7.0";
+const CHANGELOG=[["1.7.0","11/10/2026","Système de douche encastré dessiné (mitigeur, pomme Ø 30, douchette) ; intérieur des douches dans Éléments ; bouton Mesurer en 2D et 3D ; repères 1,80 et 2,00 m ; cotes plus épaisses sans chevauchement ; onglets sans défilement horizontal"],["1.6.3","10/10/2026","Espace : distance entre le meuble le long du doublage et le début de la poche de la galandage ; Sans balnéo v2 : double vasque rapprochée de la porte"],["1.6.2","10/10/2026","Espace : cotes en diagonale entre les angles de deux éléments voisins (passage réel en biais)"],["1.6.1","10/10/2026","Sans balnéo v1 et v2 : la colonne buanderie est remplacée par un banc de rangement bas qui laisse la verrière dégagée"],["1.6.0","10/10/2026","Sans balnéo en deux variantes : v1 avec douchette au-dessus de la banquette, v2 sans banquette avec douche raccourcie ; surface de circulation libre en m² dans Espace"],["1.5.0","10/10/2026","Boutons Espace et Éléments sous les vues ; cotes plus lisibles ; tableau L × l × H × P ; carrelage partout pris en compte (murs et sol finis) ; niche de douche visible en 2D et 3D ; Sans balnéo repensée en douche spa avec buanderie"],["1.4.0","10/10/2026","Onglets 2D, 3D, Matériaux, Éléments, Réglages ; bouton Mesures ; matières photo ; Balnéo revue (vasque face à la baignoire, rangements) ; nouvelle version Sans balnéo ; recherche de mise à jour"],["1.3.0","10/10/2026","Balnéo : doublage pleine longueur pour la galandage, vasque simple, descriptifs et palettes"],["1.2.0","10/10/2026","Première version Balnéo"],["1.1.0","10/10/2026","Relevé de l'existant (Actuel)"],["1.0.0","10/10/2026","Plan 2D éditable et maquette 3D"]];
 let UI={tab:innerWidth>=920?"both":"plan",mes:false};try{Object.assign(UI,JSON.parse(localStorage.getItem("sdb-ui"))||{})}catch(e){}
 const MAT_B=[["img/mat-sol-pierre.jpg","Sol","Grès cérame effet pierre beige mat 60 × 60, classé antidérapant dans la douche","stone"],
  ["img/mat-mur-pierre.jpg","Murs de douche et crédence","Même pierre beige en 30 × 60, pose à joints décalés","stone"],
  ["img/mat-muret.jpg","Muret et tabliers","Muret de douche de 1,10 m et habillages dans le même grès","stone"],
  ["img/mat-chene.jpg","Meubles","Chêne naturel verni mat, façades à rainures, pieds bois","oak"],
  ["img/mat-vasque.jpg","Vasque","Céramique blanc mat, ovale à poser, robinetterie noire","white"],
- ["img/mat-verriere.jpg","Verrière et robinetterie","Acier noir mat 4 carreaux, mitigeur thermostatique encastré, pomme Ø 30","black"],
+ ["img/mat-verriere.jpg","Verrière et robinetterie","Acier noir mat 4 carreaux, système encastré : mitigeur thermostatique 2 commandes, pomme Ø 30 et douchette","black"],
  ["img/mat-miroir.jpg","Miroir","Rond, LED blanc chaud 3000 K en rétroéclairage","mirror"],
  ["img/mat-mur-pierre.jpg","Tous les murs","Grès pierre beige 30 × 60 du sol au plafond sur tous les murs, joints fins ton pierre","stone"],
  ["img/mat-peinture.jpg","Rampant et plafond","Peinture pièces humides blanc chaud, satinée","paint"],
@@ -274,7 +278,7 @@ const PRESETS={
  ]},
  balneo:{name:"Balnéo",style:"beige",door:"galandage",H0:93,L:72,P:245,
   intro:"Une baignoire balnéo duo sous le Velux, une douche à l'italienne à verrière et une ambiance pierre claire, chêne et noir mat. La vasque passe face à la baignoire pour libérer le centre de la pièce.",
-  changes:["<b>Baignoire balnéo duo 185 × 90</b> en longueur contre le mur nain, sous le Velux, calée contre le doublage côté porte. Tablier de 20 cm côté pièce pour s'asseoir et pivoter, 20 cm côté mur nain pour remonter la cuve dans le rampant et loger la tuyauterie et le moteur, 10 cm aux deux bouts. Bloc de 205 × 130.","<b>Hauteur pour 1,85 m</b> : assis, aucun souci. Debout, la tête ne passe que sur une bande d'environ 20 cm côté pièce. On entre et on sort assis sur le tablier : c'est le scénario prévu.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement : un seul plan de mur, sans décroché. Rien n'est fixé sur les 75 cm de la poche.","<b>Vasque déplacée face à la baignoire</b>, contre la chambre 2 et collée au muret de douche comme sur la photo de référence : meuble chêne 80 × 50 sur pieds, vasque à poser, miroir rond Ø 70, crédence pierre. Un doublage de 10 cm amène l'eau depuis la douche voisine.","<b>Rangement bas sur mesure</b> 120 × 35 sur le doublage, entre la baignoire et la poche de la porte : linge et produits, plateau pour poser les serviettes.","<b>Douche à l'italienne</b> 134 × 105 utiles dans l'angle pignon / chambre 2, là où arrivent les évacuations. Muret de 1,10 m et verrière noire, entrée par le côté à l'opposé de la pomme. Niche à shampoings éclairée et mitigeur encastré dans un faux mur de 10 cm.","<b>Radiateur</b> reculé au bout du mur nain côté pignon, sur le même mur. <b>Sèche-serviettes échelle</b> sur le pignon entre la baignoire et l'entrée de douche. <b>Banc coffre</b> chêne dans le coin bas, sous 1,40 m.","<b>Circulation pour 1,85 m et 100 kg</b> : 75 cm entre la baignoire et la douche, 80 cm devant la vasque, un dégagement central d'environ 1,60 × 1,40 m, aucun battant de porte. Activer « Mesures » pour voir toutes les distances."],
+  changes:["<b>Baignoire balnéo duo 185 × 90</b> en longueur contre le mur nain, sous le Velux, calée contre le doublage côté porte. Tablier de 20 cm côté pièce pour s'asseoir et pivoter, 20 cm côté mur nain pour remonter la cuve dans le rampant et loger la tuyauterie et le moteur, 10 cm aux deux bouts. Bloc de 205 × 130.","<b>Hauteur pour 1,85 m</b> : assis, aucun souci. Debout, la tête ne passe que sur une bande d'environ 20 cm côté pièce. On entre et on sort assis sur le tablier : c'est le scénario prévu.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement : un seul plan de mur, sans décroché. Rien n'est fixé sur les 75 cm de la poche.","<b>Vasque déplacée face à la baignoire</b>, contre la chambre 2 et collée au muret de douche comme sur la photo de référence : meuble chêne 80 × 50 sur pieds, vasque à poser, miroir rond Ø 70, crédence pierre. Un doublage de 10 cm amène l'eau depuis la douche voisine.","<b>Rangement bas sur mesure</b> 120 × 35 sur le doublage, entre la baignoire et la poche de la porte : linge et produits, plateau pour poser les serviettes.","<b>Douche à l'italienne</b> 132 × 103 utiles (intérieur carrelé) dans l'angle pignon / chambre 2, là où arrivent les évacuations. Muret de 1,10 m et verrière noire, entrée par le côté à l'opposé de la pomme. Niche à shampoings éclairée dans un faux mur de 10 cm.","<b>Système de douche encastré</b> : mitigeur thermostatique à deux commandes, grosse pomme de tête Ø 30 sur bras mural et douchette à main sur support avec son flexible. Le corps d'encastrement est noyé dans le faux mur de 10 cm, sous la niche. Une colonne de douche apparente rendrait la niche impossible : les tuyaux passeraient devant.","<b>Radiateur</b> reculé au bout du mur nain côté pignon, sur le même mur. <b>Sèche-serviettes échelle</b> sur le pignon entre la baignoire et l'entrée de douche. <b>Banc coffre</b> chêne dans le coin bas, sous 1,40 m.","<b>Circulation pour 1,85 m et 100 kg</b> : 75 cm entre la baignoire et la douche, 80 cm devant la vasque, un dégagement central d'environ 1,60 × 1,40 m, aucun battant de porte. Activer « Mesures » pour voir toutes les distances."],
   mats:[...MAT_B,["","Baignoire","Balnéo duo acrylique blanc 185 × 90 × 62 avec trappe moteur dans le tablier","white"]],
   items:[
   {t:"bath",x:0,y:0.10,r:3,w:2.05,d:1.30,h:.62,sk:[0.10,0.10,0.20,0.20],balneo:1},
@@ -288,7 +292,7 @@ const PRESETS={
  ]},
  sansbalneo:{name:"Sans balnéo v1",style:"beige",door:"galandage",H0:93,L:72,P:245,
   intro:"Version audacieuse : tout le pignon devient une douche spa de 3,47 m. Pomme de tête côté chambre 2 pour se doucher debout, et sous le rampant une banquette maçonnée avec sa propre douchette pour se laver assis. On retrouve la double vasque, et tout le bas du rampant sert de rangement.",
-  changes:["<b>Douche spa à l'italienne sur toute la largeur du pignon</b> : 3,49 m hors tout, environ 3,38 × 1,04 m utiles une fois carrelée. La partie haute (côté chambre 2) accueille la pomme de tête, la partie basse sous le rampant devient un coin assis. Entrée de 70 cm au milieu du muret, loin de la pomme.","<b>Banquette maçonnée</b> 75 × 45, h 45, dans la douche sous le rampant : assis, la tête reste à environ 45 cm du plafond. Un tapis chauffant sous le carrelage est en option.","<b>Douchette à main au-dessus de la banquette</b>, sur barre de 80 cm fixée au pignon avec son mitigeur thermostatique : c'est elle qui rend le coin assis utilisable, la pomme de tête étant à 2,50 m. Il faut une arrivée d'eau chaude et froide en plus le long du pignon, à isoler car c'est un mur extérieur.","<b>Muret de 1,10 m et verrière noire</b> sur tout le front de douche, la verrière s'arrête là où le rampant descend sous 2,05 m.","<b>Niche longue</b> 90 × 30 éclairée dans le faux mur de 10 cm contre la chambre 2, à côté du mitigeur encastré.","<b>Banc de rangement</b> chêne 80 × 40, h 45, contre la chambre 2 à côté de la douche : on s'y assoit pour s'habiller, il range le linge, et il reste sous le muret pour ne rien cacher de la verrière.","<b>Double vasque</b> chêne 120 × 50 centrée sur le doublage du mur du rangement, deux miroirs ronds. <b>Sèche-serviettes échelle</b> à côté, avant la poche de la porte.","<b>Radiateur remplacé par un sèche-serviettes à eau horizontal</b> au même endroit sous le Velux : même raccordement, et il chauffe les serviettes près de la sortie de douche.","<b>Placard bas</b> 89 × 45 sous le rampant côté porte.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement.","<b>Circulation</b> : dégagement central d'environ 2,35 × 1,20 m.","<b>Ce que ça coûte en plus</b> : environ 4 m² d'étanchéité sous carrelage et un caniveau long. En contrepartie, aucun moteur ni baignoire, et le chauffage reste sur son tuyau actuel."],
+  changes:["<b>Douche spa à l'italienne sur toute la largeur du pignon</b> : 3,49 m hors tout, environ 3,37 × 1,03 m utiles une fois carrelée. La partie haute (côté chambre 2) accueille la pomme de tête, la partie basse sous le rampant devient un coin assis. Entrée de 70 cm au milieu du muret, loin de la pomme.","<b>Banquette maçonnée</b> 75 × 45, h 45, dans la douche sous le rampant : assis, la tête reste à environ 45 cm du plafond. Un tapis chauffant sous le carrelage est en option.","<b>Douchette à main au-dessus de la banquette</b>, sur barre de 80 cm fixée au pignon avec son mitigeur thermostatique : c'est elle qui rend le coin assis utilisable, la pomme de tête étant à 2,50 m. Il faut une arrivée d'eau chaude et froide en plus le long du pignon, à isoler car c'est un mur extérieur.","<b>Muret de 1,10 m et verrière noire</b> sur tout le front de douche, la verrière s'arrête là où le rampant descend sous 2,05 m.","<b>Niche longue</b> 90 × 30 éclairée dans le faux mur de 10 cm contre la chambre 2, au-dessus du mitigeur.","<b>Système de douche encastré</b> : mitigeur thermostatique à deux commandes, grosse pomme de tête Ø 30 sur bras mural et douchette à main sur support avec son flexible. Le corps d'encastrement est noyé dans le faux mur de 10 cm, sous la niche. Une colonne de douche apparente rendrait la niche impossible : les tuyaux passeraient devant.","<b>Banc de rangement</b> chêne 80 × 40, h 45, contre la chambre 2 à côté de la douche : on s'y assoit pour s'habiller, il range le linge, et il reste sous le muret pour ne rien cacher de la verrière.","<b>Double vasque</b> chêne 120 × 50 centrée sur le doublage du mur du rangement, deux miroirs ronds. <b>Sèche-serviettes échelle</b> à côté, avant la poche de la porte.","<b>Radiateur remplacé par un sèche-serviettes à eau horizontal</b> au même endroit sous le Velux : même raccordement, et il chauffe les serviettes près de la sortie de douche.","<b>Placard bas</b> 89 × 45 sous le rampant côté porte.","<b>Porte à galandage</b> dans un doublage de 10 cm sur toute la longueur du mur du rangement.","<b>Circulation</b> : dégagement central d'environ 2,35 × 1,20 m.","<b>Ce que ça coûte en plus</b> : environ 4 m² d'étanchéité sous carrelage et un caniveau long. En contrepartie, aucun moteur ni baignoire, et le chauffage reste sur son tuyau actuel."],
   mats:[...MAT_B.slice(0,9),["img/mat-chene.jpg","Rangements","Placard et banc en chêne naturel, façades sans poignée","oak"]],
   items:[
   {t:"showerNiche",lbl:"Douche spa à l'italienne",x:0,y:1.85,r:2,w:3.49,d:1.15,open:[1.69,2.39],nw:.90,nh:.30,hand:2.70},
@@ -301,7 +305,7 @@ const PRESETS={
  ]},
  sansbalneo2:{name:"Sans balnéo v2",style:"beige",door:"galandage",H0:93,L:72,P:245,
   intro:"Variante plus simple de la douche spa : la douche ne garde que la partie où l'on tient debout, la zone basse sous le rampant redevient sèche, avec un banc coffre pour s'asseoir et s'essuyer à la sortie de la douche.",
-  changes:["<b>Douche à l'italienne de 190 cm</b> hors tout, environ 179 × 104 utiles une fois carrelée, entièrement sous 2,43 m de plafond fini. Pomme de tête et niche côté chambre 2, entrée de 104 cm par le côté, à l'opposé de la pomme.","<b>Muret de 1,10 m et verrière noire</b> sur tout le front de douche.","<b>Niche longue</b> 90 × 30 éclairée dans le faux mur de 10 cm contre la chambre 2, à côté du mitigeur encastré.","<b>Zone sèche sous le rampant</b> devant l'entrée de douche : banc coffre chêne 99 × 45 contre le mur nain pour s'asseoir et ranger le linge, sèche-serviettes échelle sur le pignon à la sortie de douche.","<b>Moins d'étanchéité</b> : environ 2 m² de douche au lieu de 4, caniveau de 1,60 m, pas de deuxième arrivée d'eau.","<b>Banc de rangement</b> chêne 80 × 40, h 45, contre la chambre 2 à côté de la douche : assise et rangement, assez bas pour laisser toute la verrière visible.","<b>Double vasque</b> chêne 120 × 50 sur le doublage du mur du rangement, rapprochée de la porte : son bord droit s'arrête 2 cm avant la poche de la galandage (rien ne se fixe sur la poche). 84 cm la séparent du placard sous rampant. Deux miroirs ronds.","<b>Radiateur remplacé par un sèche-serviettes à eau horizontal</b> au même endroit sous le Velux, même raccordement.","<b>Placard bas</b> 89 × 45 sous le rampant côté porte. <b>Porte à galandage</b> dans un doublage de 10 cm sur tout le mur du rangement."],
+  changes:["<b>Douche à l'italienne de 190 cm</b> hors tout, environ 178 × 103 utiles une fois carrelée, entièrement sous 2,43 m de plafond fini. Pomme de tête et niche côté chambre 2, entrée de 104 cm par le côté, à l'opposé de la pomme.","<b>Muret de 1,10 m et verrière noire</b> sur tout le front de douche.","<b>Niche longue</b> 90 × 30 éclairée dans le faux mur de 10 cm contre la chambre 2, au-dessus du mitigeur.","<b>Système de douche encastré</b> : mitigeur thermostatique à deux commandes, grosse pomme de tête Ø 30 sur bras mural et douchette à main sur support avec son flexible. Le corps d'encastrement est noyé dans le faux mur de 10 cm, sous la niche. Une colonne de douche apparente rendrait la niche impossible : les tuyaux passeraient devant.","<b>Zone sèche sous le rampant</b> devant l'entrée de douche : banc coffre chêne 99 × 45 contre le mur nain pour s'asseoir et ranger le linge, sèche-serviettes échelle sur le pignon à la sortie de douche.","<b>Moins d'étanchéité</b> : environ 2 m² de douche au lieu de 4, caniveau de 1,60 m, pas de deuxième arrivée d'eau.","<b>Banc de rangement</b> chêne 80 × 40, h 45, contre la chambre 2 à côté de la douche : assise et rangement, assez bas pour laisser toute la verrière visible.","<b>Double vasque</b> chêne 120 × 50 sur le doublage du mur du rangement, rapprochée de la porte : son bord droit s'arrête 2 cm avant la poche de la galandage (rien ne se fixe sur la poche). 84 cm la séparent du placard sous rampant. Deux miroirs ronds.","<b>Radiateur remplacé par un sèche-serviettes à eau horizontal</b> au même endroit sous le Velux, même raccordement.","<b>Placard bas</b> 89 × 45 sous le rampant côté porte. <b>Porte à galandage</b> dans un doublage de 10 cm sur tout le mur du rangement."],
   mats:[...MAT_B.slice(0,9),["img/mat-chene.jpg","Rangements","Placard, banc coffre et banc de rangement en chêne naturel","oak"]],
   items:[
   {t:"showerNiche",lbl:"Douche à l'italienne",x:1.59,y:1.85,r:2,w:1.90,d:1.15,nw:.90,nh:.30},
@@ -334,13 +338,15 @@ function showerFront(it){const fm=.10,w=it.w,op=it.open||null;let segs=op?[[fm,o
  return segs.map(([a,b])=>{let g=null;const pa=toPlan(a),pb=toPlan(b);const ok=lx=>toPlan(lx)>=xc;if(ok(a)&&ok(b))g=[a,b];else if(ok(a)){let t=b;while(t>a&&!ok(t))t-=.01;if(t-a>.3)g=[a,t]}else if(ok(b)){let t=a;while(t<b&&!ok(t))t+=.01;if(b-t>.3)g=[t,b]}return {a,b,g}})}
 function details(it){const cm=v=>Math.round(v*100),T=TW();
  if(it.t==="bath"&&it.sk){const[l,r,b,f]=it.sk;return `Cuve ${cm(it.w-l-r)} × ${cm(it.d-b-f)} · tablier ${cm(f)} côté pièce, ${cm(b)} au dos, ${cm(l)} et ${cm(r)} aux bouts`}
- if(it.t==="showerNiche")return `Utile ${cm(it.w-.10-T-(it.open?0:0))} × ${cm(it.d-.10-T)} une fois carrelée · faux mur 10 cm · muret 10 cm × h 110 · niche ${cm(it.nw||.60)} × ${cm(it.nh||.30)}, ${cm(.10-.02-T)} cm de fond`;
+ if(it.t==="showerNiche"){const ir=interiorRect(it);return `Intérieur ${cm(ir.L)} × ${cm(ir.l)} une fois carrelée · système de douche encastré (mitigeur 2 commandes, pomme Ø 30, douchette) · faux mur 10 cm · muret 10 cm × h 110 · niche ${cm(it.nw||.60)} × ${cm(it.nh||.30)}, ${cm(.10-.02-T)} cm de fond`}
  if(it.t==="showerDur")return `Murs maçonnés 7 cm · entrée ${cm(it.op||.55)}`;
  if(it.t==="wallPiece")return "Faux mur 10 cm (rail + plaque hydrofuge)";
  if(it.t==="vanity1"||it.t==="vanity2")return (it.vessel?"Vasque à poser":"Plan vasque")+(it.round?` · miroir rond Ø ${it.t==="vanity1"?70:50}`:it.mh?` · miroir ${cm(it.w)} × ${cm(it.mh)}`:"");
  if(it.t==="radiator")return "Emprise avec supports et tuyaux";
  if(it.t==="towel")return it.ladder?"Échelle":"Panneau";
  return "";}
+function loc2plan(it,lx,lz){const cx=it.x+fw(it)/2,cy=it.y+fd(it)/2,x=lx-it.w/2,z=lz-it.d/2,t=-it.r*Math.PI/2,c=Math.cos(t),s=Math.sin(t);return [cx+x*c+z*s,cy-x*s+z*c]}
+function interiorRect(it){const T=TW(),fm=.10,mu=.10,a=loc2plan(it,fm+T,T),b=loc2plan(it,it.w-T,it.d-mu-T);return {x1:Math.min(a[0],b[0]),x2:Math.max(a[0],b[0]),y1:Math.min(a[1],b[1]),y2:Math.max(a[1],b[1]),L:it.w-fm-2*T,l:it.d-mu-2*T}}
 const PDEPTH={bath:.45,vanity1:.13,vanity2:.13,showerNiche:.08};
 const fw=it=>it.r%2?it.d:it.w, fd=it=>it.r%2?it.w:it.d;
 const r2=v=>Math.round(v*100)/100;
@@ -412,7 +418,10 @@ plan.innerHTML=`<svg viewBox="-100 -100 590 500" xmlns="http://www.w3.org/2000/s
 .cote line{stroke:var(--cote);stroke-width:.9} .cote .ext{stroke-width:.6} .cote .tick{stroke-width:1.6}
 .cote text{fill:var(--cote);font:500 11px var(--f-mono)}
 .circ rect{shape-rendering:crispEdges} .circ .cU{fill:#3f9b5a;opacity:.16} .circ .cL{fill:#d9a640;opacity:.18}
-.mes line{stroke:var(--mes);stroke-width:1.2} .mes.diag line:first-child{stroke-dasharray:5 3} .mes .eb{stroke-width:1.6} .mes .ah{fill:var(--mes)} .mes rect{fill:var(--sheet);stroke:var(--mes);stroke-width:1} .mes text{fill:var(--mes);font:700 10px var(--f-mono)}
+.mes line{stroke:var(--mes);stroke-width:2.2} .mes.diag line:first-child{stroke-dasharray:6 3} .mes .eb{stroke-width:2.4} .mes .ld{stroke-width:1;stroke-dasharray:2 2} .mes .ah{fill:var(--mes)} .mes rect{fill:var(--sheet);stroke:var(--mes);stroke-width:1.4} .mes text{fill:var(--mes);font:700 10.5px var(--f-mono)}
+.hgt line{stroke-width:1.6;stroke-dasharray:7 4} .hgt text{font:700 8px var(--f-mono)} .hgt .h18 line{stroke:#d9822b} .hgt .h18 text{fill:#b5651d} .hgt .h20 line{stroke:#2f8f5a} .hgt .h20 text{fill:#2f7a4c}
+.m2 line{stroke:#e0661f;stroke-width:2.4} .m2 circle{fill:#e0661f;stroke:var(--sheet);stroke-width:1.5} .m2 rect{fill:#e0661f} .m2 text{fill:#fff;font:700 10.5px var(--f-mono)}
+.dims .intr{fill:none;stroke:var(--water);stroke-width:1.3;stroke-dasharray:4 2} .dims .it2{fill:var(--water);font-weight:700}
 .live line{stroke:var(--sel);stroke-width:1;stroke-dasharray:3 2} .live text{fill:var(--sel);font:600 10.5px var(--f-mono);paint-order:stroke;stroke:var(--sheet);stroke-width:3px}
 .lbl{fill:var(--ink-soft);font:500 10px var(--f-display);letter-spacing:.1em;text-transform:uppercase}
 .lbl2{fill:var(--ink-soft);font:400 9px var(--f-mono)}
@@ -466,6 +475,7 @@ function sym(it){
   case "showerDur":{const t=7,op=(it.op||.55)*k;o+=`<rect class="wet" width="${w}" height="${d}"/><circle class="fx" cx="${(w-t)/2}" cy="${d/2}" r="4"/><rect class="wall" x="${w-t}" y="0" width="${t}" height="${d}"/><rect class="wall" x="0" y="${d-t}" width="${Math.max(0,w-t-op)}" height="${t}"/><line class="glass" x1="${w-t-op}" y1="${d-2}" x2="${w-t}" y2="${d-2}" style="stroke-dasharray:3 4;stroke-width:1.5"/>`;break}
   case "showerNiche":{const fm=10,mu=10,k=SC2,nw=(it.nw||.60)*k;o+=`<rect class="wet" x="${fm}" width="${w-fm}" height="${d-mu}"/><line class="drain" x1="${fm+10}" y1="9" x2="${w-10}" y2="9"/>`;for(let i=fm+15;i<w;i+=15)o+=`<line class="wetl" x1="${i}" y1="0" x2="${i}" y2="${d-mu}"/>`;
    o+=`<rect class="wall" width="${fm}" height="${d}"/><rect class="niche2" x="2" y="${d/2-nw/2}" width="${fm-2}" height="${nw}"/>`;
+   {const zc=d/2;o+=`<rect x="${fm}" y="${zc-7}" width="4" height="14" style="fill:#1b1b1b"/><circle cx="${fm+30}" cy="${zc}" r="15" style="fill:none;stroke:#1b1b1b;stroke-width:1.6"/><circle cx="${fm+30}" cy="${zc}" r="2.2" style="fill:#1b1b1b"/><line x1="${fm}" y1="${zc}" x2="${fm+16}" y2="${zc}" style="stroke:#1b1b1b;stroke-width:1.6"/><rect x="${fm}" y="${zc+16}" width="9" height="4" rx="1.5" style="fill:#1b1b1b"/>`}
    showerFront(it).forEach(sg=>{o+=`<rect class="wall" x="${sg.a*k}" y="${d-mu}" width="${(sg.b-sg.a)*k}" height="${mu}"/>`;if(sg.g)o+=`<line x1="${sg.g[0]*k}" y1="${d-mu/2}" x2="${sg.g[1]*k}" y2="${d-mu/2}" style="stroke:#222;stroke-width:1.8"/>`});
    if(it.hand!=null)o+=`<circle cx="${it.hand*k}" cy="7" r="4" style="fill:#1b1b1b"/><text x="${it.hand*k}" y="20" text-anchor="middle" style="font:600 7px var(--f-mono);fill:var(--ink)">DOUCHETTE</text>`;
    if(it.open)o+=`<line class="door" x1="${it.open[0]*k}" y1="${d-mu/2}" x2="${it.open[1]*k}" y2="${d-mu/2}" style="stroke-dasharray:2 3"/>`;break}
@@ -489,7 +499,7 @@ function drawItems(bad){
  gI.innerHTML=S.items.map(it=>{
   const cx=(it.x+fw(it)/2)*k,cy=(it.y+fd(it)/2)*k;
   const big=Math.min(fw(it),fd(it))>.3;
-  return `<g class="it${it.id===sel?" sel":""}${bad.has(it.id)?" bad":""}" data-id="${it.id}" transform="translate(${cx} ${cy})"><g transform="rotate(${it.r*90}) translate(${-it.w*k/2} ${-it.d*k/2})">${sym(it)}</g>${big?`<text class="nm" text-anchor="middle" y="3">${NM(it)}</text>`:""}</g>`;
+  return `<g class="it${it.id===sel?" sel":""}${bad.has(it.id)?" bad":""}" data-id="${it.id}" transform="translate(${cx} ${cy})"><g transform="rotate(${it.r*90}) translate(${-it.w*k/2} ${-it.d*k/2})">${sym(it)}</g>${big?`<text class="nm" text-anchor="middle" y="3">${NM(it)}</text>`:""}${big&&it.t==="showerNiche"?`<text class="nm" text-anchor="middle" y="14" style="font-size:7px">SYSTÈME DE DOUCHE ENCASTRÉ</text>`:""}</g>`;
  }).join("");
  const it=S.items.find(i=>i.id===sel);let o="";
  if(it){
@@ -501,26 +511,36 @@ function drawItems(bad){
   {const T0=DBL()&&mx<3.27?.10:0;if(y1-T0>.01)o+=seg(mx,T0,mx,y1,f2(y1-T0),mx-.04,(T0+y1)/2,1)}
   if(B-y2>.01)o+=seg(mx,y2,mx,B,f2(B-y2),mx-.04,(y2+B)/2,1);
  }
- let mo="";if(UI.mes)mo=measures().map(m=>{const K=SC2,X1=m.x1*K,Y1=m.y1*K,X2=m.x2*K,Y2=m.y2*K,H=Math.abs(Y1-Y2)<1,L=Math.hypot(X2-X1,Y2-Y1),ux=(X2-X1)/L,uy=(Y2-Y1)/L,px=-uy,py=ux,a=Math.min(5,L/4),MX=(X1+X2)/2,MY=(Y1+Y2)/2,t=Math.round(m.v*100);
-  const bar=(x,y)=>`<line class="eb" x1="${x+px*7}" y1="${y+py*7}" x2="${x-px*7}" y2="${y-py*7}"/>`,arr=(x,y,d)=>`<path class="ah" d="M${x} ${y} L${x+d*ux*a+px*a*.55} ${y+d*uy*a+py*a*.55} L${x+d*ux*a-px*a*.55} ${y+d*uy*a-py*a*.55}Z"/>`;
-  const lw=t>=100?27:22;return `<g class="mes${m.k==="p"||m.k==="g"?" pair":m.k==="d"?" diag":""}"><line x1="${X1}" y1="${Y1}" x2="${X2}" y2="${Y2}"/>${bar(X1,Y1)}${bar(X2,Y2)}${arr(X1,Y1,1)}${arr(X2,Y2,-1)}<rect x="${MX-lw/2}" y="${MY-7}" width="${lw}" height="14" rx="3"/><text x="${MX}" y="${MY+3.5}" text-anchor="middle">${t}</text>${m.k==="g"?`<text x="${X2+3}" y="${Y2+16}" style="font:600 7.5px var(--f-mono)">DÉBUT POCHE</text>`:""}</g>`}).join("");
+ let mo="";if(UI.mes){const placed=[];const ov=q=>placed.some(p=>q.x1<p.x2&&q.x2>p.x1&&q.y1<p.y2&&q.y2>p.y1);
+  mo=measures().map(m=>{const K=SC2,X1=m.x1*K,Y1=m.y1*K,X2=m.x2*K,Y2=m.y2*K,L=Math.hypot(X2-X1,Y2-Y1)||1,ux=(X2-X1)/L,uy=(Y2-Y1)/L,px=-uy,py=ux,a=Math.min(6.5,L/4),t=Math.round(m.v*100),lw=t>=100?29:23,lh=15;
+   const bar=(x,y)=>`<line class="eb" x1="${x+px*8}" y1="${y+py*8}" x2="${x-px*8}" y2="${y-py*8}"/>`,arr=(x,y,d)=>`<path class="ah" d="M${x} ${y} L${x+d*ux*a+px*a*.55} ${y+d*uy*a+py*a*.55} L${x+d*ux*a-px*a*.55} ${y+d*uy*a-py*a*.55}Z"/>`;
+   let best=null;outer:for(const o of [0,14,-14,26,-26,38,-38])for(const f of [.5,.34,.66,.22,.78]){const cx=X1+(X2-X1)*f+px*o,cy=Y1+(Y2-Y1)*f+py*o,q={x1:cx-lw/2-1.5,x2:cx+lw/2+1.5,y1:cy-lh/2-1.5,y2:cy+lh/2+1.5};if(!ov(q)){best={cx,cy,q,f,o};break outer}}
+   if(!best){const cx=(X1+X2)/2,cy=(Y1+Y2)/2;best={cx,cy,q:{x1:cx-lw/2,x2:cx+lw/2,y1:cy-lh/2,y2:cy+lh/2},f:.5,o:0}}placed.push(best.q);
+   const lead=best.o?`<line class="ld" x1="${X1+(X2-X1)*best.f}" y1="${Y1+(Y2-Y1)*best.f}" x2="${best.cx}" y2="${best.cy}"/>`:"";
+   return `<g class="mes${m.k==="p"||m.k==="g"?" pair":m.k==="d"?" diag":""}"><line x1="${X1}" y1="${Y1}" x2="${X2}" y2="${Y2}"/>${bar(X1,Y1)}${bar(X2,Y2)}${arr(X1,Y1,1)}${arr(X2,Y2,-1)}${lead}<rect x="${best.cx-lw/2}" y="${best.cy-lh/2}" width="${lw}" height="${lh}" rx="3"/><text x="${best.cx}" y="${best.cy+3.8}" text-anchor="middle">${t}</text>${m.k==="g"?`<text x="${X2+3}" y="${Y2+18}" style="font:600 7.5px var(--f-mono)">DÉBUT POCHE</text>`:""}</g>`}).join("")}
  if(false)mo=measures().map(m=>{const k=SC2,x1=m.x1*k,y1=m.y1*k,x2=m.x2*k,y2=m.y2*k,h=Math.abs(y1-y2)<1,mx=(x1+x2)/2,my=(y1+y2)/2,t=Math.round(m.v*100);const tk=h?`<line x1="${x1}" y1="${y1-4}" x2="${x1}" y2="${y1+4}"/><line x1="${x2}" y1="${y2-4}" x2="${x2}" y2="${y2+4}"/>`:`<line x1="${x1-4}" y1="${y1}" x2="${x1+4}" y2="${y1}"/><line x1="${x2-4}" y1="${y2}" x2="${x2+4}" y2="${y2}"/>`;return `<g class="mes${m.k==="p"||m.k==="g"?" pair":m.k==="d"?" diag":""}"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>${tk}<rect x="${mx-12}" y="${my-7}" width="24" height="13" rx="2"/><text x="${mx}" y="${my+3.5}" text-anchor="middle">${t}</text></g>`}).join("");
  let dm="";if(UI.dims)dm=S.items.filter(it=>sel==null||!S.items.some(i=>i.id===sel)||it.id===sel).map(it=>{const K=SC2,r=rect(it),x1=r.x1*K,y1=r.y1*K,x2=r.x2*K,y2=r.y2*K,W=x2-x1,Hh=y2-y1,cm=v=>Math.round(v*100);let g="";
    const iy=y1+Math.min(9,Hh/3),ix=x1+Math.min(9,W/3);
    if(W>14)g+=`<line x1="${x1+2}" y1="${iy}" x2="${x2-2}" y2="${iy}"/><line x1="${x1+2}" y1="${iy-3}" x2="${x1+2}" y2="${iy+3}"/><line x1="${x2-2}" y1="${iy-3}" x2="${x2-2}" y2="${iy+3}"/><text x="${(x1+x2)/2}" y="${iy-2}" text-anchor="middle">${cm(fw(it))}</text>`;
    if(Hh>14)g+=`<line x1="${ix}" y1="${y1+2}" x2="${ix}" y2="${y2-2}"/><line x1="${ix-3}" y1="${y1+2}" x2="${ix+3}" y2="${y1+2}"/><line x1="${ix-3}" y1="${y2-2}" x2="${ix+3}" y2="${y2-2}"/><text x="${ix+2}" y="${(y1+y2)/2}" transform="rotate(-90 ${ix+2} ${(y1+y2)/2})" text-anchor="middle" dy="-1">${cm(fd(it))}</text>`;
    if(W<=14||Hh<=14)g+=`<text x="${(x1+x2)/2+(W<=14?10:0)}" y="${(y1+y2)/2+(Hh<=14?-8:0)}" text-anchor="${W<=14?"start":"middle"}">${cm(fw(it))}×${cm(fd(it))}</text>`;
-   const dt=details(it);if(dt&&W>60&&Hh>40)g+=`<text class="dt" x="${(x1+x2)/2}" y="${(y1+y2)/2+14}" text-anchor="middle">${dt.split(" · ")[0]}</text>`;
+   const dt=details(it);if(it.t==="showerNiche"){const ir=interiorRect(it);g+=`<rect class="intr" x="${ir.x1*K}" y="${ir.y1*K}" width="${(ir.x2-ir.x1)*K}" height="${(ir.y2-ir.y1)*K}"/><text class="it2" x="${(ir.x1+ir.x2)/2*K}" y="${(ir.y1+ir.y2)/2*K+24}" text-anchor="middle">intérieur ${cm(ir.L)} × ${cm(ir.l)}</text>`}
+   else if(dt&&W>60&&Hh>40)g+=`<text class="dt" x="${(x1+x2)/2}" y="${(y1+y2)/2+14}" text-anchor="middle">${dt.split(" · ")[0]}</text>`;
    return `<g class="dims">${g}</g>`}).join("");
- let cz="";if(UI.mes){const C=circulation();cz=C.svg;CIRC=C}
- gL.innerHTML=`${cz}<g class="live">${UI.mes||UI.dims?"":o}</g>${dm}${mo}`;
- const et=document.querySelectorAll(".espTxt");et.forEach(e=>{e.hidden=!UI.mes;if(UI.mes&&CIRC)e.innerHTML=`Circulation libre : <b>${f2(CIRC.all)} m²</b> au sol, dont <b>${f2(CIRC.up)} m²</b> où l'on tient debout (≥ 1,90 m). Douche et baignoire non comptées.`});
+ let cz="";if(UI.mes){const C=circulation();cz=C.svg+heightLines();CIRC=C}
+ let m2="";{const K=SC2;M2.forEach(p=>m2+=`<circle cx="${p[0]*K}" cy="${p[1]*K}" r="4.5"/>`);if(M2.length===2){const[a,b]=M2,v=Math.hypot(b[0]-a[0],b[1]-a[1]),t=Math.round(v*100),cx=(a[0]+b[0])/2*K,cy=(a[1]+b[1])/2*K,lw=t>=100?32:26;m2=`<line x1="${a[0]*K}" y1="${a[1]*K}" x2="${b[0]*K}" y2="${b[1]*K}"/>`+m2+`<rect x="${cx-lw/2}" y="${cy-8}" width="${lw}" height="16" rx="3"/><text x="${cx}" y="${cy+4}" text-anchor="middle">${t}</text>`}}
+ gL.innerHTML=`${cz}<g class="live">${UI.mes||UI.dims||MODE2?"":o}</g>${dm}${mo}<g class="m2">${m2}</g>`;
+ {const e=document.querySelector(".m2Txt");if(e){e.hidden=!MODE2;if(MODE2){if(M2.length===2){const[a,b]=M2,cm=v=>Math.round(v*100);e.innerHTML=`Distance : <b>${cm(Math.hypot(b[0]-a[0],b[1]-a[1]))} cm</b> · en largeur ${cm(Math.abs(b[0]-a[0]))} cm · en profondeur ${cm(Math.abs(b[1]-a[1]))} cm. Clique un nouveau point pour recommencer.`}else e.textContent=M2.length?"Point A posé. Clique le point B.":"Clique deux points sur le plan. Ils s'aimantent aux angles des éléments et des murs finis."}}}
+ const et=document.querySelectorAll(".espTxt");et.forEach(e=>{e.hidden=!UI.mes;if(UI.mes&&CIRC)e.innerHTML=`Circulation libre : <b>${f2(CIRC.all)} m²</b> au sol, dont <b>${f2(CIRC.up)} m²</b> où l'on tient debout (≥ 1,90 m). Douche et baignoire non comptées. Repères de hauteur depuis le sol fini : <b style="color:#b5651d">1,80 m</b> et <b style="color:#2f7a4c">2,00 m</b>.`});
 }
 
 /* drag */
 let drag=null;
 function pt(e){const p=SVG.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(SVG.getScreenCTM().inverse())}
+let MODE2=false,M2=[],MODE3=false,M3=[],MG=null;
+function snap2(x,y){const c=[],T=TW();S.items.forEach(it=>{const r=rect(it);c.push([r.x1,r.y1],[r.x2,r.y1],[r.x1,r.y2],[r.x2,r.y2])});c.push([T,(DBL()?.10:0)+T],[3.49-T,3-T],[T,3-T],[4.09-T,T],[3.49-T,.97-T],[4.09-T,.97-T]);let b=null,bd=.07;c.forEach(p=>{const d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;b=p}});return b?[b[0],b[1]]:[Math.round(x*100)/100,Math.round(y*100)/100]}
 SVG.addEventListener("pointerdown",e=>{
+ if(MODE2){const p=pt(e);const q=snap2(p.x/SC2,p.y/SC2);if(M2.length>=2)M2=[];M2.push(q);refresh(true);return}
  const g=e.target.closest(".it");
  if(!g){sel=null;refresh();return}
  const it=S.items.find(i=>i.id==g.dataset.id);sel=it.id;
@@ -583,7 +603,7 @@ function drawWarn(res){
 /* barre de réglages */
 const presetsEl=document.getElementById("presets");
 presetsEl.innerHTML=Object.entries(PRESETS).map(([k,p])=>`<button data-p="${k}">${p.name}</button>`).join("");
-presetsEl.addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;load(PRESETS[b.dataset.p]);S.preset=b.dataset.p;S.edited=false;refresh(false,true);persist()});
+presetsEl.addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b)return;load(PRESETS[b.dataset.p]);S.preset=b.dataset.p;S.edited=false;M2=[];M3=[];drawM3();refresh(false,true);persist()});
 [["pH0","H0",40,170],["pL","L",20,200],["pP","P",200,300]].forEach(([id,k,a,b])=>{const el=document.getElementById(id);el.addEventListener("change",()=>{let v=parseFloat(el.value);if(isNaN(v))return;v=Math.min(b,Math.max(a,v));if(k==="H0")v=Math.min(v,175);S[k]=v;refresh(false,true);save()})});
 [["pTW","tw",0,30],["pTF","tf",0,40]].forEach(([id,k,a,b])=>{const el=document.getElementById(id);el.addEventListener("change",()=>{let v=parseFloat(el.value);if(isNaN(v))return;S[k]=Math.min(b,Math.max(a,v));refresh(false,true);save()})});
 document.getElementById("pTile").addEventListener("change",e=>{S.tile=e.target.value==="1";refresh(false,true);save()});
@@ -596,6 +616,7 @@ document.getElementById("copy").onclick=()=>{
 };
 
 /* ---------- 3D ---------- */
+let WALLS=[],FMW=null,SLOPEM=null,FOLLOW=[];
 let R,SC,CAM,SHELL,FIX,HIDE=[],OCC=[],RAY=new THREE.Raycaster(),T=new THREE.Vector3(1.9,0.8,1.5),cam={th:2.45,ph:0.95,r:6.8};
 const el3=document.getElementById("v3d");
 function canvasTex(draw,px){const c=document.createElement("canvas");c.width=c.height=px;draw(c.getContext("2d"),px);const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=4;return t}
@@ -634,14 +655,14 @@ function edges(m){m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometr
 function box(p,w,h,d,mat,x,y,z){const m=edges(new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat));m.position.set(x+w/2,y+h/2,z+d/2);p.add(m);return m}
 function shape(pts){const s=new THREE.Shape();pts.forEach((p,i)=>i?s.lineTo(p[0],p[1]):s.moveTo(p[0],p[1]));return new THREE.ShapeGeometry(s)}
 let WM=null;
-function addWall(pts,ax,v,c,n){const m=edges(new THREE.Mesh(shape(pts),WM||M.wall));if(ax==="x"){m.rotation.y=-Math.PI/2;m.position.x=v}else m.position.z=v;m.userData={c:new THREE.Vector3(...c),n:new THREE.Vector3(...n).normalize()};SHELL.add(m);HIDE.push(m);OCC.push(m)}
+function addWall(pts,ax,v,c,n){const m=edges(new THREE.Mesh(shape(pts),WM||M.wall));if(ax==="x"){m.rotation.y=-Math.PI/2;m.position.x=v}else m.position.z=v;m.userData={c:new THREE.Vector3(...c),n:new THREE.Vector3(...n).normalize()};SHELL.add(m);HIDE.push(m);OCC.push(m);WALLS.push(m)}
 function dispose(g){g.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material&&o.material.map&&o.material.map!==zTex&&o.material.map!==floorTex&&o.material.map!==floorTexB&&o.material.map!==bTex)o.material.dispose()})}
 
 function buildShell(){
  M.wall.color.setHex(S.style==="beige"?0xf4efe7:0xeeebe6);
  WM=null;if(S.tile!==false){const src=S.style==="beige"?bTex:(M.tileW.map||null);if(src&&src.image&&src.image.width){const t=src.clone();t.wrapS=t.wrapT=THREE.RepeatWrapping;if(S.style==="beige")t.repeat.set(1/1.2,1/1.2);else t.repeat.set(1/.8,1/.62);t.needsUpdate=true;WM=new THREE.MeshStandardMaterial({map:t,roughness:.45,side:THREE.DoubleSide})}}
  if(SHELL){SC.remove(SHELL);dispose(SHELL)}SHELL=new THREE.Group();SC.add(SHELL);
- HIDE=HIDE.filter(h=>h.userData.fix);OCC=[];
+ HIDE=HIDE.filter(h=>h.userData.fix);OCC=[];WALLS=[];FMW=null;SLOPEM=null;
  const H0=S.H0/100,P=S.P/100,X=Math.min(xp(),3.2);
  const f=new THREE.Mesh(shape([[0,0],[4.09,0],[4.09,-0.97],[3.49,-0.97],[3.49,-3],[0,-3]]),new THREE.MeshStandardMaterial({map:S.style==="beige"?floorTexB:floorTex,roughness:.8}));f.rotation.x=-Math.PI/2;SHELL.add(edges(f));
  addWall([[0,0],[3,0],[3,H0],[0,H0]],"x",0,[0,H0/2,1.5],[-1,0,0]);
@@ -651,12 +672,12 @@ function buildShell(){
  addWall([[0,0],[.97,0],[.97,P],[0,P]],"x",4.09,[4.09,1.2,.48],[1,0,0]);OCC[OCC.length-1].userData.niche=1;
  addWall([[0,0],[DOOR.o1,0],[DOOR.o1,2.04],[DOOR.o2,2.04],[DOOR.o2,0],[4.09,0],[4.09,P],[X,P],[0,H0]],"z",0,[2,1.2,0],[0,0,-1]);
  const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute([0,H0,0, X,P,0, X,P,3, 0,H0,0, X,P,3, 0,H0,3],3));g.computeVertexNormals();
- const sl=edges(new THREE.Mesh(g,M.wall));const nn=new THREE.Vector3(-(P-H0),X,0).normalize();sl.userData={c:new THREE.Vector3(X/2,(H0+P)/2,1.5),n:nn};SHELL.add(sl);HIDE.push(sl);
+ const sl=edges(new THREE.Mesh(g,M.wall));const nn=new THREE.Vector3(-(P-H0),X,0).normalize();sl.userData={c:new THREE.Vector3(X/2,(H0+P)/2,1.5),n:nn};SHELL.add(sl);HIDE.push(sl);SLOPEM=sl;
  const [a,b]=veluxX(),t=slope(),o=.012,ya=H0+t*a,yb=H0+t*b,vg=new THREE.BufferGeometry();
  vg.setAttribute("position",new THREE.Float32BufferAttribute([a,ya-o,VEL.y1, b,yb-o,VEL.y1, b,yb-o,VEL.y2, a,ya-o,VEL.y1, b,yb-o,VEL.y2, a,ya-o,VEL.y2],3));vg.computeVertexNormals();sl.add(new THREE.Mesh(vg,M.velux));
  if(S.door==="battante")box(SHELL,.04,2.04,.73,M.door,DOOR.o2-.04,0,.02);
  if(S.door==="applique"){box(SHELL,.73,2.04,.04,M.door,DOOR.pk1+.02,0,.03);box(SHELL,1.50,.05,.03,M.chrome,DOOR.pk1,2.08,.02)}
- if(S.door==="galandage"){const sh=new THREE.Shape();[[0,0],[DOOR.o1,0],[DOOR.o1,P],[X,P],[0,H0]].forEach((q,i)=>i?sh.lineTo(q[0],q[1]):sh.moveTo(q[0],q[1]));const fmw=edges(new THREE.Mesh(new THREE.ExtrudeGeometry(sh,{depth:.10,bevelEnabled:false}),WM||M.wall));SHELL.add(fmw);fmw.userData={c:new THREE.Vector3(DOOR.o1/2,1.2,.05),n:new THREE.Vector3(0,0,-1)};HIDE.push(fmw);OCC.push(fmw)}
+ if(S.door==="galandage"){const sh=new THREE.Shape();[[0,0],[DOOR.o1,0],[DOOR.o1,P],[X,P],[0,H0]].forEach((q,i)=>i?sh.lineTo(q[0],q[1]):sh.moveTo(q[0],q[1]));const fmw=edges(new THREE.Mesh(new THREE.ExtrudeGeometry(sh,{depth:.10,bevelEnabled:false}),WM||M.wall));SHELL.add(fmw);FMW=fmw;fmw.userData={c:new THREE.Vector3(DOOR.o1/2,1.2,.05),n:new THREE.Vector3(0,0,-1)};HIDE.push(fmw);OCC.push(fmw)}
 }
 function onWall(it){
  const x1=it.x,y1=it.y,x2=x1+fw(it),y2=y1+fd(it),t=.12;const mx=(x1+x2)/2,my=(y1+y2)/2;
@@ -667,7 +688,7 @@ function onWall(it){
 }
 function wallTile(p,w,h,y0,it,src){const tex=(src||zTex).clone();tex.needsUpdate=true;tex.repeat.set(w/1.2,h/1.2);const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshStandardMaterial({map:tex,roughness:.35,side:THREE.DoubleSide}));m.position.set(w/2,y0+h/2,.008);p.add(m);return m}
 function buildFix(bad){
- if(FIX){SC.remove(FIX);dispose(FIX)}FIX=new THREE.Group();SC.add(FIX);HIDE=HIDE.filter(h=>!h.userData.fix);
+ if(FIX){SC.remove(FIX);dispose(FIX)}FIX=new THREE.Group();SC.add(FIX);HIDE=HIDE.filter(h=>!h.userData.fix);FOLLOW=[];
  const backN=[[0,0,-1],[1,0,0],[0,0,1],[-1,0,0]];
  S.items.forEach(it=>{
   const pv=new THREE.Group(),L=new THREE.Group(),w=it.w,d=it.d,wall=onWall(it);pv.add(L);L.position.set(-w/2,0,-d/2);
@@ -689,12 +710,17 @@ function buildFix(bad){
    case "showerNiche":{const fm=.10,mu=.10,HH=Math.min(2.40,S.P/100-.02),T=TW();const th=-it.r*Math.PI/2;
     box(L,w-fm,.012,d-mu,M.trayB,fm,0,0);box(L,Math.max(.2,(it.open?it.open[0]:w)-fm-.2),.014,.05,M.black,fm+.1,0,.05);
     const fmM=new THREE.MeshStandardMaterial({map:bTex,roughness:.5});
-    const nw=it.nw||.60,nh=it.nh||.30,nz=d*.5-nw/2,ny=1.05,nd=.10-.02-T;
+    const nw=it.nw||.60,nh=it.nh||.30,nz=d*.5-nw/2,ny=1.25,nd=.10-.02-T;
     const parts=[box(L,fm,ny,d,fmM,0,0,0),box(L,fm,HH-ny-nh,d,fmM,0,ny+nh,0),box(L,fm,nh,nz,fmM,0,ny,0),box(L,fm,nh,d-nz-nw,fmM,0,ny,nz+nw),box(L,fm-nd,nh,nw,M.niche,0,ny,nz)];
     parts.forEach(p=>{p.userData={fix:1,c:new THREE.Vector3(cx,1,cz),n:new THREE.Vector3(-Math.cos(th),0,Math.sin(th))};HIDE.push(p)});
     {const lt=new THREE.Mesh(new THREE.BoxGeometry(fm-nd,.006,nw-.02),new THREE.MeshStandardMaterial({color:0xfff1d0,emissive:0xffcf80,emissiveIntensity:1}));lt.position.set((fm-nd)/2,ny+nh-.004,nz+nw/2);L.add(lt)}
     box(L,.05,.04,.03,M.black,fm-nd+.01,ny,nz+.12);box(L,.05,.06,.05,M.black,fm-nd+.01,ny,nz+.22);
-    box(L,.06,.14,.06,M.black,fm,1.0,d*.82-.03);box(L,.35,.02,.02,M.black,fm,2.10,d*.45);{const hd=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.015,32),M.black);hd.position.set(fm+.35,2.08,d*.45+.01);L.add(hd)}
+    {const zc=d*.5,py=Math.min(2.15,HH-.12);
+     box(L,.012,.22,.13,M.black,fm,.90,zc-.065);
+     [.96,1.06].forEach(y=>{const kn=new THREE.Mesh(new THREE.CylinderGeometry(.026,.026,.05,20),M.chrome);kn.rotation.z=Math.PI/2;kn.position.set(fm+.037,y,zc);L.add(kn);const cp=new THREE.Mesh(new THREE.CylinderGeometry(.027,.027,.008,20),M.black);cp.rotation.z=Math.PI/2;cp.position.set(fm+.064,y,zc);L.add(cp)});
+     box(L,.30,.022,.022,M.black,fm,py,zc-.011);const hd=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,.014,40),M.black);hd.position.set(fm+.30,py-.012,zc);L.add(hd);const fc=new THREE.Mesh(new THREE.CylinderGeometry(.14,.14,.004,40),M.chrome);fc.position.set(fm+.30,py-.021,zc);L.add(fc);
+     box(L,.03,.05,.04,M.black,fm,1.12,zc+.16);const hs=new THREE.Mesh(new THREE.CylinderGeometry(.016,.014,.20,14),M.black);hs.position.set(fm+.045,1.10,zc+.18);L.add(hs);const dh=new THREE.Mesh(new THREE.CylinderGeometry(.036,.036,.02,24),M.black);dh.rotation.z=Math.PI/2;dh.position.set(fm+.055,1.21,zc+.18);L.add(dh);
+     const hose=new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(fm+.045,1.00,zc+.18),new THREE.Vector3(fm+.07,.72,zc+.14),new THREE.Vector3(fm+.05,.80,zc+.05),new THREE.Vector3(fm+.02,.91,zc+.02)]),24,.007,6,false);L.add(new THREE.Mesh(hose,M.chrome))}
     const mM=new THREE.MeshStandardMaterial({map:bTex,roughness:.5});
     showerFront(it).forEach(sg=>{box(L,sg.b-sg.a,1.10,mu,mM,sg.a,0,d-mu);if(sg.g){const[a,b]=sg.g,gw=b-a;const g=new THREE.Mesh(new THREE.BoxGeometry(gw,.90,.01),M.glass);g.position.set(a+gw/2,1.55,d-mu/2);L.add(g);
      box(L,gw,.025,.03,M.black,a,1.10,d-mu/2-.015);box(L,gw,.025,.03,M.black,a,1.98,d-mu/2-.015);box(L,gw,.02,.03,M.black,a,1.54,d-mu/2-.015);const nn=Math.max(1,Math.round(gw/.35));for(let i=0;i<=nn;i++)box(L,.025,.90,.03,M.black,a+i*(gw-.025)/nn,1.10,d-mu/2-.015)}});
@@ -720,18 +746,38 @@ function buildFix(bad){
   }
   if(it.id===sel||bad.has(it.id)){const h=Math.max(CAT[it.t].h,.1)+.02;const e=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(fw(it)+.02,h,fd(it)+.02)),it.id===sel?M.sel:M.bad);e.position.set(cx,h/2,cz);FIX.add(e)}
  });
- const label=(txt,x,y,z,sc,col)=>{const c=document.createElement("canvas");c.width=320;c.height=64;const q=c.getContext("2d");q.font="600 30px sans-serif";const tw=Math.min(312,q.measureText(txt).width+28);q.fillStyle="#ffffff";q.strokeStyle=col;q.lineWidth=4;q.beginPath();const x0=(320-tw)/2;q.roundRect?q.roundRect(x0,6,tw,52,10):q.rect(x0,6,tw,52);q.fill();q.stroke();q.fillStyle=col;q.textAlign="center";q.textBaseline="middle";q.fillText(txt,160,33);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(sc,sc/5,1);sp.position.set(x,y,z);sp.renderOrder=11;FIX.add(sp)};
- if(UI.dims)S.items.filter(it=>sel==null||!S.items.some(i=>i.id===sel)||it.id===sel).forEach(it=>{const r=rect(it),cm=v=>Math.round(v*100),H=it.t==="showerNiche"?2.0:(it.hh||it.h||CAT[it.t].h);label(`${cm(it.w)} × ${cm(it.d)} × h ${cm(H)}`,(r.x1+r.x2)/2,Math.min(H,2.2)+.18,(r.y1+r.y2)/2,.62,"#2b3136")});
- if(UI.mes)measures().forEach(m=>{const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(m.x1,.03,m.y1),new THREE.Vector3(m.x2,.03,m.y2)]);const l=new THREE.Line(g,M.mesL);l.renderOrder=10;FIX.add(l);
-  [[m.x1,m.y1],[m.x2,m.y2]].forEach(([px,pz])=>{const pg=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(px,0,pz),new THREE.Vector3(px,.35,pz)]);const pl=new THREE.Line(pg,M.mesL);pl.renderOrder=10;FIX.add(pl);const bl=new THREE.Mesh(new THREE.SphereGeometry(.018,10,8),new THREE.MeshBasicMaterial({color:0x1f6fb2,depthTest:false}));bl.position.set(px,.03,pz);bl.renderOrder=10;FIX.add(bl)});
-  const c=document.createElement("canvas");c.width=160;c.height=64;const x=c.getContext("2d");x.fillStyle="#ffffff";x.strokeStyle="#1f6fb2";x.lineWidth=4;x.beginPath();x.roundRect?x.roundRect(4,4,152,56,10):x.rect(4,4,152,56);x.fill();x.stroke();x.fillStyle="#1f6fb2";x.font="600 34px sans-serif";x.textAlign="center";x.textBaseline="middle";x.fillText(Math.round(m.v*100)+" cm",80,34);
-  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(.32,.13,1);sp.position.set((m.x1+m.x2)/2,.22,(m.y1+m.y2)/2);sp.renderOrder=11;FIX.add(sp)});
+ const used=[];const stag=(x,y,z)=>{let yy=y;for(let i=0;i<8;i++){if(!used.some(u=>Math.hypot(u[0]-x,u[2]-z)<.4&&Math.abs(u[1]-yy)<.12))break;yy+=.13}used.push([x,yy,z]);return yy};
+ const label=(txt,x,y,z,sc,col)=>{const sp=spriteLabel(txt,col,sc);sp.position.set(x,stag(x,y,z),z);FIX.add(sp)};
+ const labelOld=(txt,x,y,z,sc,col)=>{const c=document.createElement("canvas");c.width=320;c.height=64;const q=c.getContext("2d");q.font="600 30px sans-serif";const tw=Math.min(312,q.measureText(txt).width+28);q.fillStyle="#ffffff";q.strokeStyle=col;q.lineWidth=4;q.beginPath();const x0=(320-tw)/2;q.roundRect?q.roundRect(x0,6,tw,52,10):q.rect(x0,6,tw,52);q.fill();q.stroke();q.fillStyle=col;q.textAlign="center";q.textBaseline="middle";q.fillText(txt,160,33);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(sc,sc/5,1);sp.position.set(x,y,z);sp.renderOrder=11;FIX.add(sp)};
+ if(UI.dims)S.items.filter(it=>sel==null||!S.items.some(i=>i.id===sel)||it.id===sel).forEach(it=>{const r=rect(it),cm=v=>Math.round(v*100),H=it.t==="showerNiche"?2.0:(it.hh||it.h||CAT[it.t].h);label(`${cm(it.w)} × ${cm(it.d)} × h ${cm(H)}`,(r.x1+r.x2)/2,Math.min(H,2.2)+.18,(r.y1+r.y2)/2,.62,"#2b3136");
+  if(it.t==="showerNiche"){const ir=interiorRect(it),tm=new THREE.MeshBasicMaterial({color:0x2f7f8f}),y=.03;const P=[[ir.x1,ir.y1],[ir.x2,ir.y1],[ir.x2,ir.y2],[ir.x1,ir.y2],[ir.x1,ir.y1]];for(let i=0;i<4;i++)seg3(FIX,new THREE.Vector3(P[i][0],y,P[i][1]),new THREE.Vector3(P[i+1][0],y,P[i+1][1]),tm,.012);label(`intérieur ${cm(ir.L)} × ${cm(ir.l)}`,(ir.x1+ir.x2)/2,.35,(ir.y1+ir.y2)/2,.75,"#2f7f8f")}});
+ if(UI.mes){const mm=new THREE.MeshBasicMaterial({color:0x1f6fb2,depthTest:false,transparent:true,opacity:.95});
+  measures().forEach(m=>{const A=new THREE.Vector3(m.x1,.03,m.y1),B=new THREE.Vector3(m.x2,.03,m.y2);seg3(FIX,A,B,mm,.016);[A,B].forEach(p=>seg3(FIX,new THREE.Vector3(p.x,0,p.z),new THREE.Vector3(p.x,.32,p.z),mm,.012));
+   const mx=(m.x1+m.x2)/2,mz=(m.y1+m.y2)/2;label(Math.round(m.v*100)+" cm",mx,.24,mz,.7,"#1f6fb2")});
+  [[1.80,0xd9822b,"#b5651d","1,80 m"],[2.00,0x2f8f5a,"#2f7a4c","2,00 m"]].forEach(([h,c,cs,txt])=>{const y=h+TF(),xs=(y-S.H0/100)/slope();if(!(xs>0&&xs<3.4))return;const mt=new THREE.MeshBasicMaterial({color:c}),e=.012,z0=(DBL()?.10:0)+e;
+   const pts=[[xs,z0],[xs,3-e],[3.49-e,3-e],[3.49-e,.97-e],[4.09-e,.97-e],[4.09-e,e]];if(DBL())pts.push([DOOR.o1,e],[DOOR.o1,z0],[xs,z0]);else pts.push([xs,e]);
+   const fol=[SLOPEM,WALLS[1],WALLS[2],WALLS[3],WALLS[4],WALLS[5],FMW,FMW];
+   for(let i=0;i<pts.length-1;i++){const m=seg3(FIX,new THREE.Vector3(pts[i][0],y,pts[i][1]),new THREE.Vector3(pts[i+1][0],y,pts[i+1][1]),mt,.014);if(m&&fol[i]){m.userData.follow=fol[i];FOLLOW.push(m)}}
+   const sp=spriteLabel(txt,cs,.6);sp.position.set(xs+.06,y+.08,h<1.9?1.2:1.8);FIX.add(sp);if(SLOPEM){sp.userData.follow=SLOPEM;FOLLOW.push(sp)}})}
 }
+function spriteLabel(txt,col,sc){const c=document.createElement("canvas");c.width=320;c.height=64;const q=c.getContext("2d");q.font="600 30px sans-serif";const tw=Math.min(312,q.measureText(txt).width+28);q.fillStyle="#ffffff";q.strokeStyle=col;q.lineWidth=4;q.beginPath();const x0=(320-tw)/2;q.roundRect?q.roundRect(x0,6,tw,52,10):q.rect(x0,6,tw,52);q.fill();q.stroke();q.fillStyle=col;q.textAlign="center";q.textBaseline="middle";q.fillText(txt,160,33);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.scale.set(sc,sc/5,1);sp.renderOrder=11;return sp}
+function seg3(parent,a,b,mat,th){const v=b.clone().sub(a),len=v.length();if(len<.001)return null;const m=new THREE.Mesh(new THREE.BoxGeometry(len,th,th),mat);m.position.copy(a.clone().add(b).multiplyScalar(.5));m.quaternion.setFromUnitVectors(new THREE.Vector3(1,0,0),v.normalize());m.renderOrder=10;m.userData.noPick=1;parent.add(m);return m}
+function isVis(o){while(o){if(!o.visible)return false;o=o.parent}return true}
+function pick3D(e){const r=R.domElement.getBoundingClientRect();const v=new THREE.Vector2(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);const rc=new THREE.Raycaster();rc.setFromCamera(v,CAM);const h=rc.intersectObjects(SC.children,true).find(h=>h.object.isMesh&&!h.object.userData.noPick&&isVis(h.object)&&!(MG&&isChild(h.object,MG)));return h?h.point.clone():null}
+function isChild(o,p){while(o){if(o===p)return true;o=o.parent}return false}
+function drawM3(){if(!SC)return;if(MG)SC.remove(MG);MG=new THREE.Group();SC.add(MG);const mat=new THREE.MeshBasicMaterial({color:0xe0661f,depthTest:false});
+ M3.forEach(p=>{const s=new THREE.Mesh(new THREE.SphereGeometry(.03,14,10),mat);s.position.copy(p);s.renderOrder=20;MG.add(s)});
+ const e=document.querySelector(".m3Txt"),cm=v=>Math.round(v*100);
+ if(M3.length===2){const[a,b]=M3,v=b.clone().sub(a);seg3(MG,a,b,mat,.016);MG.children.forEach(c=>c.renderOrder=20);const sp=spriteLabel(cm(v.length())+" cm","#e0661f",.8);sp.position.copy(a.clone().add(b).multiplyScalar(.5)).add(new THREE.Vector3(0,.1,0));sp.renderOrder=21;MG.add(sp);
+  if(e)e.innerHTML=`Distance : <b>${cm(v.length())} cm</b> · au sol ${cm(Math.hypot(v.x,v.z))} cm · en hauteur ${cm(Math.abs(v.y))} cm. Point A à ${cm(a.y)} cm du sol, point B à ${cm(b.y)} cm. Clique un nouveau point pour recommencer.`}
+ else if(e)e.textContent=M3.length?`Point A posé à ${cm(M3[0].y)} cm du sol. Clique le point B.`:"Clique deux points sur la maquette (sol, mur, meuble…). Tu peux toujours tourner la vue en glissant.";
+ if(e)e.hidden=!MODE3}
 function bg(){const c=getComputedStyle(document.documentElement).getPropertyValue("--sheet").trim()||"#fff";SC.background=new THREE.Color(c)}
 function draw(){
  if(!R)return;const s=Math.sin(cam.ph);CAM.position.set(T.x+cam.r*s*Math.sin(cam.th),T.y+cam.r*Math.cos(cam.ph),T.z+cam.r*s*Math.cos(cam.th));CAM.lookAt(T);
  HIDE.forEach(m=>{m.visible=CAM.position.clone().sub(m.userData.c).dot(m.userData.n)<0.05});
- {const dir=T.clone().sub(CAM.position),dist=dir.length();dir.normalize();RAY.set(CAM.position,dir);RAY.far=Math.max(.1,dist-.4);OCC.forEach(m=>{if(m.visible&&(RAY.intersectObject(m,false).length||(m.userData.niche&&CAM.position.x>3.4&&CAM.position.z<2)))m.visible=false})}R.render(SC,CAM);
+ {const dir=T.clone().sub(CAM.position),dist=dir.length();dir.normalize();RAY.set(CAM.position,dir);RAY.far=Math.max(.1,dist-.4);OCC.forEach(m=>{if(m.visible&&(RAY.intersectObject(m,false).length||(m.userData.niche&&CAM.position.x>3.4&&CAM.position.z<2)))m.visible=false})}
+ FOLLOW.forEach(m=>{m.visible=!!(m.userData.follow&&m.userData.follow.visible)});R.render(SC,CAM);
 }
 function resize(){if(!R)return;const w=el3.clientWidth,h=el3.clientHeight;if(!w||!h)return;R.setSize(w,h,false);CAM.aspect=w/h;CAM.updateProjectionMatrix();draw()}
 function init3D(){
@@ -741,18 +787,22 @@ function init3D(){
  SC.add(new THREE.HemisphereLight(0xffffff,0x9a9590,.85));const l1=new THREE.DirectionalLight(0xfff6ea,.55);l1.position.set(-3,6,2);SC.add(l1);const l2=new THREE.DirectionalLight(0xe8f1ff,.3);l2.position.set(5,3,-4);SC.add(l2);
  bg();new ResizeObserver(resize).observe(el3);
  const P=new Map();let pd=0;
- el3.addEventListener("pointerdown",e=>{el3.setPointerCapture(e.pointerId);P.set(e.pointerId,{x:e.clientX,y:e.clientY});el3.style.cursor="grabbing"});
+ let dn=null;
+ el3.addEventListener("pointerdown",e=>{el3.setPointerCapture(e.pointerId);P.set(e.pointerId,{x:e.clientX,y:e.clientY});dn={x:e.clientX,y:e.clientY,multi:P.size>1||(dn&&dn.multi)};el3.style.cursor="grabbing"});
  el3.addEventListener("pointermove",e=>{if(!P.has(e.pointerId))return;const p=P.get(e.pointerId);
   if(P.size===1){cam.th-=(e.clientX-p.x)*.008;cam.ph=Math.min(1.5,Math.max(.12,cam.ph-(e.clientY-p.y)*.008))}
   P.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(P.size===2){const [a,b]=[...P.values()];const dd=Math.hypot(a.x-b.x,a.y-b.y);if(pd)cam.r=Math.min(12,Math.max(2.5,cam.r*pd/dd));pd=dd}draw()});
- const up=e=>{P.delete(e.pointerId);pd=0;el3.style.cursor="grab"};el3.addEventListener("pointerup",up);el3.addEventListener("pointercancel",up);
+ const up=e=>{const was=dn;P.delete(e.pointerId);pd=0;el3.style.cursor=MODE3?"crosshair":"grab";
+  if(e.type==="pointerup"&&MODE3&&was&&!was.multi&&P.size===0&&Math.hypot(e.clientX-was.x,e.clientY-was.y)<6){const p=pick3D(e);if(p){if(M3.length>=2)M3=[];M3.push(p);drawM3();draw()}}
+  if(P.size===0)dn=null};el3.addEventListener("pointerup",up);el3.addEventListener("pointercancel",up);
  el3.addEventListener("wheel",e=>{e.preventDefault();cam.r=Math.min(12,Math.max(2.5,cam.r*(1+e.deltaY*.001)));draw()},{passive:false});
  const mq=matchMedia("(prefers-color-scheme: dark)");mq.addEventListener&&mq.addEventListener("change",()=>{bg();draw()});
  new MutationObserver(()=>{bg();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 }
 const VIEWS={porte:{th:2.45,ph:.95,r:6.8},dessus:{th:Math.PI,ph:.13,r:7.5},rampant:{th:-1.15,ph:1.0,r:6.4},douche:{th:3.6,ph:1.05,r:6.2},niche:{th:-1.85,ph:1.2,r:4.6}};
-document.querySelectorAll("[data-v]").forEach(b=>b.addEventListener("click",()=>{Object.assign(cam,VIEWS[b.dataset.v]);draw()}));
+document.querySelectorAll("[data-v]").forEach(b=>b.addEventListener("click",()=>{const v=b.dataset.v;T.set(1.9,.8,1.5);Object.assign(cam,VIEWS[v]);
+ if(v==="niche"){const it=S.items.find(i=>i.t==="showerNiche");if(it){const a=loc2plan(it,.10,it.d/2),c=loc2plan(it,1.10,it.d/2),nx=c[0]-a[0],nz=c[1]-a[1];T.set(a[0],1.6,a[1]);cam.th=Math.atan2(nx,nz);cam.ph=1.45;cam.r=2.6}}draw()}));
 
 /* pastilles matière : photo réelle img/<version>-<clé>.jpg si présente, sinon aperçu peint */
 function painter(kind,c,W,H){const g=c.getContext("2d");const rnd=(a,b)=>a+Math.random()*(b-a);
@@ -790,6 +840,7 @@ function refresh(light,shell){
 }
 /* ---------- surface de circulation : grille de 5 cm, hors éléments, douche et baignoire ---------- */
 let CIRC=null;
+function heightLines(){const k=SC2;let o="";[[1.80,"h18","1,80 m"],[2.00,"h20","2,00 m"]].forEach(([h,c,t])=>{const x=(h+TF()-S.H0/100)/slope();if(x>0&&x<3.4)o+=`<g class="${c}"><line x1="${x*k}" y1="${(DBL()?10:0)}" x2="${x*k}" y2="300"/><text x="${x*k+3}" y="${c==="h18"?40:52}">${t}</text></g>`});return `<g class="hgt">${o}</g>`}
 function circulation(){
  const g=.05,T=TW(),R=S.items.map(rect);let all=0,up=0,svg="";const k=SC2;
  for(let y=g/2;y<3;y+=g){let run=null,runUp=null;const flush=(r,cls)=>{if(r)svg+=`<rect class="${cls}" x="${(r[0]-g/2)*k}" y="${(y-g/2)*k}" width="${(r[1]-r[0]+g)*k}" height="${g*k}"/>`};
@@ -849,6 +900,8 @@ function setTab(t){
 document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab)});
 function syncMes(){document.querySelectorAll(".mesBtn").forEach(b=>b.setAttribute("aria-pressed",UI.mes));document.querySelectorAll(".dimBtn").forEach(b=>b.setAttribute("aria-pressed",!!UI.dims))}
 document.querySelectorAll(".dimBtn").forEach(b=>b.addEventListener("click",()=>{UI.dims=!UI.dims;saveUI();syncMes();refresh(true)}));
+document.querySelectorAll(".m2Btn").forEach(b=>b.addEventListener("click",()=>{MODE2=!MODE2;M2=[];b.setAttribute("aria-pressed",MODE2);document.getElementById("plan").style.cursor=MODE2?"crosshair":"";refresh(true)}));
+document.querySelectorAll(".m3Btn").forEach(b=>b.addEventListener("click",()=>{MODE3=!MODE3;M3=[];b.setAttribute("aria-pressed",MODE3);el3.style.cursor=MODE3?"crosshair":"grab";drawM3();draw()}));
 document.querySelectorAll(".mesBtn").forEach(b=>b.addEventListener("click",()=>{UI.mes=!UI.mes;saveUI();syncMes();refresh(true)}));
 document.getElementById("resetBtn").onclick=()=>{const k=S.preset&&PRESETS[S.preset]?S.preset:"actuel";load(PRESETS[k]);S.preset=k;S.edited=false;refresh(false,true);persist()};
 

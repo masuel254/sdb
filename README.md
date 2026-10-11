@@ -29,6 +29,9 @@ Sous le plan et sous la 3D :
 - **Espace** affiche les distances libres entre éléments et aux murs finis, avec flèches et barres de départ et d'arrivée, y compris en diagonale d'un angle à l'autre entre deux éléments voisins, et la surface de circulation libre en m² (en vert là où l'on tient debout à 1,90 m, en ocre sous le rampant). Douche et baignoire ne sont pas comptées.
 - **Éléments** affiche les dimensions de chaque élément sur le plan et au-dessus des objets en 3D.
 
+- **Mesurer** pose deux points et donne la distance. Sur le plan, les points s'aimantent aux angles des éléments et des murs finis, avec l'écart en largeur et en profondeur. Sur la maquette, on clique n'importe quelle surface (sol, mur, meuble) et on obtient la distance réelle, l'écart au sol et l'écart en hauteur.
+- En mode **Espace**, des repères de hauteur à 1,80 m (orange) et 2,00 m (vert) depuis le sol fini sont tracés sur le plan et sur les murs de la maquette.
+
 Avec un élément sélectionné, seules ses cotes apparaissent. Le bouton **Niche de douche** de la 3D cadre directement la niche.
 
 ## La pièce
@@ -58,7 +61,7 @@ Les modifications restent dans le navigateur de chaque visiteur et ne changent p
 - Par défaut, tous les murs et le sol des optimisations sont carrelés : 10 mm sur les murs et 15 mm au sol, colle comprise (réglable). La pièce finie passe à 3,47 m de large.
 - Les contrôles signalent tout meuble qui ne tiendrait plus une fois les murs carrelés, et les hauteurs sous rampant se mesurent depuis le sol fini.
 - Doublage de 10 cm sur tout le mur du rangement pour la porte à galandage.
-- Faux mur de 10 cm dans chaque douche pour la niche à shampoings et le mitigeur encastré. Une fois carrelée, la niche garde environ 7 cm de fond.
+- Faux mur de 10 cm dans chaque douche pour la niche à shampoings et le système de douche encastré (mitigeur thermostatique 2 commandes, pomme Ø 30, douchette). Une colonne de douche apparente rendrait la niche impossible. Une fois carrelée, la niche garde environ 7 cm de fond.
 - La version Actuel est relevée sur des murs déjà carrelés : le carrelage n'y est pas ajouté.
 
 ## Mises à jour
