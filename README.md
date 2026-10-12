@@ -21,7 +21,7 @@ Le descriptif complet et la palette de matériaux de chaque version sont dans l'
 ## Navigation
 
 - **2D** : plan coté avec inspecteur de l'élément sélectionné et contrôles. On zoome en pinçant (ou molette, ou boutons + / − / Tout voir) et on déplace la vue en glissant, sans rien modifier. Le bouton **Modifier** active le déplacement des éléments.
-- **3D** : maquette orientable, vues prédéfinies.
+- **3D** : maquette orientable, vues prédéfinies. Pincer ou molette pour zoomer de très près, deux doigts (ou Maj + glisser) pour déplacer la vue, boutons Avancer, Reculer, + / − et Recentrer.
 - **2D + 3D** : les deux côte à côte (sur grand écran).
 - **Matériaux** : ce qui change dans la version et pourquoi, palette en photo.
 - **Éléments** : tableau des dimensions L × l × H × P de chaque élément (avec, sous chaque douche, le bac à douche à commander), catalogue pour en ajouter, export de la configuration.
