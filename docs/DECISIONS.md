@@ -1,0 +1,37 @@
+# Décisions validées par Samuel
+
+À respecter tant qu'il ne demande pas autre chose.
+
+## Général
+
+- Outil web publié sur GitHub Pages, consulté surtout sur iPhone. Mises à jour poussées directement, version et journal à chaque fois.
+- Les modifications faites dans le plan restent dans le navigateur ; une proposition à garder devient une nouvelle version.
+- Tout carreler (murs, sol, pente dans les optimisations), recalcul des cotes au carrelage fini.
+- Pas de lave-linge dans la salle de bains. Pas de colonne qui masque la verrière.
+- Douche : système encastré (mitigeur thermostatique 2 commandes, pomme Ø 30, douchette) dans un faux mur de 10 cm avec niche ; pas de colonne apparente.
+- Marge de casse carrelage : 10 % aujourd'hui (Samuel a demandé si c'était prévu ; 15 % conseillé sur murs et pente, non encore appliqué).
+- Sèche-serviettes **électrique** (sortie de câble, circuit dédié). Radiateur existant **sur chaudière**, réutilisé.
+- Une seule bouche VMC hygroréglable, au plafond plat au-dessus de l'entrée de douche (deux bouches jugées inutiles).
+
+## Versions
+
+- **Actuel** : relevé de l'existant, référence. Porte battante.
+- **Balnéo** : baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne à verrière, vasque chêne pas collée à la baignoire, porte à galandage dans un doublage pleine longueur (le demi-doublage a été refusé).
+- **Sans balnéo v1** : douche sur toute la largeur avec banquette et douchette. **v2** : sans banquette, douche raccourcie (la banquette n'a d'intérêt qu'avec une douchette).
+- **Sans balnéo v3** (base des suivantes) :
+  - Douche sous rampant côté Velux, entrée de face sans porte, muret vitré de 10 cm h 1,10 + verrière noire jusqu'à 2,00 m.
+  - Poteau carrelé 10 × 12 au bout du muret côté entrée, **arrêté en haut de la vitre (2,00 m)**, jamais jusqu'au plafond.
+  - **Muret du mur nain** (tablette 60 cm, h 60) sur toute la longueur de la douche jusqu'au faux mur du fond ; le **banc carrelé** (30 cm, h 45) s'arrête contre lui, au fond sous la pomme ; caniveau avancé de 30 cm devant le banc. Assise carrelée, pas de bois.
+  - Bac réel 113 × 163, caniveau 100 cm.
+  - Double vasque à tiroirs contre la chambre 2 avec **un seul miroir ovale** 100 × 70 ; meuble haut à 4 tiroirs h 1,40 ; petit banc à lattes de chêne près du sèche-serviettes.
+  - Tiroirs : leur zone d'ouverture (45 cm vasque, profondeur pour meuble bas) ne doit rien percuter, en particulier le radiateur.
+- **Sans balnéo v4** : la v3 avec la **porte battante actuelle** (pas de galandage ni de doublage), 10 cm gagnés ; double vasque **à ras de l'angle** de la niche d'entrée, meuble haut à sa droite côté pignon (profondeur 35 cm pour que ses tiroirs passent devant le radiateur), radiateur à 15 cm du muret, petit banc décalé vers la porte (passage 71 cm). Porte dessinée **fermée, noire**, chambranle noir.
+- **Sans balnéo v5** : la v4 avec les carrelages que Samuel possède déjà : sol grès effet béton gris foncé **80 × 80**, murs, pente et maçonneries grès effet marbre blanc veiné **60 × 90** ; meubles chêne fumé (chêne clair ou noyer acceptés), métal noir mat, **sèche-serviettes noir**, vasques blanc mat. Carrelage compté 0 € au budget.
+
+## Interface
+
+- Onglets en grille sans défilement horizontal. Plan 2D **non modifiable par défaut** (bouton Modifier), zoom et déplacement libres.
+- Espace : distances libres, diagonales, circulation m², repères 1,80 / 2,00 m ; une mesure touchée passe en orange.
+- Implantation (2D) et onglet Murs : cotes brutes L, l, H, épaisseur et position de chaque ouvrage.
+- Budget : saisie au toucher dans une fenêtre, Estimation, Tout effacer (double confirmation), main d'œuvre (temps, taux, forfait prioritaire, dépose comprise).
+- Réseaux : maquette sans meubles, bancs mobiles, bac ni muret vitré, **banc de douche conservé** ; points EF, EC, évacuations, électricité (4 spots, interrupteur à droite de la porte, miroir, LED niche, sèche-serviettes, prise conseillée), chauffage, VMC ; points masqués quand leur mur est vu de dos ; filtre par réseau ; pad de déplacement sous la maquette.

@@ -96,3 +96,9 @@ Pour remplacer une matière, déposer une nouvelle image sous le même nom.
 - Décaissé possible du plancher pour une douche de plain-pied à l'étage, sinon receveur extra-plat.
 - Balnéo : trappe d'accès au moteur, circuit électrique dédié avec différentiel 30 mA.
 - Prises et interrupteurs à plus de 60 cm des bords de baignoire et de douche (NF C 15-100).
+
+## Développement (reprise dans Claude Code)
+
+- Lire `CLAUDE.md`, puis `docs/ARCHITECTURE.md`, `docs/DECISIONS.md` et `docs/HISTORIQUE.md`.
+- Source unique : `src/sdb.html`. Ne pas modifier `index.html` à la main.
+- `./tools/check.sh` (syntaxe), `python3 tools/build.py` (génère `index.html` et `version.json`), `python3 tests/smoke.py [--mobile]` (Playwright).

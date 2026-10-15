@@ -1,5 +1,5 @@
 {
   "version": "1.18.0",
-  "date": "2026-10-13",
-  "notes": "Pad 3D, réseaux lisibles"
+  "date": "2026-10-15",
+  "notes": "3D : pad de déplacement (avancer, reculer, pas de côté, monter, descendre, tourner sur place, regarder haut ou bas, zoom"
 }
