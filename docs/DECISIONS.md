@@ -28,6 +28,8 @@
 - **Sans balnéo v4** : la v3 avec la **porte battante actuelle** (pas de galandage ni de doublage), 10 cm gagnés ; double vasque **à ras de l'angle** de la niche d'entrée, meuble haut à sa droite côté pignon (profondeur 35 cm pour que ses tiroirs passent devant le radiateur), radiateur à 15 cm du muret, petit banc décalé vers la porte (passage 71 cm). Porte dessinée **fermée, noire**, chambranle noir.
 - **Sans balnéo v5** : la v4 avec les carrelages que Samuel possède déjà : sol grès effet béton gris foncé **80 × 80**, murs, pente et maçonneries grès effet marbre blanc veiné **60 × 90** ; meubles chêne fumé (chêne clair ou noyer acceptés), métal noir mat, **sèche-serviettes noir**, vasques blanc mat. Carrelage compté 0 € au budget.
 
+- **Sans balnéo v6** (proposée le 23/10, à valider) : style v5, douche déplacée hors du rampant, dans l'angle pignon / chambre 2 sous le plafond plat, sur l'emplacement de la douche actuelle ; entrée côté rampant, système encastré sur faux mur contre la chambre 2, siège rabattable ; pente peinte (`slopePaint`) ; vasque sur le mur du rangement ; radiateur laissé en place sous le Velux ; placard bas et banc coffre sous le rampant.
+
 ## Interface
 
 - Onglets en grille sans défilement horizontal. Plan 2D **non modifiable par défaut** (bouton Modifier), zoom et déplacement libres.
