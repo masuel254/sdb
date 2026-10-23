@@ -47,6 +47,6 @@ Tests : `pip install playwright` puis `playwright install chromium`. Les tests s
 
 - three.js r128 en UMD depuis cdnjs, aucune autre dépendance, pas de build JS.
 - État du plan dans `localStorage` (`sdb-morieux-v8`), interface dans `sdb-ui`, budget dans `sdb-budget`, pad 3D dans `sdb-pad`. Une version non modifiée (`S.edited` faux) se recharge depuis `PRESETS` au démarrage : modifier un preset suffit pour que Samuel voie le changement.
-- Les versions v4 et v5 sont **dérivées** de la v3 par code (`PRESETS.sansbalneo4={...PRESETS.sansbalneo3,...}`) : une modification de la v3 se propage. Vérifier les trois après chaque changement de la v3.
+- Les versions V5, V6 (clés `sansbalneo4`, `sansbalneo5`) sont **dérivées** de la V4 (`sansbalneo3`) par code (`PRESETS.sansbalneo4={...PRESETS.sansbalneo3,...}`) : une modification de la v3 se propage. Vérifier les trois après chaque changement de la v3.
 - Toute nouvelle construction doit apparaître dans `constructions()` (onglet Murs, cotes d'implantation), `shopping()` (achats, carrelage) et, si elle touche un réseau, `netPoints()`.
 - Textures : `img/tex-*.jpg` (une image = 1,20 m de mur ou de sol, sauf marbre 1,80 × 1,20 et béton 1,60 × 1,60 via `SPAN`). Le dépôt est public : la photo du plan de permis reste dans le projet claude.ai, ne pas la committer.

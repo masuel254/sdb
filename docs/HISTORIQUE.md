@@ -957,3 +957,9 @@ J'ai testé le pad en simulation à la taille d'un iPhone, pas sur un vrai tél�
 **Réponse**
 
 Ce dossier : dépôt complet avec `CLAUDE.md`, `docs/ARCHITECTURE.md`, `docs/DECISIONS.md`, cet historique, sources, outils de build et tests.
+
+## 23/10/2026 · v1.20.0
+
+> « Laisse le nom actuel et renomme les versions v1, v2 etc. Pour toutes les versions utilise les carrelages mur et sol de la v5. Sois logique, place le sèche-serviette à la sortie de la douche ou proche. Quand tu mets des meubles contre la verrière ils ne doivent pas la dépasser. Le carrelage jamais la pente sous toit, il faut la laisser blanche par défaut. »
+
+Versions renommées V1 à V7 (Actuel gardé). Carrelages béton 80 × 80 et marbre 60 × 90 partout. Pente jamais carrelée : peinte, et panneaux étanches blancs dans les douches sous rampant (V4 à V6). Sèche-serviettes : V2 sur le muret à côté de l'entrée, V7 sur le pignon à côté de l'entrée, les autres étaient déjà à la sortie. V7 : meuble haut déplacé sur le mur du rangement (il dépassait du muret devant la verrière). Nouveau contrôle automatique des meubles qui masquent une verrière.

@@ -6,7 +6,11 @@
 
 - Outil web publié sur GitHub Pages, consulté surtout sur iPhone. Mises à jour poussées directement, version et journal à chaque fois.
 - Les modifications faites dans le plan restent dans le navigateur ; une proposition à garder devient une nouvelle version.
-- Tout carreler (murs, sol, pente dans les optimisations), recalcul des cotes au carrelage fini.
+- Carreler murs et sol, recalcul des cotes au carrelage fini. **La pente sous toit n'est jamais carrelée** (23/10) : peinte en blanc par défaut ; dans une douche sous rampant, panneaux muraux étanches blancs (une peinture ne tient pas sous les projections).
+- **Carrelages de la V6 (ex v5) dans toutes les versions** : sol béton gris foncé 80 × 80, murs marbre blanc 60 × 90, déjà achetés.
+- **Sèche-serviettes à la sortie de la douche** ou au plus près, dans chaque version (en volume 2 : classe II IPX4).
+- **Un meuble contre une verrière ne dépasse pas le muret (1,10 m)** : contrôle automatique dans le plan (moins de 30 cm du muret et plus haut que 1,12 m = alerte).
+- Noms : Actuel, puis V1 à V7 (23/10).
 - Pas de lave-linge dans la salle de bains. Pas de colonne qui masque la verrière.
 - Douche : système encastré (mitigeur thermostatique 2 commandes, pomme Ø 30, douchette) dans un faux mur de 10 cm avec niche ; pas de colonne apparente.
 - Marge de casse carrelage : 10 % aujourd'hui (Samuel a demandé si c'était prévu ; 15 % conseillé sur murs et pente, non encore appliqué).
@@ -16,19 +20,19 @@
 ## Versions
 
 - **Actuel** : relevé de l'existant, référence. Porte battante.
-- **Balnéo** : baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne à verrière, vasque chêne pas collée à la baignoire, porte à galandage dans un doublage pleine longueur (le demi-doublage a été refusé).
-- **Sans balnéo v1** : douche sur toute la largeur avec banquette et douchette. **v2** : sans banquette, douche raccourcie (la banquette n'a d'intérêt qu'avec une douchette).
-- **Sans balnéo v3** (base des suivantes) :
+- **V1** (ex Balnéo) : baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne à verrière, vasque chêne pas collée à la baignoire, porte à galandage dans un doublage pleine longueur (le demi-doublage a été refusé).
+- **V2** (ex Sans balnéo v1) : douche sur toute la largeur avec banquette et douchette. **V3** (ex v2) : sans banquette, douche raccourcie (la banquette n'a d'intérêt qu'avec une douchette).
+- **V4** (ex Sans balnéo v3, base des suivantes) :
   - Douche sous rampant côté Velux, entrée de face sans porte, muret vitré de 10 cm h 1,10 + verrière noire jusqu'à 2,00 m.
   - Poteau carrelé 10 × 12 au bout du muret côté entrée, **arrêté en haut de la vitre (2,00 m)**, jamais jusqu'au plafond.
   - **Muret du mur nain** (tablette 60 cm, h 60) sur toute la longueur de la douche jusqu'au faux mur du fond ; le **banc carrelé** (30 cm, h 45) s'arrête contre lui, au fond sous la pomme ; caniveau avancé de 30 cm devant le banc. Assise carrelée, pas de bois.
   - Bac réel 113 × 163, caniveau 100 cm.
   - Double vasque à tiroirs contre la chambre 2 avec **un seul miroir ovale** 100 × 70 ; meuble haut à 4 tiroirs h 1,40 ; petit banc à lattes de chêne près du sèche-serviettes.
   - Tiroirs : leur zone d'ouverture (45 cm vasque, profondeur pour meuble bas) ne doit rien percuter, en particulier le radiateur.
-- **Sans balnéo v4** : la v3 avec la **porte battante actuelle** (pas de galandage ni de doublage), 10 cm gagnés ; double vasque **à ras de l'angle** de la niche d'entrée, meuble haut à sa droite côté pignon (profondeur 35 cm pour que ses tiroirs passent devant le radiateur), radiateur à 15 cm du muret, petit banc décalé vers la porte (passage 71 cm). Porte dessinée **fermée, noire**, chambranle noir.
-- **Sans balnéo v5** : la v4 avec les carrelages que Samuel possède déjà : sol grès effet béton gris foncé **80 × 80**, murs, pente et maçonneries grès effet marbre blanc veiné **60 × 90** ; meubles chêne fumé (chêne clair ou noyer acceptés), métal noir mat, **sèche-serviettes noir**, vasques blanc mat. Carrelage compté 0 € au budget.
+- **V5** (ex Sans balnéo v4) : la V4 avec la **porte battante actuelle** (pas de galandage ni de doublage), 10 cm gagnés ; double vasque **à ras de l'angle** de la niche d'entrée, meuble haut à sa droite côté pignon (profondeur 35 cm pour que ses tiroirs passent devant le radiateur), radiateur à 15 cm du muret, petit banc décalé vers la porte (passage 71 cm). Porte dessinée **fermée, noire**, chambranle noir.
+- **V6** (ex Sans balnéo v5) : la V5 avec les carrelages que Samuel possède déjà : sol grès effet béton gris foncé **80 × 80**, murs et maçonneries grès effet marbre blanc veiné **60 × 90** ; meubles chêne fumé (chêne clair ou noyer acceptés), métal noir mat, **sèche-serviettes noir**, vasques blanc mat. Carrelage compté 0 € au budget.
 
-- **Sans balnéo v6** (proposée le 23/10, à valider) : style v5, douche déplacée hors du rampant, dans l'angle pignon / chambre 2 sous le plafond plat, sur l'emplacement de la douche actuelle ; entrée côté rampant, système encastré sur faux mur contre la chambre 2, siège rabattable ; pente peinte (`slopePaint`) ; vasque sur le mur du rangement ; radiateur laissé en place sous le Velux ; placard bas et banc coffre sous le rampant.
+- **V7** (ex Sans balnéo v6, proposée le 23/10, à valider) : style V6, douche déplacée hors du rampant, dans l'angle pignon / chambre 2 sous le plafond plat, sur l'emplacement de la douche actuelle ; entrée côté rampant, système encastré sur faux mur contre la chambre 2, siège rabattable ; pente peinte (`slopePaint`) ; vasque et meuble haut sur le mur du rangement, sèche-serviettes sur le pignon contre l'entrée de douche ; radiateur laissé en place sous le Velux ; placard bas et banc coffre sous le rampant.
 
 ## Interface
 
