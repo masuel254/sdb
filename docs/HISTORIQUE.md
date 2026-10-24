@@ -981,3 +981,9 @@ Porte battante actuelle partout, meubles recollés au mur du rangement (10 cm re
 > « Tu peux faire une v8 comme la v6 mais l'entrée se ferait au niveau du pommeau de douche de la v6. En fait la douche serait dans l'autre sens »
 
 V8 ajoutée : douche de la V6 retournée en miroir, entrée côté porte sur toute la largeur, robinetterie et niche sur un faux mur contre le pignon, sèche-serviettes bas sur le muret après l'entrée. Reste identique à la V6.
+
+## 24/10/2026 · v1.23.1
+
+> « Tu fais une version 1.23.1 : double vasque, le meuble à côté de la vasque contre le mur du fond de l'autre côté à côté de la douche, un grand sèche-serviettes à côté de la vasque, plus pratique en sortant de la douche, et dans la douche montre mieux la niche et fais un petit rebord banc carrelé au fond pour s'asseoir comme dans la v4. »
+
+V8 : double vasque 120 × 45, grand sèche-serviettes 60 × 160 à sa droite face à la sortie, meuble haut contre le pignon à 34 cm du muret (plus près, il masquerait la verrière), banc carrelé 103 × 30 au fond sous la pomme, niche 90 × 35 avec fond chêne et LED.
