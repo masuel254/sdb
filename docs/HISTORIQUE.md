@@ -975,3 +975,9 @@ Matériaux de la V7 appliqués à toutes les versions (chêne fumé, noir mat, s
 > « Je ne veux pas de porte à galandage donc refais ça »
 
 Porte battante actuelle partout, meubles recollés au mur du rangement (10 cm rendus). L'ancienne V4 (galandage) disparaît, la V4 prend le plan de l'ancienne V5. Nouvelle V5 : même douche sous rampant, une vasque dans l'angle du pignon, meuble haut contre la chambre 2, radiateur sur le mur du rangement.
+
+## 24/10/2026 · v1.23.0
+
+> « Tu peux faire une v8 comme la v6 mais l'entrée se ferait au niveau du pommeau de douche de la v6. En fait la douche serait dans l'autre sens »
+
+V8 ajoutée : douche de la V6 retournée en miroir, entrée côté porte sur toute la largeur, robinetterie et niche sur un faux mur contre le pignon, sèche-serviettes bas sur le muret après l'entrée. Reste identique à la V6.

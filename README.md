@@ -16,6 +16,7 @@ Page publiée : https://masuel254.github.io/sdb/
 | **V5** | Même douche, autres meubles | Douche de la V4 ; une seule vasque (90 × 45) dans l'angle pignon / chambre 2, meuble haut contre la chambre 2 avant la vasque, radiateur déplacé sur le mur du rangement, sèche-serviettes face à la sortie de douche, centre dégagé |
 | **V6** | Douche le long de la chambre 2 | Douche à l'italienne 180 × 115 en longueur contre la chambre 2 sous le plafond plat, entrée de 70 cm côté pignon, faux mur toute hauteur côté porte avec système encastré et niche, une seule vasque (meuble 100 × 45) et meuble haut sur le mur du rangement, sèche-serviettes sur le pignon à côté de l'entrée, rampant entièrement sec (placard, radiateur en place, banc coffre) |
 | **V7** (ex Sans balnéo v6) | Douche hors rampant | Douche à l'italienne 190 × 115 sous le plafond plat, dans l'angle pignon / chambre 2, sur l'emplacement de la douche actuelle. Sèche-serviettes sur le pignon à côté de l'entrée de douche, meuble haut à tiroirs sur le mur du rangement (plus contre la verrière), rampant en rangements, radiateur laissé à sa place, siège de douche rabattable |
+| **V8** | La V6 retournée | Même douche 180 × 115 contre la chambre 2, mais entrée sur toute la largeur côté porte et faux mur (encastré + niche) contre le pignon ; sèche-serviettes bas noir sur le muret juste après l'entrée ; une vasque, meuble haut, rampant sec |
 
 Le descriptif complet et la palette de matériaux de chaque version sont dans l'onglet **Matériaux**.
 
