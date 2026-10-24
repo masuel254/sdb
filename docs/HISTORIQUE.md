@@ -987,3 +987,9 @@ V8 ajoutée : douche de la V6 retournée en miroir, entrée côté porte sur tou
 > « Tu fais une version 1.23.1 : double vasque, le meuble à côté de la vasque contre le mur du fond de l'autre côté à côté de la douche, un grand sèche-serviettes à côté de la vasque, plus pratique en sortant de la douche, et dans la douche montre mieux la niche et fais un petit rebord banc carrelé au fond pour s'asseoir comme dans la v4. »
 
 V8 : double vasque 120 × 45, grand sèche-serviettes 60 × 160 à sa droite face à la sortie, meuble haut contre le pignon à 34 cm du muret (plus près, il masquerait la verrière), banc carrelé 103 × 30 au fond sous la pomme, niche 90 × 35 avec fond chêne et LED.
+
+## 24/10/2026 · v1.23.2
+
+> « Ok parfait pour la v8 sauf la niche dans la douche. Il faut qu'elle soit carrelée aussi. Donc modifie et ajoute peut-être un effet LED pour mieux la mettre en avant. »
+
+V8 : niche carrelée en marbre sur toutes ses faces, ruban LED 3000 K encastré sous le dessus avec halo chaud sur le fond en 3D (paramètre `nTile`).
