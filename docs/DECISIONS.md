@@ -11,6 +11,7 @@
 - **Sèche-serviettes à la sortie de la douche** ou au plus près, dans chaque version (en volume 2 : classe II IPX4).
 - **Un meuble contre une verrière ne dépasse pas le muret (1,10 m)** : contrôle automatique dans le plan (moins de 30 cm du muret et plus haut que 1,12 m = alerte).
 - Noms : Actuel, puis V1 à V7 (23/10).
+- **Pas de porte à galandage** (24/10) : porte battante actuelle, noire, dans toutes les versions, sans doublage du mur du rangement.
 - Pas de lave-linge dans la salle de bains. Pas de colonne qui masque la verrière.
 - Douche : système encastré (mitigeur thermostatique 2 commandes, pomme Ø 30, douchette) dans un faux mur de 10 cm avec niche ; pas de colonne apparente.
 - Marge de casse carrelage : 10 % aujourd'hui (Samuel a demandé si c'était prévu ; 15 % conseillé sur murs et pente, non encore appliqué).
@@ -20,7 +21,7 @@
 ## Versions
 
 - **Actuel** : relevé de l'existant, référence. Porte battante.
-- **V1** (ex Balnéo) : baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne à verrière, vasque chêne pas collée à la baignoire, porte à galandage dans un doublage pleine longueur (le demi-doublage a été refusé).
+- **V1** (ex Balnéo) : baignoire balnéo duo 185 × 90 sous le Velux avec tablier, douche à l'italienne à verrière, vasque chêne pas collée à la baignoire, porte battante actuelle (galandage refusé le 24/10).
 - **V2** (ex Sans balnéo v1) : douche sur toute la largeur avec banquette et douchette. **V3** (ex v2) : sans banquette, douche raccourcie (la banquette n'a d'intérêt qu'avec une douchette).
 - **V4** (ex Sans balnéo v3, base des suivantes) :
   - Douche sous rampant côté Velux, entrée de face sans porte, muret vitré de 10 cm h 1,10 + verrière noire jusqu'à 2,00 m.

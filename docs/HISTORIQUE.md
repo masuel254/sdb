@@ -969,3 +969,9 @@ Versions renommées V1 à V7 (Actuel gardé). Carrelages béton 80 × 80 et marb
 > « Les meubles laisse-les toujours dans les matériaux de la v7. Le sèche-serviette laisse-le toujours noir. Tu peux enlever ou ajouter des meubles selon la configuration. Avoir un lavabo à une vasque ou deux selon la configuration. Retravaille les versions : ce qui doit changer surtout c'est la disposition et l'endroit de la douche et des meubles. »
 
 Matériaux de la V7 appliqués à toutes les versions (chêne fumé, noir mat, sèche-serviettes noir, miroirs ovales sur les doubles vasques). L'ancienne V6 était devenue identique à la V5 : remplacée par une nouvelle disposition, douche en longueur contre la chambre 2 avec entrée côté pignon, une seule vasque, rampant sec. Spots, VMC et contrôle de verrière adaptés à une douche dans ce sens.
+
+## 24/10/2026 · v1.22.0
+
+> « Je ne veux pas de porte à galandage donc refais ça »
+
+Porte battante actuelle partout, meubles recollés au mur du rangement (10 cm rendus). L'ancienne V4 (galandage) disparaît, la V4 prend le plan de l'ancienne V5. Nouvelle V5 : même douche sous rampant, une vasque dans l'angle du pignon, meuble haut contre la chambre 2, radiateur sur le mur du rangement.
